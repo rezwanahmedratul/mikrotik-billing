@@ -17,8 +17,7 @@ import jQuery from 'jquery';
 window.$ = window.jQuery = jQuery;
 window.bootstrap = bootstrap;
 
-// ── Sorting ───────────────────────────────────────────────────────────────────
-import 'livewire-sortable';
+// ── Sorting (handled via sortable.js / standard livewire if needed) ──────────
 
 // ── Alerts ────────────────────────────────────────────────────────────────────
 import Swal from 'sweetalert2';

@@ -1,4 +1,6 @@
-# MikroTik RouterOS API & ISP Billing Management System
+# Smart ISP - MikroTik RouterOS API & Billing Management System
+
+> **Note:** This repository was forked from [https://github.com/CodePagol/ISP-Mikrotik-Billing](https://github.com/CodePagol/ISP-Mikrotik-Billing).
 
 <div align="center">
 
@@ -7,9 +9,6 @@
 ![Filament](https://img.shields.io/badge/Filament-3.x-F59E0B?style=for-the-badge&logo=laravel&logoColor=white)
 ![MikroTik API](https://img.shields.io/badge/MikroTik-RouterOS%20API-000000?style=for-the-badge)
 ![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)
-
-### Sponsored by [Friends Communications Limited](https://fcnetwork24.com)
-### Demo: [isp.codepagol.com](https://isp.codepagol.com/)
 
 A premium, modern Internet Service Provider (ISP) Billing & MikroTik RouterOS API management platform built on Laravel, Livewire, and Filament. It allows network administrators and resellers to seamlessly manage subscribers, PPPoE connections, hotspot vouchers, automated payment reconciliations, and commissions from a unified interface.
 
@@ -224,15 +223,12 @@ This project is open-source software licensed under the [AGPL-3.0 license](/LICE
 
 ## Developed & Maintained by
 
-**Md Jahangir Alam Rohan**
-- **WhatsApp Support:** [+8801840451881](https://wa.me/8801840451881) (Fastest Response)
-- **E-mail:** [rohan9222@gmail.com](mailto:rohan9222@gmail.com)
-- **GitHub:** [@rohan9222](https://github.com/rohan9222)
+**Ratul**
+- **E-mail:** [rezwanahmedratul007@gmail.com](mailto:rezwanahmedratul007@gmail.com)
 
 ## Support & Customization
 
 For full setup support, custom ISP modules integration, payment gateway configuration, or technical queries:
-- **WhatsApp:** [Chat on WhatsApp](https://wa.me/8801840451881)
-- **E-mail:** [rohan9222@gmail.com](mailto:rohan9222@gmail.com)
+- **E-mail:** [rezwanahmedratul007@gmail.com](mailto:rezwanahmedratul007@gmail.com)
 
 *Feel free to submit a pull request or open an issue on the repository to contribute to the project.*

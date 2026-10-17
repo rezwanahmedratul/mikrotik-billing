@@ -76,6 +76,8 @@
                     <li class="nav-item"><a class="nav-link" href="#blog">{{ __('Blog') }}</a></li>
                     <li class="nav-item"><a class="nav-link" href="#testimonial">{{ __('Testimonial') }}</a></li>
                     <li class="nav-item"><a class="nav-link" href="#contact-form">{{ __('Contact') }}</a></li>
+                    <li class="nav-item"><a class="nav-link text-primary fw-bold" href="/portal">{{ __('Portal') }}</a></li>
+                    <li class="nav-item"><a class="nav-link text-success fw-bold" href="/login">{{ __('Login') }}</a></li>
                 </ul>
             </div>
 
@@ -1035,8 +1037,7 @@
                     <div class="col-lg-3 col-md-6 col-6 mb-4 mb-lg-0">
                         <h5 class="text-light fw-bold mb-3" style="font-size: 1.1rem;">{{ __('Quick Links') }}</h5>
                         <ul class="footer-links-list">
-                            <li><a href="https://portal.{{ request()->getHost() }}"
-                                    target="_blank">{{ __('Client Portal') }}</a></li>
+                            <li><a href="/portal">{{ __('Client Portal') }}</a></li>
                             <li><a href="{{ route('policy.show') }}">{{ __('Privacy Policy') }}</a></li>
                             <li><a href="{{ route('terms.show') }}">{{ __('Terms & Conditions') }}</a></li>
                             <li><a href="{{ $siteData->btcl_tariff_link ?? '#' }}"

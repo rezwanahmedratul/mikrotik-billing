@@ -29,16 +29,22 @@ class PortalPanelProvider extends PanelProvider
     public function panel(Panel $panel): Panel
     {
         $baseDomain = parse_url(config('app.url'), PHP_URL_HOST) ?: config('app.url');
+        $isLocal = app()->environment('local') || empty($baseDomain);
 
-        return $panel
+        $panelConfig = $panel
             ->default()
             ->spa(hasPrefetching: true)
             ->id('portal')
-            ->path('')
-            ->domain('portal.'.$baseDomain)
+            ->path('portal');
+
+        if (!$isLocal) {
+            $panelConfig->domain('portal.'.$baseDomain);
+        }
+
+        return $panelConfig
             ->favicon(site_image(siteUrlSettings('site_favicon'), 'images/favicon.png'))
             ->brandLogo(site_image(siteUrlSettings('site_logo'), 'images/favicon.png'))
-            ->brandName(siteUrlSettings('site_name') ?? 'Code Pagol')
+            ->brandName(siteUrlSettings('site_name') ?? 'Smart ISP')
             ->brandLogoHeight('3.5rem')
             ->login(Login::class)
             ->registration((siteUrlSettings('portal_registration_enabled') ?? 1) ? Register::class : null)
@@ -64,8 +70,8 @@ class PortalPanelProvider extends PanelProvider
                     ->sort(5),
             ])
             ->assets([
-                Css::make('portal-custom-styles', Vite::asset('resources/css/app.css')),
-                Js::make('portal-custom-js', Vite::asset('resources/js/app.js'))->module(),
+                Css::make('portal-custom-styles', is_file(public_path('build/manifest.json')) ? Vite::asset('resources/css/app.css') : ''),
+                Js::make('portal-custom-js', is_file(public_path('build/manifest.json')) ? Vite::asset('resources/js/app.js') : '')->module(),
             ])
             ->renderHook(
                 \Filament\View\PanelsRenderHook::HEAD_END,

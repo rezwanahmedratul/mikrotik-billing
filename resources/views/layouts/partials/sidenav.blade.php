@@ -15,9 +15,9 @@
                     @else
                         @if (siteUrlSettings('site_icon'))
                             <img class="me-2" src="{{ site_image(siteUrlSettings('site_icon')) }}" alt="" width="40" />
-                            <span class="font-sans-serif text-success">{{ siteUrlSettings('site_name') ?? 'Code Pagol' }}</span>
+                            <span class="font-sans-serif text-success">{{ siteUrlSettings('site_name') ?? 'Smart ISP' }}</span>
                         @else
-                            <span class="font-sans-serif text-success">{{ siteUrlSettings('site_name') ?? 'Code Pagol' }}</span>
+                            <span class="font-sans-serif text-success">{{ siteUrlSettings('site_name') ?? 'Smart ISP' }}</span>
                         @endif
                     @endif
                 </div>
@@ -47,9 +47,9 @@
             @else
                 @if (siteUrlSettings('site_icon'))
                     <img class="me-2" src="{{ site_image(siteUrlSettings('site_icon')) }}" alt="" width="40" />
-                    <span class="font-sans-serif text-success">{{ siteUrlSettings('site_name') ?? 'Code Pagol' }}</span>
+                    <span class="font-sans-serif text-success">{{ siteUrlSettings('site_name') ?? 'Smart ISP' }}</span>
                 @else
-                    <span class="font-sans-serif text-success">{{ siteUrlSettings('site_name') ?? 'Code Pagol' }}</span>
+                    <span class="font-sans-serif text-success">{{ siteUrlSettings('site_name') ?? 'Smart ISP' }}</span>
                 @endif
             @endif
         </div>
@@ -82,9 +82,9 @@
                 @else
                     @if (siteUrlSettings('site_icon'))
                         <img class="me-2" src="{{ site_image(siteUrlSettings('site_icon')) }}" alt="" width="40" />
-                        <span class="font-sans-serif text-success">{{ siteUrlSettings('site_name') ?? 'Code Pagol' }}</span>
+                        <span class="font-sans-serif text-success">{{ siteUrlSettings('site_name') ?? 'Smart ISP' }}</span>
                     @else
-                        <span class="font-sans-serif text-success">{{ siteUrlSettings('site_name') ?? 'Code Pagol' }}</span>
+                        <span class="font-sans-serif text-success">{{ siteUrlSettings('site_name') ?? 'Smart ISP' }}</span>
                     @endif
                 @endif
             </div>
@@ -126,11 +126,8 @@
 
                             <div class="collapse mt-2" id="purchaseInfo">
                                 <div class="card card-body text-start p-0">
-                                    <strong>Developer:</strong> Md. Jahangir Alam Rohan<br>
-                                    <strong>Mobile:</strong><a href="https://wa.me/8801840451881" class="p-0 btn btn-success btn-sm mt-2">
-                                        <i class="bi bi-whatsapp"></i> +8801840451881
-                                    </a><br>
-                                    <strong>Email:</strong> <a href="mailto:rohan9222@gmail.com">rohan9222@gmail.com</a>
+                                    <strong>Developer:</strong> Ratul<br>
+                                    <strong>Email:</strong> <a href="mailto:rezwanahmedratul007@gmail.com">rezwanahmedratul007@gmail.com</a>
                                 </div>
                             </div>
                         </div>

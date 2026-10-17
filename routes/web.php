@@ -62,14 +62,20 @@ $baseDomain = parse_url(config('app.url'), PHP_URL_HOST) ?: config('app.url');
 
 // Catch-all redirect for external domains or direct IP requests (NAT Redirection for Expired Users)
 $currentHost = request()->getHost();
-if ($currentHost && !in_array($currentHost, [$baseDomain, 'portal.'.$baseDomain, 'billing.'.$baseDomain])) {
+$isLocalEnv = app()->environment('local') 
+    || empty($baseDomain) 
+    || filter_var($currentHost, FILTER_VALIDATE_IP) 
+    || in_array($currentHost, ['localhost', '127.0.0.1', request()->server('SERVER_ADDR')]);
+
+if (!$isLocalEnv && $currentHost && !in_array($currentHost, [$baseDomain, 'portal.'.$baseDomain, 'billing.'.$baseDomain])) {
     Route::any('{any}', function () {
         return redirect()->away(config('app.url') . '/warning');
     })->where('any', '.*');
 }
 
-// Main domain
-Route::domain($baseDomain)->group(function () {
+// Route groups definition
+$mainDomainGroup = $isLocalEnv ? Route::prefix('') : Route::domain($baseDomain);
+$mainDomainGroup->group(function () use ($isLocalEnv) {
     Route::get('/', [MainSiteController::class, 'index'])->name('welcome');
     Route::get('/all-packages', [MainSiteController::class, 'allPackages'])->name('all-packages');
     Route::get('/lang/{locale}', function ($locale) {
@@ -88,23 +94,25 @@ Route::domain($baseDomain)->group(function () {
     Route::get('/recharge/voucher', [PortalVoucherController::class, 'showRechargeForm'])->name('welcome.voucher.recharge');
     Route::post('/recharge/voucher', [PortalVoucherController::class, 'redeem'])->name('welcome.voucher.redeem');
 
-    Route::get('/portal', function () {
-        $host = request()->getHost();
-        if (Str::startsWith($host, 'portal.')) {
-            return redirect('/');
-        }
+    if (!$isLocalEnv) {
+        Route::get('/portal', function () {
+            $host = request()->getHost();
+            if (Str::startsWith($host, 'portal.')) {
+                return redirect('/');
+            }
 
-        return redirect()->away('https://portal.'.$host);
-    });
+            return redirect()->away('https://portal.'.$host);
+        });
 
-    Route::get('/billing', function () {
-        $host = request()->getHost();
-        if (Str::startsWith($host, 'billing.')) {
-            return redirect('/');
-        }
+        Route::get('/billing', function () {
+            $host = request()->getHost();
+            if (Str::startsWith($host, 'billing.')) {
+                return redirect('/');
+            }
 
-        return redirect()->away('https://billing.'.$host);
-    });
+            return redirect()->away('https://billing.'.$host);
+        });
+    }
 });
 
 Route::middleware([
@@ -112,10 +120,14 @@ Route::middleware([
     config('jetstream.auth_session'),
     'verified',
     'restrict.profile',
-])->group(function () use ($baseDomain) {
+])->group(function () use ($baseDomain, $isLocalEnv) {
 
-    // billing domain
-    Route::domain('billing.'.$baseDomain)->group(function () {
+    // billing domain or local fallback
+    if ($isLocalEnv) {
+        Route::redirect('/dashboard', '/billing/dashboard');
+    }
+    $billingDomainGroup = $isLocalEnv ? Route::prefix('billing') : Route::domain('billing.'.$baseDomain);
+    $billingDomainGroup->group(function () {
         Route::get('/system/db-backup/download/{filename}', function ($filename) {
             if (str_contains($filename, '/') || str_contains($filename, '\\')) {
                 abort(403, 'Invalid filename.');
@@ -253,8 +265,9 @@ Route::middleware([
 });
 
 
-// portal domain routes
-Route::domain('portal.'.$baseDomain)->group(function () {
+// portal domain routes or local fallback
+$portalDomainGroup = $isLocalEnv ? Route::prefix('portal') : Route::domain('portal.'.$baseDomain);
+$portalDomainGroup->group(function () {
     // Authenticated portal payment initiation routes
     Route::middleware(['auth:ppp'])->group(function () {
         Route::get('/payment/bkash/initiate', [BkashPaymentController::class, 'initiate'])->name('payment.bkash.initiate');

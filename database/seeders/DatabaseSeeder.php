@@ -15,8 +15,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        MainSiteData::setValue('site_name', 'Code Pagol');
-        MainSiteData::setValue('site_title', 'Code Pagol');
+        MainSiteData::setValue('site_name', 'Smart ISP');
+        MainSiteData::setValue('site_title', 'Smart ISP');
         MainSiteData::setValue('theme_preset', 'neo');
         MainSiteData::setValue('theme_name', 'midnight_purple');
         MainSiteData::setValue('theme_primary_color', '#6366f1');

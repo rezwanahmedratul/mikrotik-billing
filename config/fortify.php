@@ -73,7 +73,7 @@ return [
     |
     */
 
-    'home' => '/dashboard',
+    'home' => '/billing/dashboard',
 
     /*
     |--------------------------------------------------------------------------
@@ -87,7 +87,9 @@ return [
     */
 
     'prefix' => '',
-    'domain' => 'billing.' . (parse_url(env('APP_URL', 'http://mikrotik-api.test'), PHP_URL_HOST) ?: 'mikrotik-api.test'),
+    'domain' => env('APP_ENV') === 'local' || !str_contains(env('APP_URL', ''), '.') || filter_var(parse_url(env('APP_URL', ''), PHP_URL_HOST), FILTER_VALIDATE_IP)
+        ? null
+        : 'billing.' . (parse_url(env('APP_URL', 'http://mikrotik-api.test'), PHP_URL_HOST) ?: 'mikrotik-api.test'),
 
     /*
     |--------------------------------------------------------------------------

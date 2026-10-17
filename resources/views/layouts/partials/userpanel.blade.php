@@ -141,30 +141,9 @@
                                 </a>
                             </div>
                             <div class="col-4">
-                                <a class="d-block hover-bg-200 px-2 py-3 rounded-3 text-decoration-none" href="mailto:rohan9222@gmail.com" target="_blank">
+                                <a class="d-block hover-bg-200 px-2 py-3 rounded-3 text-decoration-none" href="mailto:rezwanahmedratul007@gmail.com" target="_blank">
                                     <img class="rounded" src="{{asset('images/nav-icons/google.png')}}" alt="" width="40" height="40" />
                                     <p class="mb-0 fw-medium text-800 text-truncate fs-11 pt-1">Google</p>
-                                </a>
-                            </div>
-                            <div class="col-12">
-                                <hr class="my-3 mx-n3 bg-200" />
-                            </div>
-                            <div class="col-4">
-                                <a class="d-block hover-bg-200 px-2 py-3 rounded-3 text-decoration-none" href="https://wa.me/8801840451881" target="_blank">
-                                    <img class="rounded" src="{{asset('images/nav-icons/whatapp.png')}}" alt="" width="40" height="40" />
-                                    <p class="mb-0 fw-medium text-800 text-truncate fs-11 pt-1">Whatapp</p>
-                                </a>
-                            </div>
-                            <div class="col-4">
-                                <a class="d-block hover-bg-200 px-2 py-3 rounded-3 text-decoration-none" href="https://www.facebook.com/Rohan471111" target="_blank">
-                                    <img class="rounded" src="{{asset('images/nav-icons/facebook.png')}}" alt="" width="40" height="40" />
-                                    <p class="mb-0 fw-medium text-800 text-truncate fs-11 pt-1">Facebook</p>
-                                </a>
-                            </div>
-                            <div class="col-4">
-                                <a class="d-block hover-bg-200 px-2 py-3 rounded-3 text-decoration-none" href="https://github.com/rohan9222" target="_blank">
-                                    <img class="rounded" src="{{asset('images/nav-icons/github-light.png')}}" alt="" width="40" height="40" />
-                                    <p class="mb-0 fw-medium text-800 text-truncate fs-11 pt-1">GitHub</p>
                                 </a>
                             </div>
                         </div>
@@ -194,8 +173,6 @@
 
         <div class="dropdown-menu dropdown-caret dropdown-caret dropdown-menu-end py-0" aria-labelledby="navbarDropdownUser">
             <div class="bg-white dark__bg-1000 rounded-2 py-2">
-                <a class="dropdown-item fw-bold text-warning" href="https://github.com/rohan9222/"><span class="fas fa-crown me-1"></span><span>{{ __('Go Pro') }}</span></a>
-                <div class="dropdown-divider"></div>
                 <a wire:navigate.hover wire:current="active" class="dropdown-item" href="{{route('profile.show')}}">{{ __('Profile & account') }}</a>
                 <div class="dropdown-divider"></div>
                 @if (hasAccess(['Super Admin'], ['site-settings']))

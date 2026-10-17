@@ -52,7 +52,11 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'http://localhost'),
+    'url' => env('APP_URL') ?: (
+        isset($_SERVER['HTTP_HOST'])
+            ? ((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https://' : 'http://') . $_SERVER['HTTP_HOST']
+            : (isset($_SERVER['SERVER_ADDR']) ? 'http://' . $_SERVER['SERVER_ADDR'] . ':8000' : 'http://localhost:8000')
+    ),
 
     /*
     |--------------------------------------------------------------------------
