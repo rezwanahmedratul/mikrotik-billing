@@ -1,48 +1,44 @@
 # ==============================================================================
 # Production Dockerfile for Smart ISP (Laravel + Livewire + Filament)
+# Using mlocati/php-extension-installer for fast pre-compiled extension downloads
 # ==============================================================================
 FROM php:8.3-fpm-alpine
 
-# Set working directory
 WORKDIR /var/www/html
 
-# Install system dependencies
+# Install base tools & fast PHP extension installer
 RUN apk add --no-cache \
     nginx \
     supervisor \
     bash \
     netcat-openbsd \
     curl \
-    libpng-dev \
-    libjpeg-turbo-dev \
-    freetype-dev \
-    libzip-dev \
+    git \
     zip \
-    unzip \
-    icu-dev \
-    oniguruma-dev \
-    git
+    unzip
 
-# Install PHP extensions required by Laravel, Filament, mPDF, and PhpSpreadsheet
-RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install -j$(nproc) \
-        pdo_mysql \
-        mbstring \
-        exif \
-        pcntl \
-        bcmath \
-        gd \
-        zip \
-        intl \
-        opcache
+# Download official precompiled PHP extension installer
+COPY --from=mlocati/php-extension-installer /usr/bin/install-php-extensions /usr/local/bin/
+
+# Install pre-compiled extensions (10x faster than source compilation)
+RUN install-php-extensions \
+    pdo_mysql \
+    mbstring \
+    exif \
+    pcntl \
+    bcmath \
+    gd \
+    zip \
+    intl \
+    opcache
 
 # Install Composer
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
-# Copy application source code (including precompiled public/build assets)
+# Copy application source code (including precompiled public/build)
 COPY . .
 
-# Install PHP dependencies
+# Install PHP dependencies without dev packages
 RUN composer install --no-dev --optimize-autoloader --no-interaction --prefer-dist
 
 # Copy Docker configurations
