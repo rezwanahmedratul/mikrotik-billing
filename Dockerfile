@@ -1,16 +1,6 @@
 # ==============================================================================
-# Multi-stage Dockerfile for Smart ISP (Laravel + Livewire + Filament)
+# Production Dockerfile for Smart ISP (Laravel + Livewire + Filament)
 # ==============================================================================
-
-# Stage 1: Build frontend assets
-FROM node:20-alpine AS node_builder
-WORKDIR /app
-COPY package*.json ./
-RUN npm install --include=dev --ignore-scripts
-COPY . .
-RUN npx vite build
-
-# Stage 2: Production PHP + Nginx Environment
 FROM php:8.3-fpm-alpine
 
 # Set working directory
@@ -49,13 +39,10 @@ RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
 # Install Composer
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
-# Copy application source code
+# Copy application source code (including precompiled public/build assets)
 COPY . .
 
-# Copy compiled frontend assets from node_builder
-COPY --from=node_builder /app/public/build ./public/build
-
-# Install PHP dependencies without dev packages
+# Install PHP dependencies
 RUN composer install --no-dev --optimize-autoloader --no-interaction --prefer-dist
 
 # Copy Docker configurations
