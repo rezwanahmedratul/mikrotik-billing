@@ -64,7 +64,8 @@ COPY docker/supervisord.conf /etc/supervisord.conf
 COPY docker/entrypoint.sh /usr/local/bin/entrypoint.sh
 
 RUN chmod +x /usr/local/bin/entrypoint.sh \
-    && chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
+    && mkdir -p /var/www/html/public/images/avatars /var/www/html/public/customer-images \
+    && chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache /var/www/html/public/images /var/www/html/public/customer-images
 
 EXPOSE 8000 80
 

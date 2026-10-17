@@ -50,10 +50,15 @@ if [ -f /etc/nginx/http.d/default.conf ]; then
     echo "Nginx configured to listen on port ${TARGET_PORT}"
 fi
 
-# Ensure www-data ownership and permissions across storage and bootstrap/cache
-mkdir -p storage/framework/{sessions,views,cache/data} storage/logs bootstrap/cache
-chown -R www-data:www-data storage bootstrap/cache
-chmod -R 775 storage bootstrap/cache
+# Ensure storage:link exists
+if [ ! -L public/storage ] && [ ! -d public/storage ]; then
+    php artisan storage:link || true
+fi
+
+# Ensure www-data ownership and permissions across storage, bootstrap/cache, and public uploads
+mkdir -p storage/framework/{sessions,views,cache/data} storage/logs storage/app/public bootstrap/cache public/images/avatars public/customer-images
+chown -R www-data:www-data storage bootstrap/cache public/images public/customer-images
+chmod -R 775 storage bootstrap/cache public/images public/customer-images
 
 # Execute main process (default: supervisord)
 exec "$@"
