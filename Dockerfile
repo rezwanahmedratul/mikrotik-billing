@@ -6,9 +6,9 @@
 FROM node:20-alpine AS node_builder
 WORKDIR /app
 COPY package*.json ./
-RUN npm ci || npm install
+RUN npm install --include=dev --ignore-scripts
 COPY . .
-RUN npm run build
+RUN npx vite build
 
 # Stage 2: Production PHP + Nginx Environment
 FROM php:8.3-fpm-alpine
