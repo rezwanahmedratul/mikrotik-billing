@@ -36,11 +36,22 @@ RUN install-php-extensions \
 # Install Composer
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
+# Configure Composer environment with extended timeout for large packages (like mPDF)
+ENV COMPOSER_ALLOW_SUPERUSER=1 \
+    COMPOSER_PROCESS_TIMEOUT=2000 \
+    COMPOSER_MEMORY_LIMIT=-1
+
+# Copy composer definitions first for layer caching
+COPY composer.json composer.lock ./
+
+# Install vendor dependencies with extended timeout
+RUN composer install --no-dev --no-scripts --no-autoloader --prefer-dist --no-interaction
+
 # Copy application source code (including precompiled public/build)
 COPY . .
 
-# Install PHP dependencies without dev packages
-RUN composer install --no-dev --optimize-autoloader --no-interaction --prefer-dist
+# Generate optimized autoloader
+RUN composer dump-autoload --optimize --no-dev
 
 # Copy Docker configurations
 COPY docker/nginx.conf /etc/nginx/http.d/default.conf
