@@ -32,10 +32,12 @@ class DatabaseSeeder extends Seeder
             'action' => 'connected',
             'ssh_port' => '22',
         ]);
-        User::factory()->withPersonalTeam()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
+        if (class_exists(\Faker\Factory::class)) {
+            User::factory()->withPersonalTeam()->create([
+                'name' => 'Test User',
+                'email' => 'test@example.com',
+            ]);
+        }
 
         $this->call([
             PermissionSeeder::class,
