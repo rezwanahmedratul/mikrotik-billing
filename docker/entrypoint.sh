@@ -50,5 +50,10 @@ if [ -f /etc/nginx/http.d/default.conf ]; then
     echo "Nginx configured to listen on port ${TARGET_PORT}"
 fi
 
+# Ensure www-data ownership and permissions across storage and bootstrap/cache
+mkdir -p storage/framework/{sessions,views,cache/data} storage/logs bootstrap/cache
+chown -R www-data:www-data storage bootstrap/cache
+chmod -R 775 storage bootstrap/cache
+
 # Execute main process (default: supervisord)
 exec "$@"
