@@ -4,10 +4,10 @@ services:
       context: .
       dockerfile: Dockerfile
       network: host
+    image: smart_isp_app:latest
     container_name: smart_isp_app
     restart: unless-stopped
-    ports:
-      - "${APP_PORT:-8000}:80"
+    network_mode: host
     env_file:
       - .env
     environment:
@@ -16,12 +16,13 @@ services:
       APP_DEBUG: "${APP_DEBUG:-false}"
       APP_KEY: "${APP_KEY:-}"
       APP_URL: "${APP_URL:-}"
+      APP_PORT: "${APP_PORT:-8000}"
       DB_CONNECTION: mysql
-      DB_HOST: db
-      DB_PORT: 3306
-      DB_DATABASE: ${DB_DATABASE:-smart_isp}
-      DB_USERNAME: ${DB_USERNAME:-smart_isp_user}
-      DB_PASSWORD: ${DB_PASSWORD:-secret_password}
+      DB_HOST: "${DB_HOST:-127.0.0.1}"
+      DB_PORT: "${DB_PORT:-3306}"
+      DB_DATABASE: "${DB_DATABASE:-mikrotik_billing}"
+      DB_USERNAME: "${DB_USERNAME:-billing_user}"
+      DB_PASSWORD: "${DB_PASSWORD:-billing_pass}"
       RUN_MIGRATIONS: "true"
       SESSION_DRIVER: database
       QUEUE_CONNECTION: database
@@ -35,15 +36,15 @@ services:
     image: mariadb:10.11
     container_name: smart_isp_db
     restart: unless-stopped
+    network_mode: host
     environment:
       MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-root_secret}
-      MYSQL_DATABASE: ${DB_DATABASE:-smart_isp}
-      MYSQL_USER: ${DB_USERNAME:-smart_isp_user}
-      MYSQL_PASSWORD: ${DB_PASSWORD:-secret_password}
+      MYSQL_DATABASE: ${DB_DATABASE:-mikrotik_billing}
+      MYSQL_USER: ${DB_USERNAME:-billing_user}
+      MYSQL_PASSWORD: ${DB_PASSWORD:-billing_pass}
+      MYSQL_TCP_PORT: ${DB_PORT:-3306}
     volumes:
       - db_data:/var/lib/mysql
-    ports:
-      - "127.0.0.1:${HOST_DB_PORT:-3307}:3306"
     healthcheck:
       test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
       interval: 10s

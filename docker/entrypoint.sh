@@ -32,10 +32,12 @@ if [ "$RUN_MIGRATIONS" = "true" ]; then
 fi
 
 # Cache configuration & routes in production
-if [ "$APP_ENV" = "production" ]; then
-    php artisan config:cache || true
-    php artisan route:cache || true
-    php artisan view:cache || true
+# Configure Nginx listening port if APP_PORT is specified
+TARGET_PORT="${APP_PORT:-8000}"
+if [ -f /etc/nginx/http.d/default.conf ]; then
+    sed -i -E "s/listen [0-9]+;/listen ${TARGET_PORT};/g" /etc/nginx/http.d/default.conf
+    sed -i -E "s/listen \[::\]:[0-9]+;/listen [::]:${TARGET_PORT};/g" /etc/nginx/http.d/default.conf
+    echo "Nginx configured to listen on port ${TARGET_PORT}"
 fi
 
 # Execute main process (default: supervisord)
