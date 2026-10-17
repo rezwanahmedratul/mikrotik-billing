@@ -6,17 +6,16 @@ FROM php:8.3-fpm-alpine
 
 WORKDIR /var/www/html
 
-# Use reliable HTTPS CDN mirrors with timeout options for Alpine
-RUN sed -i 's/http:\/\/dl-cdn.alpinelinux.org/https:\/\/dl-cdn.alpinelinux.org/g' /etc/apk/repositories \
-    && apk add --no-cache \
-        nginx \
-        supervisor \
-        bash \
-        netcat-openbsd \
-        curl \
-        git \
-        zip \
-        unzip
+# Install base tools, Nginx, and Supervisor
+RUN apk add --no-cache \
+    nginx \
+    supervisor \
+    bash \
+    netcat-openbsd \
+    curl \
+    git \
+    zip \
+    unzip
 
 # Install official precompiled PHP extension installer
 COPY --from=mlocati/php-extension-installer /usr/bin/install-php-extensions /usr/local/bin/
