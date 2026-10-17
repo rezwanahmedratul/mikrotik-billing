@@ -15,8 +15,13 @@ fi
 mkdir -p storage/framework/{sessions,views,cache} storage/logs bootstrap/cache
 chmod -R 775 storage bootstrap/cache
 
+# Ensure .env exists
+if [ ! -f .env ]; then
+    cp .env.example .env
+fi
+
 # Generate app key if missing
-if [ -z "$APP_KEY" ]; then
+if [ -z "$APP_KEY" ] && ! grep -q "^APP_KEY=base64:" .env; then
     php artisan key:generate --force
 fi
 
