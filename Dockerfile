@@ -20,7 +20,7 @@ RUN apk add --no-cache \
 # Install official precompiled PHP extension installer
 COPY --from=mlocati/php-extension-installer /usr/bin/install-php-extensions /usr/local/bin/
 
-# Install PHP extensions required by Laravel, Filament, mPDF, and PhpSpreadsheet
+# Install PHP extensions required by Laravel, Filament, mPDF, PhpSpreadsheet, and RouterOS
 RUN install-php-extensions \
     pdo_mysql \
     mbstring \
@@ -30,7 +30,8 @@ RUN install-php-extensions \
     gd \
     zip \
     intl \
-    opcache
+    opcache \
+    sockets
 
 # Install Composer
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
