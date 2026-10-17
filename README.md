@@ -73,7 +73,22 @@ graph TD
 - MySQL / PostgreSQL
 - MikroTik RouterOS with API Service enabled (default port `8728` or SSL `8729`)
 
-### Installation Steps
+### Quick Docker Deployment (Recommended)
+You can build and spin up the complete application stack (Nginx, PHP 8.3 FPM, MariaDB, Queue Worker, and Scheduler) with a single command:
+
+```bash
+docker compose up -d --build
+```
+The application will be running at `http://<your-server-ip>:8000`.
+
+To seed the initial admin account inside the container:
+```bash
+docker compose exec app php artisan db:seed --class=SuperAdminSeeder --force
+```
+
+---
+
+### Manual Installation Steps
 
 1. **Clone the Repository**
    ```bash
