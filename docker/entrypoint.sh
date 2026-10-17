@@ -15,6 +15,9 @@ fi
 mkdir -p storage/framework/{sessions,views,cache} storage/logs bootstrap/cache
 chmod -R 775 storage bootstrap/cache
 
+# Remove any stale bootstrap cache files
+rm -f bootstrap/cache/*.php
+
 # Ensure .env exists
 if [ ! -f .env ]; then
     cp .env.example .env

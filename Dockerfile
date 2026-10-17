@@ -52,6 +52,9 @@ RUN composer install --no-dev --no-scripts --no-autoloader --prefer-dist --no-in
 # Copy application source code (including precompiled public/build)
 COPY . .
 
+# Ensure no stale bootstrap cache exists
+RUN rm -f bootstrap/cache/*.php
+
 # Generate optimized autoloader without triggering lifecycle scripts during image build
 RUN composer dump-autoload --optimize --no-dev --no-scripts
 
