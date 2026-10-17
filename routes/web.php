@@ -94,6 +94,12 @@ $mainDomainGroup->group(function () use ($isLocalEnv) {
     Route::get('/recharge/voucher', [PortalVoucherController::class, 'showRechargeForm'])->name('welcome.voucher.recharge');
     Route::post('/recharge/voucher', [PortalVoucherController::class, 'redeem'])->name('welcome.voucher.redeem');
 
+    // Public React Frontend API endpoints
+    Route::get('/api/public/initial-data', [\App\Http\Controllers\Api\PublicFrontendController::class, 'getInitialData'])->name('api.public.initial-data');
+    Route::post('/api/public/contact', [\App\Http\Controllers\Api\PublicFrontendController::class, 'submitContact'])->name('api.public.contact');
+    Route::post('/api/public/order-package', [\App\Http\Controllers\Api\PublicFrontendController::class, 'submitOrder'])->name('api.public.order');
+    Route::post('/api/public/recharge-voucher', [\App\Http\Controllers\Api\PublicFrontendController::class, 'rechargeVoucher'])->name('api.public.recharge');
+
     if (!$isLocalEnv) {
         Route::get('/portal', function () {
             $host = request()->getHost();

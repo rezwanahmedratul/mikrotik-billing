@@ -1,4 +1,8 @@
 {
+  "__commonjsHelpers-D6-XlEtG.js": {
+    "file": "assets/_commonjsHelpers-D6-XlEtG.js",
+    "name": "_commonjsHelpers"
+  },
   "_bootstrap-icons-BI69yjDX.css": {
     "file": "assets/bootstrap-icons-BI69yjDX.css",
     "src": "_bootstrap-icons-BI69yjDX.css"
@@ -46,12 +50,13 @@
     "src": "resources/images/wave.png"
   },
   "resources/js/app.js": {
-    "file": "assets/app-Cyffkz-F.js",
+    "file": "assets/app-Xa7xGaBY.js",
     "name": "app",
     "src": "resources/js/app.js",
     "isEntry": true,
     "imports": [
-      "_bootstrap-icons-DagsHthD.js"
+      "_bootstrap-icons-DagsHthD.js",
+      "__commonjsHelpers-D6-XlEtG.js"
     ],
     "dynamicImports": [
       "node_modules/intl-tel-input/dist/js/utils.js"
@@ -73,6 +78,18 @@
     ],
     "css": [
       "assets/main-site-6ZEjj251.css"
+    ]
+  },
+  "resources/js/react-app/main.jsx": {
+    "file": "assets/main-DVROtrF-.js",
+    "name": "main",
+    "src": "resources/js/react-app/main.jsx",
+    "isEntry": true,
+    "imports": [
+      "__commonjsHelpers-D6-XlEtG.js"
+    ],
+    "css": [
+      "assets/main-ryx-Mr7j.css"
     ]
   },
   "resources/sass/app.scss": {

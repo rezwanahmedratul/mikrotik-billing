@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite';
 import laravel from 'laravel-vite-plugin';
+import react from '@vitejs/plugin-react';
 
 export default defineConfig({
     plugins: [
@@ -11,9 +12,11 @@ export default defineConfig({
                 'resources/sass/main-site.scss',
                 'resources/sass/guest.scss',
                 'resources/js/main-site.js',
+                'resources/js/react-app/main.jsx',
             ],
             refresh: true,
         }),
+        react(),
     ],
     css: {
         preprocessorOptions: {

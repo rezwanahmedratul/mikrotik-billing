@@ -32,6 +32,7 @@ return Application::configure(basePath: dirname(__DIR__))
             '/payment/mock/submit',
             '/payment/*/callback',
             '/payment/paybridge/*',
+            '/api/public/*',
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
