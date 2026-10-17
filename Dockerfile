@@ -50,8 +50,8 @@ RUN composer install --no-dev --no-scripts --no-autoloader --prefer-dist --no-in
 # Copy application source code (including precompiled public/build)
 COPY . .
 
-# Generate optimized autoloader
-RUN composer dump-autoload --optimize --no-dev
+# Generate optimized autoloader without triggering lifecycle scripts during image build
+RUN composer dump-autoload --optimize --no-dev --no-scripts
 
 # Copy Docker configurations
 COPY docker/nginx.conf /etc/nginx/http.d/default.conf

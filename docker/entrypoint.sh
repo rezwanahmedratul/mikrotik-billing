@@ -31,7 +31,14 @@ if [ "$RUN_MIGRATIONS" = "true" ]; then
     php artisan migrate --force
 fi
 
-# Cache configuration & routes in production
+# Discover packages and cache configuration in production
+php artisan package:discover --ansi || true
+if [ "$APP_ENV" = "production" ]; then
+    php artisan config:cache || true
+    php artisan route:cache || true
+    php artisan view:cache || true
+fi
+
 # Configure Nginx listening port if APP_PORT is specified
 TARGET_PORT="${APP_PORT:-8000}"
 if [ -f /etc/nginx/http.d/default.conf ]; then
