@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Role;
 
 class SuperAdminSeeder extends Seeder
 {
@@ -13,12 +14,18 @@ class SuperAdminSeeder extends Seeder
      */
     public function run(): void
     {
+        // Ensure Super Admin role exists
+        $role = Role::firstOrCreate(['name' => 'Super Admin', 'guard_name' => 'web']);
+
         // Creating Super Admin User
-        $superAdmin = User::create([
-            'name' => 'Ratul',
-            'email' => 'rezwanahmedratul007@gmail.com',
-            'password' => Hash::make('rezwanahmedratul007@gmail.com'),
-        ]);
-        $superAdmin->assignRole('Super Admin');
+        $superAdmin = User::firstOrCreate(
+            ['email' => 'rezwanahmedratul007@gmail.com'],
+            [
+                'name' => 'Ratul',
+                'password' => Hash::make('rezwanahmedratul007@gmail.com'),
+            ]
+        );
+
+        $superAdmin->assignRole($role);
     }
 }
