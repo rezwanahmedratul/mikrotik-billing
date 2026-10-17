@@ -3,6 +3,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+      network: host
     container_name: smart_isp_app
     restart: unless-stopped
     ports:
