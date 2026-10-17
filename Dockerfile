@@ -38,8 +38,10 @@ COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 # Configure Composer environment with extended timeout for large packages (like mPDF)
 ENV COMPOSER_ALLOW_SUPERUSER=1 \
-    COMPOSER_PROCESS_TIMEOUT=2000 \
+    COMPOSER_PROCESS_TIMEOUT=3600 \
     COMPOSER_MEMORY_LIMIT=-1
+
+RUN composer config --global process-timeout 3600
 
 # Copy composer definitions first for layer caching
 COPY composer.json composer.lock ./
