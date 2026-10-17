@@ -1,13 +1,13 @@
 # ==============================================================================
 # Production Dockerfile for Smart ISP (Laravel + Livewire + Filament)
-# Using mlocati/php-extension-installer for fast pre-compiled extension downloads
+# Debian Bullseye/Bookworm based — fast, reliable mirrors, no alpine stalls
 # ==============================================================================
-FROM php:8.3-fpm-alpine
+FROM php:8.3-fpm-bookworm
 
 WORKDIR /var/www/html
 
-# Install base tools & fast PHP extension installer
-RUN apk add --no-cache \
+# Install base tools & Nginx & Supervisor
+RUN apt-get update && apt-get install -y --no-install-recommends \
     nginx \
     supervisor \
     bash \
@@ -15,12 +15,13 @@ RUN apk add --no-cache \
     curl \
     git \
     zip \
-    unzip
+    unzip \
+    && rm -rf /var/lib/apt/lists/*
 
-# Download official precompiled PHP extension installer
+# Install official precompiled PHP extension installer
 COPY --from=mlocati/php-extension-installer /usr/bin/install-php-extensions /usr/local/bin/
 
-# Install pre-compiled extensions (10x faster than source compilation)
+# Install PHP extensions required by Laravel, Filament, mPDF, PhpSpreadsheet
 RUN install-php-extensions \
     pdo_mysql \
     mbstring \
@@ -42,8 +43,8 @@ COPY . .
 RUN composer install --no-dev --optimize-autoloader --no-interaction --prefer-dist
 
 # Copy Docker configurations
-COPY docker/nginx.conf /etc/nginx/http.d/default.conf
-COPY docker/supervisord.conf /etc/supervisord.conf
+COPY docker/nginx.conf /etc/nginx/sites-available/default
+COPY docker/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 COPY docker/entrypoint.sh /usr/local/bin/entrypoint.sh
 
 RUN chmod +x /usr/local/bin/entrypoint.sh \
@@ -52,4 +53,4 @@ RUN chmod +x /usr/local/bin/entrypoint.sh \
 EXPOSE 80
 
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
-CMD ["/usr/bin/supervisord", "-c", "/etc/supervisord.conf"]
+CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
