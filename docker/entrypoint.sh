@@ -23,9 +23,14 @@ if [ ! -f .env ]; then
     cp .env.example .env
 fi
 
-# Generate app key if missing
-if [ -z "$APP_KEY" ] && ! grep -q "^APP_KEY=base64:" .env; then
+# Generate app key in .env if missing
+if ! grep -q "^APP_KEY=base64:" .env; then
     php artisan key:generate --force
+fi
+
+# If APP_KEY is empty or unset in process environment, load it from .env
+if [ -z "$APP_KEY" ]; then
+    export APP_KEY="$(grep "^APP_KEY=" .env | head -n 1 | cut -d '=' -f2- | tr -d '\r\n')"
 fi
 
 # Run migrations
