@@ -271,9 +271,10 @@ export default function MikrotikControlDashboard({ initialData = {}, isStandalon
               top: 20,
               right: 20,
               zIndex: 9999,
-              background: notification.type === 'success' ? '#101014' : '#140c0e',
+              background: notification.type === 'success' ? (isDark ? '#101014' : '#ffffff') : (isDark ? '#140c0e' : '#fff1f2'),
               border: `1px solid ${notification.type === 'success' ? 'rgba(16, 185, 129, 0.4)' : 'rgba(244, 63, 94, 0.4)'}`,
-              color: '#fafafa',
+              color: palette.textPrimary,
+              boxShadow: isDark ? '0 20px 40px rgba(0,0,0,0.8)' : '0 10px 25px rgba(0,0,0,0.1)',
               fontSize: '0.82rem',
             }}
           >

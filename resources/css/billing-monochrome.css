@@ -1059,6 +1059,12 @@ html[data-bs-theme="light"] .navbar-vertical .nav.collapse .nav-link.active {
   background-color: rgba(0, 0, 0, 0.06) !important;
 }
 
+html[data-bs-theme="light"] .navbar-vertical .badge {
+  background: #f1f5f9 !important;
+  color: #334155 !important;
+  border: 1px solid rgba(0, 0, 0, 0.08) !important;
+}
+
 /* Top Navbar in Light Mode */
 html[data-bs-theme="light"] .navbar-top,
 html[data-bs-theme="light"] .navbar-glass {
@@ -1254,6 +1260,27 @@ html[data-bs-theme="light"] .badge-secondary {
   background-color: #f1f5f9 !important;
   color: #475569 !important;
   border: 1px solid rgba(0, 0, 0, 0.08) !important;
+}
+
+html[data-bs-theme="light"] .badge-subtle-primary {
+  background-color: rgba(9, 9, 11, 0.08) !important;
+  color: #09090b !important;
+}
+html[data-bs-theme="light"] .badge-subtle-success {
+  background-color: rgba(5, 150, 105, 0.1) !important;
+  color: #059669 !important;
+}
+html[data-bs-theme="light"] .badge-subtle-info {
+  background-color: rgba(8, 145, 178, 0.1) !important;
+  color: #0891b2 !important;
+}
+html[data-bs-theme="light"] .badge-subtle-warning {
+  background-color: rgba(217, 119, 6, 0.1) !important;
+  color: #d97706 !important;
+}
+html[data-bs-theme="light"] .badge-subtle-danger {
+  background-color: rgba(225, 29, 72, 0.1) !important;
+  color: #e11d48 !important;
 }
 
 /* Pagination in Light Mode */

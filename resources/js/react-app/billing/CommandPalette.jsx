@@ -24,8 +24,10 @@ import {
   CornerDownLeft,
   Command,
 } from 'lucide-react';
+import { useTheme } from './useTheme';
 
 export default function CommandPalette() {
+  const { theme, isDark, palette } = useTheme();
   const [isOpen, setIsOpen] = useState(false);
   const [query, setQuery] = useState('');
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -134,19 +136,19 @@ export default function CommandPalette() {
         style={{
           width: '90%',
           maxWidth: 620,
-          background: '#121216',
-          border: '1px solid rgba(255, 255, 255, 0.12)',
-          boxShadow: '0 25px 60px -15px rgba(0, 0, 0, 0.8)',
+          background: palette.cardBg,
+          border: `1px solid ${palette.cardBorder}`,
+          boxShadow: isDark ? '0 25px 60px -15px rgba(0, 0, 0, 0.8)' : '0 20px 40px -10px rgba(0, 0, 0, 0.12)',
           animation: 'modalSlideDown 0.2s cubic-bezier(0.16, 1, 0.3, 1)',
         }}
       >
         {/* Search Input Bar */}
-        <div className="d-flex align-items-center px-3 py-2.5 border-bottom" style={{ borderColor: 'rgba(255, 255, 255, 0.08)' }}>
-          <Search size={18} style={{ color: '#a1a1aa' }} className="me-2.5 flex-shrink-0" />
+        <div className="d-flex align-items-center px-3 py-2.5 border-bottom" style={{ borderColor: palette.cardBorder }}>
+          <Search size={18} style={{ color: palette.textSecondary }} className="me-2.5 flex-shrink-0" />
           <input
             ref={inputRef}
             type="text"
-            className="w-100 bg-transparent border-0 text-white outline-none shadow-none"
+            className="w-100 bg-transparent border-0 outline-none shadow-none"
             placeholder="Type a command or jump to page... (e.g. PPPoE, Customer, Invoices)"
             value={query}
             onChange={(e) => {
@@ -154,14 +156,14 @@ export default function CommandPalette() {
               setSelectedIndex(0);
             }}
             onKeyDown={handleArrowNavigation}
-            style={{ fontSize: '0.95rem', outline: 'none' }}
+            style={{ fontSize: '0.95rem', outline: 'none', color: palette.textPrimary }}
           />
           <button
             onClick={() => setIsOpen(false)}
             className="btn btn-sm btn-link text-muted p-1 ms-2"
             style={{ textDecoration: 'none' }}
           >
-            <kbd className="px-1.5 py-0.5 rounded text-secondary" style={{ background: '#1c1c24', border: '1px solid #27272a', fontSize: '0.68rem' }}>ESC</kbd>
+            <kbd className="px-1.5 py-0.5 rounded" style={{ background: palette.surfaceElevated, border: `1px solid ${palette.cardBorder}`, color: palette.textSecondary, fontSize: '0.68rem' }}>ESC</kbd>
           </button>
         </div>
 
@@ -183,7 +185,7 @@ export default function CommandPalette() {
                   onMouseEnter={() => setSelectedIndex(idx)}
                   className="d-flex align-items-center justify-content-between p-2.5 rounded-2"
                   style={{
-                    background: isSelected ? 'rgba(255, 255, 255, 0.06)' : 'transparent',
+                    background: isSelected ? (isDark ? 'rgba(255, 255, 255, 0.06)' : 'rgba(0, 0, 0, 0.05)') : 'transparent',
                     cursor: 'pointer',
                     transition: 'background 0.1s ease',
                   }}
@@ -194,30 +196,30 @@ export default function CommandPalette() {
                       style={{
                         width: 34,
                         height: 34,
-                        background: isSelected ? '#ffffff' : '#18181c',
-                        color: isSelected ? '#09090b' : '#a1a1aa',
-                        border: '1px solid rgba(255, 255, 255, 0.08)',
+                        background: isSelected ? palette.buttonPrimaryBg : palette.surfaceElevated,
+                        color: isSelected ? palette.buttonPrimaryText : palette.textSecondary,
+                        border: `1px solid ${palette.cardBorder}`,
                         transition: 'all 0.15s ease',
                       }}
                     >
                       <Icon size={16} />
                     </div>
                     <div>
-                      <div className="fw-medium text-white" style={{ fontSize: '0.86rem' }}>
+                      <div className="fw-medium" style={{ fontSize: '0.86rem', color: palette.textPrimary }}>
                         {item.title}
                       </div>
-                      <div className="text-muted" style={{ fontSize: '0.74rem' }}>
+                      <div className="small" style={{ fontSize: '0.74rem', color: palette.textMuted }}>
                         {item.subtitle}
                       </div>
                     </div>
                   </div>
 
                   <div className="d-flex align-items-center gap-2">
-                    <span className="badge" style={{ background: '#18181c', color: '#71717a', border: '1px solid rgba(255,255,255,0.06)', fontSize: '0.68rem' }}>
+                    <span className="badge" style={{ background: palette.badgeBg, color: palette.badgeText, border: `1px solid ${palette.badgeBorder}`, fontSize: '0.68rem' }}>
                       {item.category}
                     </span>
                     {isSelected && (
-                      <CornerDownLeft size={13} style={{ color: '#a1a1aa' }} />
+                      <CornerDownLeft size={13} style={{ color: palette.textSecondary }} />
                     )}
                   </div>
                 </div>
@@ -227,10 +229,10 @@ export default function CommandPalette() {
         </div>
 
         {/* Footer shortcuts */}
-        <div className="d-flex align-items-center justify-content-between px-3 py-2 border-top bg-black bg-opacity-30 text-muted" style={{ borderColor: 'rgba(255, 255, 255, 0.06)', fontSize: '0.72rem' }}>
+        <div className="d-flex align-items-center justify-content-between px-3 py-2 border-top" style={{ background: palette.surfaceElevated, borderColor: palette.cardBorder, color: palette.textMuted, fontSize: '0.72rem' }}>
           <div className="d-flex align-items-center gap-3">
-            <span><kbd style={{ background: '#1c1c24', border: '1px solid #27272a', padding: '1px 4px', borderRadius: 3 }}>↑</kbd> <kbd style={{ background: '#1c1c24', border: '1px solid #27272a', padding: '1px 4px', borderRadius: 3 }}>↓</kbd> to navigate</span>
-            <span><kbd style={{ background: '#1c1c24', border: '1px solid #27272a', padding: '1px 4px', borderRadius: 3 }}>↵</kbd> to open</span>
+            <span><kbd style={{ background: palette.cardBg, border: `1px solid ${palette.cardBorder}`, color: palette.textSecondary, padding: '1px 4px', borderRadius: 3 }}>↑</kbd> <kbd style={{ background: palette.cardBg, border: `1px solid ${palette.cardBorder}`, color: palette.textSecondary, padding: '1px 4px', borderRadius: 3 }}>↓</kbd> to navigate</span>
+            <span><kbd style={{ background: palette.cardBg, border: `1px solid ${palette.cardBorder}`, color: palette.textSecondary, padding: '1px 4px', borderRadius: 3 }}>↵</kbd> to open</span>
           </div>
           <span>Smart ISP Quick Command Palette</span>
         </div>
