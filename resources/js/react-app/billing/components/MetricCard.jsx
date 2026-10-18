@@ -1,29 +1,41 @@
 import React from 'react';
-import { motion } from 'framer-motion';
 
 export default function MetricCard({
   title,
   value,
   subtitle,
   icon: Icon,
-  iconColor = '#10b981',
-  valueColor = '#ffffff',
+  badgeText,
   trendText,
-  trendType = 'positive', // 'positive', 'negative', 'neutral'
-  progressPercent = null,
+  badgeDot = false,
+  badgeColor = '#a1a1aa',
+  trendType = 'neutral',
+  progressPercent,
   progressColor = '#10b981',
 }) {
+  const displayBadge = badgeText || trendText;
+  const isDot = badgeDot || (trendType === 'positive' && !badgeText);
+  const resolvedBadgeColor = badgeColor !== '#a1a1aa'
+    ? badgeColor
+    : trendType === 'positive'
+      ? '#34d399'
+      : trendType === 'negative'
+        ? '#fb7185'
+        : '#a1a1aa';
+
   return (
     <div
-      className="card p-3 h-100 hover-lift d-flex flex-column justify-content-between"
+      className="card p-3.5 h-100 hover-lift d-flex flex-column justify-content-between"
       style={{
-        background: '#121216',
+        background: '#111115',
         border: '1px solid rgba(255, 255, 255, 0.08)',
+        borderRadius: 12,
       }}
     >
+      {/* Top Row: Title & Icon Container */}
       <div>
         <div className="d-flex align-items-center justify-content-between mb-2">
-          <span className="text-muted small fw-medium" style={{ fontSize: '0.74rem' }}>
+          <span className="small fw-medium" style={{ fontSize: '0.76rem', color: '#8e8e93' }}>
             {title}
           </span>
           {Icon && (
@@ -32,66 +44,74 @@ export default function MetricCard({
               style={{
                 width: 28,
                 height: 28,
-                background: '#18181f',
-                border: '1px solid rgba(255, 255, 255, 0.06)',
+                background: '#16161c',
+                border: '1px solid rgba(255, 255, 255, 0.08)',
               }}
             >
-              <Icon size={14} style={{ color: iconColor }} />
+              <Icon size={14} style={{ color: '#d1d1d6' }} />
             </div>
           )}
         </div>
 
-        <div className="fw-bold font-mono mb-1" style={{ fontSize: '1.3rem', color: valueColor, letterSpacing: '-0.02em' }}>
+        {/* Middle: Big Value */}
+        <div
+          className="fw-bold font-mono text-white mb-2"
+          style={{ fontSize: '1.45rem', letterSpacing: '-0.02em', lineHeight: 1.1 }}
+        >
           {value}
         </div>
-      </div>
 
-      <div>
-        {progressPercent !== null && (
+        {/* Optional Progress Bar */}
+        {progressPercent !== undefined && progressPercent !== null && (
           <div className="rounded-pill overflow-hidden my-2" style={{ height: 4, background: '#27272a' }}>
             <div
               style={{
-                width: `${Math.min(100, Math.max(0, progressPercent))}%`,
+                width: `${Math.min(100, Math.max(4, Number(progressPercent)))}%`,
                 height: '100%',
                 background: progressColor,
                 transition: 'width 0.4s ease',
               }}
-            ></div>
+            />
           </div>
         )}
+      </div>
 
-        <div className="d-flex align-items-center justify-content-between text-muted small mt-1" style={{ fontSize: '0.72rem' }}>
-          <span>{subtitle}</span>
-          {trendText && (
-            <span
-              className="badge font-mono"
-              style={{
-                background:
-                  trendType === 'positive'
-                    ? 'rgba(16, 185, 129, 0.12)'
-                    : trendType === 'negative'
-                    ? 'rgba(244, 63, 94, 0.12)'
-                    : 'rgba(255, 255, 255, 0.06)',
-                color:
-                  trendType === 'positive'
-                    ? '#34d399'
-                    : trendType === 'negative'
-                    ? '#fb7185'
-                    : '#a1a1aa',
-                fontSize: '0.66rem',
-                border: `1px solid ${
-                  trendType === 'positive'
-                    ? 'rgba(16, 185, 129, 0.25)'
-                    : trendType === 'negative'
-                    ? 'rgba(244, 63, 94, 0.25)'
-                    : 'rgba(255, 255, 255, 0.08)'
-                }`,
-              }}
-            >
-              {trendText}
-            </span>
-          )}
-        </div>
+      {/* Bottom Row: Subtitle & Tag Badge */}
+      <div
+        className="d-flex align-items-center justify-content-between pt-1"
+        style={{ fontSize: '0.74rem' }}
+      >
+        <span className="text-truncate me-1" style={{ color: '#71717a' }}>
+          {subtitle}
+        </span>
+
+        {displayBadge && (
+          <span
+            className="badge d-inline-flex align-items-center gap-1 font-mono flex-shrink-0"
+            style={{
+              background: '#18181f',
+              color: resolvedBadgeColor,
+              border: '1px solid rgba(255, 255, 255, 0.1)',
+              fontSize: '0.66rem',
+              fontWeight: 500,
+              padding: '2px 7px',
+              borderRadius: 5,
+            }}
+          >
+            {isDot && (
+              <span
+                style={{
+                  display: 'inline-block',
+                  width: 4,
+                  height: 4,
+                  borderRadius: '50%',
+                  background: resolvedBadgeColor === '#34d399' ? '#10b981' : resolvedBadgeColor,
+                }}
+              ></span>
+            )}
+            {displayBadge}
+          </span>
+        )}
       </div>
     </div>
   );

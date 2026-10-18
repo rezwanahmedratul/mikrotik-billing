@@ -287,51 +287,60 @@ export default function MikrotikControlDashboard({ initialData = {}, isStandalon
 
       {/* ─────────────────────────────────────────────────────────────
           TOP FLEET COMMAND BAR (STANDALONE HEADER)
+      {/* ─────────────────────────────────────────────────────────────
+          TOP FLEET COMMAND BAR (STANDALONE HEADER)
       ───────────────────────────────────────────────────────────── */}
       {isStandalone && (
         <div
           className="d-flex flex-column flex-lg-row align-items-lg-center justify-content-between gap-3 mb-4 p-3.5 rounded-3"
           style={{
-            background: 'rgba(18, 18, 22, 0.75)',
+            background: '#111115',
             border: '1px solid rgba(255, 255, 255, 0.08)',
-            backdropFilter: 'blur(12px)',
+            borderRadius: 12,
           }}
         >
           <div className="d-flex align-items-center gap-3">
             <div
-              className="d-flex align-items-center justify-content-center rounded-3"
-              style={{ width: 44, height: 44, background: '#1c1c24', border: '1px solid rgba(255, 255, 255, 0.12)' }}
+              className="d-flex align-items-center justify-content-center rounded-3 flex-shrink-0"
+              style={{
+                width: 42,
+                height: 42,
+                background: '#16161c',
+                border: '1px solid rgba(255, 255, 255, 0.1)',
+              }}
             >
-              <Server size={22} style={{ color: '#38bdf8' }} />
+              <Server size={20} className="text-white" />
             </div>
             <div>
               <div className="d-flex align-items-center gap-2">
-                <h4 className="fw-bold mb-0 text-white" style={{ fontSize: '1.25rem', letterSpacing: '-0.02em' }}>
-                  MikroTik NOC Control Center
+                <h4 className="fw-bold mb-0 text-white" style={{ fontSize: '1.2rem', letterSpacing: '-0.02em' }}>
+                  MikroTik NOC Control Hub
                 </h4>
                 <span
-                  className="badge"
+                  className="badge d-inline-flex align-items-center gap-1.5 py-1 px-2"
                   style={{
-                    background: 'rgba(56, 189, 248, 0.12)',
-                    color: '#38bdf8',
-                    border: '1px solid rgba(56, 189, 248, 0.3)',
+                    background: 'rgba(255, 255, 255, 0.06)',
+                    color: '#e4e4e7',
+                    border: '1px solid rgba(255, 255, 255, 0.12)',
+                    fontSize: '0.68rem',
+                    fontWeight: 500,
+                    borderRadius: 6,
                   }}
                 >
                   <span
-                    className="glow-dot-cyan me-1.5"
                     style={{
                       display: 'inline-block',
-                      width: 6,
-                      height: 6,
+                      width: 5,
+                      height: 5,
                       borderRadius: '50%',
-                      background: '#38bdf8',
-                      boxShadow: '0 0 8px #38bdf8',
+                      background: '#10b981',
+                      boxShadow: '0 0 6px #10b981',
                     }}
                   ></span>
-                  NOC Live
+                  Live Telemetry
                 </span>
               </div>
-              <p className="mb-0 text-muted small" style={{ fontSize: '0.8rem', color: '#a1a1aa' }}>
+              <p className="mb-0 small" style={{ fontSize: '0.78rem', color: '#8e8e93' }}>
                 Centralized RouterOS management, interface telemetry, and subscriber tunnels
               </p>
             </div>
@@ -343,26 +352,48 @@ export default function MikrotikControlDashboard({ initialData = {}, isStandalon
                 setEditingRouter(null);
                 setIsAddModalOpen(true);
               }}
-              className="btn btn-sm btn-primary d-inline-flex align-items-center gap-1.5 shadow-sm"
+              className="btn btn-sm d-inline-flex align-items-center gap-1.5 px-3 py-1.5 shadow-sm"
+              style={{
+                background: '#ffffff',
+                color: '#09090b',
+                fontWeight: 600,
+                fontSize: '0.8rem',
+                borderRadius: 8,
+                border: 'none',
+              }}
             >
-              <PlusCircle size={15} />
-              <span>Add MikroTik</span>
+              <PlusCircle size={15} style={{ color: '#09090b' }} />
+              <span>Add Router</span>
             </button>
 
             <button
               onClick={handleSyncAll}
               disabled={isRefreshing}
-              className="btn btn-sm btn-secondary d-inline-flex align-items-center gap-1.5"
+              className="btn btn-sm d-inline-flex align-items-center gap-1.5 px-3 py-1.5"
+              style={{
+                background: '#16161b',
+                border: '1px solid rgba(255, 255, 255, 0.1)',
+                color: '#e4e4e7',
+                fontSize: '0.8rem',
+                fontWeight: 500,
+                borderRadius: 8,
+              }}
               title="Synchronize all connected routers"
             >
-              <RefreshCw size={14} className={isRefreshing ? 'animate-spin' : ''} style={{ color: '#34d399' }} />
+              <RefreshCw size={14} className={isRefreshing ? 'animate-spin' : ''} style={{ color: '#a1a1aa' }} />
               <span>Sync Fleet</span>
             </button>
 
             <button
               onClick={() => fetchOverview(false)}
               disabled={isRefreshing}
-              className="btn btn-sm btn-secondary p-2 d-inline-flex align-items-center justify-content-center"
+              className="btn btn-sm d-inline-flex align-items-center justify-content-center p-2"
+              style={{
+                background: '#16161b',
+                border: '1px solid rgba(255, 255, 255, 0.1)',
+                color: '#e4e4e7',
+                borderRadius: 8,
+              }}
               title="Refresh hardware telemetry"
             >
               <RefreshCw size={14} className={isRefreshing ? 'animate-spin' : ''} />
@@ -381,9 +412,9 @@ export default function MikrotikControlDashboard({ initialData = {}, isStandalon
             value={`${summary.total_routers || 0} Devices`}
             subtitle={`${summary.online_routers || 0} Online • ${summary.offline_routers || 0} Offline`}
             icon={Server}
-            iconColor="#38bdf8"
-            trendText={summary.online_routers > 0 ? 'Operational' : 'All Offline'}
-            trendType={summary.online_routers > 0 ? 'positive' : 'negative'}
+            badgeText={summary.online_routers > 0 ? 'Operational' : 'All Offline'}
+            badgeDot={summary.online_routers > 0}
+            badgeColor={summary.online_routers > 0 ? '#34d399' : '#fb7185'}
           />
         </div>
 
@@ -393,9 +424,9 @@ export default function MikrotikControlDashboard({ initialData = {}, isStandalon
             value={(summary.total_subscribers || 0).toLocaleString()}
             subtitle="Synchronized across router fleet"
             icon={Users}
-            iconColor="#10b981"
-            trendText="Active Tunnels"
-            trendType="positive"
+            badgeText="Active Tunnels"
+            badgeDot={true}
+            badgeColor="#34d399"
           />
         </div>
 
@@ -405,11 +436,10 @@ export default function MikrotikControlDashboard({ initialData = {}, isStandalon
             value={`${summary.avg_cpu_load || 0}%`}
             subtitle="Combined core processing load"
             icon={Cpu}
-            iconColor="#f59e0b"
             progressPercent={summary.avg_cpu_load}
             progressColor={summary.avg_cpu_load > 70 ? '#f43f5e' : '#10b981'}
-            trendText={summary.avg_cpu_load > 70 ? 'High' : 'Normal'}
-            trendType={summary.avg_cpu_load > 70 ? 'negative' : 'positive'}
+            badgeText={summary.avg_cpu_load > 70 ? 'High' : 'Normal'}
+            badgeColor={summary.avg_cpu_load > 70 ? '#fb7185' : '#a1a1aa'}
           />
         </div>
 
@@ -419,9 +449,9 @@ export default function MikrotikControlDashboard({ initialData = {}, isStandalon
             value="API + SSH"
             subtitle="Persistent socket multiplexing active"
             icon={Shield}
-            iconColor="#06b6d4"
-            trendText="Pool Active"
-            trendType="positive"
+            badgeText="Pool Active"
+            badgeDot={true}
+            badgeColor="#34d399"
           />
         </div>
       </div>
@@ -442,13 +472,13 @@ export default function MikrotikControlDashboard({ initialData = {}, isStandalon
       <div className="mb-4">
         <div className="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3 mb-3">
           <div className="d-flex align-items-center gap-2">
-            <Radio size={18} style={{ color: '#38bdf8' }} />
-            <h5 className="fw-bold mb-0 text-white" style={{ fontSize: '1rem', letterSpacing: '-0.01em' }}>
+            <Radio size={17} style={{ color: '#d1d1d6' }} />
+            <h5 className="fw-bold mb-0 text-white" style={{ fontSize: '0.96rem', letterSpacing: '-0.01em' }}>
               Router Infrastructure Fleet
             </h5>
             <span
-              className="badge"
-              style={{ background: '#18181c', color: '#a1a1aa', border: '1px solid rgba(255, 255, 255, 0.08)' }}
+              className="badge font-mono"
+              style={{ background: '#18181f', color: '#a1a1aa', border: '1px solid rgba(255, 255, 255, 0.1)', fontSize: '0.68rem', borderRadius: 5 }}
             >
               {filteredRouters.length} Devices
             </span>
@@ -456,14 +486,14 @@ export default function MikrotikControlDashboard({ initialData = {}, isStandalon
 
           <div className="d-flex align-items-center gap-2">
             <div className="position-relative" style={{ minWidth: 240 }}>
-              <Search size={14} className="position-absolute text-muted" style={{ left: 10, top: 10 }} />
+              <Search size={14} className="position-absolute text-muted" style={{ left: 10, top: 9 }} />
               <input
                 type="text"
                 className="form-control form-control-sm ps-4"
                 placeholder="Search router by name, IP, model..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                style={{ fontSize: '0.78rem', background: '#16161c', borderColor: 'rgba(255, 255, 255, 0.1)', color: '#fafafa' }}
+                style={{ fontSize: '0.78rem', background: '#16161c', borderColor: 'rgba(255, 255, 255, 0.1)', color: '#fafafa', borderRadius: 8 }}
               />
             </div>
             {!isStandalone && (
@@ -472,9 +502,17 @@ export default function MikrotikControlDashboard({ initialData = {}, isStandalon
                   setEditingRouter(null);
                   setIsAddModalOpen(true);
                 }}
-                className="btn btn-sm btn-primary d-inline-flex align-items-center gap-1 shadow-sm"
+                className="btn btn-sm d-inline-flex align-items-center gap-1.5 px-3 py-1.5 shadow-sm"
+                style={{
+                  background: '#ffffff',
+                  color: '#09090b',
+                  fontWeight: 600,
+                  fontSize: '0.8rem',
+                  borderRadius: 8,
+                  border: 'none',
+                }}
               >
-                <PlusCircle size={14} />
+                <PlusCircle size={14} style={{ color: '#09090b' }} />
                 <span>Add Router</span>
               </button>
             )}
@@ -484,7 +522,7 @@ export default function MikrotikControlDashboard({ initialData = {}, isStandalon
         {filteredRouters.length === 0 ? (
           <div
             className="p-5 text-center rounded-3"
-            style={{ background: '#121216', border: '1px solid rgba(255, 255, 255, 0.08)' }}
+            style={{ background: '#111115', border: '1px solid rgba(255, 255, 255, 0.08)', borderRadius: 12 }}
           >
             <Server size={32} className="text-muted mb-2 opacity-50" />
             <h6 className="text-white fw-bold">No MikroTik Routers Found</h6>
@@ -496,7 +534,13 @@ export default function MikrotikControlDashboard({ initialData = {}, isStandalon
                 setEditingRouter(null);
                 setIsAddModalOpen(true);
               }}
-              className="btn btn-sm btn-primary"
+              className="btn btn-sm px-3 py-1.5 fw-semibold"
+              style={{
+                background: '#ffffff',
+                color: '#09090b',
+                borderRadius: 8,
+                border: 'none',
+              }}
             >
               Add MikroTik Router
             </button>

@@ -125,10 +125,11 @@ export default function LiveTrafficWidget({ routers = [], initialRouter = null, 
 
   return (
     <div
-      className="card p-3 p-md-4 mb-4"
+      className="card p-3.5 p-md-4 mb-4"
       style={{
-        background: '#121216',
+        background: '#111115',
         border: '1px solid rgba(255, 255, 255, 0.08)',
+        borderRadius: 12,
       }}
     >
       {/* Top Header & Interface selector */}
@@ -136,41 +137,42 @@ export default function LiveTrafficWidget({ routers = [], initialRouter = null, 
         <div className="d-flex align-items-center gap-2.5">
           <div
             className="d-flex align-items-center justify-content-center rounded-3"
-            style={{ width: 36, height: 36, background: '#1c1c24', border: '1px solid rgba(255, 255, 255, 0.1)' }}
+            style={{ width: 36, height: 36, background: '#16161c', border: '1px solid rgba(255, 255, 255, 0.1)' }}
           >
-            <Activity size={18} style={{ color: '#06b6d4' }} />
+            <Activity size={17} style={{ color: '#d1d1d6' }} />
           </div>
           <div>
             <div className="d-flex align-items-center gap-2">
-              <h5 className="fw-bold mb-0 text-white" style={{ fontSize: '1rem', letterSpacing: '-0.01em' }}>
+              <h5 className="fw-bold mb-0 text-white" style={{ fontSize: '0.96rem', letterSpacing: '-0.01em' }}>
                 Live Interface Bandwidth Monitor
               </h5>
               {!isPaused && (
                 <span
-                  className="badge"
+                  className="badge font-mono"
                   style={{
-                    background: 'rgba(6, 182, 212, 0.12)',
+                    background: '#18181f',
                     color: '#38bdf8',
-                    border: '1px solid rgba(6, 182, 212, 0.3)',
+                    border: '1px solid rgba(56, 189, 248, 0.25)',
                     fontSize: '0.68rem',
+                    borderRadius: 5,
                   }}
                 >
                   <span
-                    className="glow-dot-cyan me-1.5"
                     style={{
                       display: 'inline-block',
                       width: 5,
                       height: 5,
                       borderRadius: '50%',
-                      background: '#06b6d4',
-                      boxShadow: '0 0 6px #06b6d4',
+                      background: '#38bdf8',
+                      boxShadow: '0 0 6px #38bdf8',
+                      marginRight: 4,
                     }}
                   ></span>
                   Streaming
                 </span>
               )}
             </div>
-            <p className="small text-muted mb-0" style={{ fontSize: '0.76rem' }}>
+            <p className="small mb-0" style={{ fontSize: '0.76rem', color: '#71717a' }}>
               Real-time traffic telemetry via RouterOS socket monitor
             </p>
           </div>
@@ -189,6 +191,7 @@ export default function LiveTrafficWidget({ routers = [], initialRouter = null, 
                 background: '#16161c',
                 borderColor: 'rgba(255, 255, 255, 0.1)',
                 color: '#fafafa',
+                borderRadius: 8,
               }}
             >
               {routers.map((r) => (
@@ -209,6 +212,7 @@ export default function LiveTrafficWidget({ routers = [], initialRouter = null, 
               background: '#16161c',
               borderColor: 'rgba(255, 255, 255, 0.1)',
               color: '#fafafa',
+              borderRadius: 8,
             }}
           >
             {availableInterfaces.map((ifName) => (
@@ -220,8 +224,14 @@ export default function LiveTrafficWidget({ routers = [], initialRouter = null, 
 
           <button
             onClick={() => setIsPaused(!isPaused)}
-            className="btn btn-sm btn-secondary d-inline-flex align-items-center gap-1"
-            style={{ fontSize: '0.78rem' }}
+            className="btn btn-sm d-inline-flex align-items-center gap-1.5 px-3 py-1.5"
+            style={{
+              background: '#16161b',
+              border: '1px solid rgba(255, 255, 255, 0.1)',
+              color: '#e4e4e7',
+              borderRadius: 8,
+              fontSize: '0.8rem',
+            }}
             title={isPaused ? 'Resume live stream' : 'Pause live stream'}
           >
             {isPaused ? <Play size={13} style={{ color: '#10b981' }} /> : <Pause size={13} />}

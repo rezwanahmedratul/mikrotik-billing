@@ -27,17 +27,21 @@ export default function SubsystemsGrid() {
   return (
     <div
       className="card p-3.5 p-md-4 mb-4"
-      style={{ background: '#121216', border: '1px solid rgba(255, 255, 255, 0.08)' }}
+      style={{
+        background: '#111115',
+        border: '1px solid rgba(255, 255, 255, 0.08)',
+        borderRadius: 12,
+      }}
     >
       <div className="d-flex align-items-center justify-content-between mb-3">
         <div className="d-flex align-items-center gap-2">
-          <Layers size={18} style={{ color: '#a1a1aa' }} />
-          <h5 className="fw-bold mb-0 text-white" style={{ fontSize: '1rem', letterSpacing: '-0.01em' }}>
+          <Layers size={17} style={{ color: '#d1d1d6' }} />
+          <h5 className="fw-bold mb-0 text-white" style={{ fontSize: '0.96rem', letterSpacing: '-0.01em' }}>
             RouterOS Subsystem Control Shortcuts
           </h5>
         </div>
-        <span className="text-muted small" style={{ fontSize: '0.74rem' }}>
-          Instant deep-link navigation
+        <span className="small font-mono" style={{ fontSize: '0.72rem', color: '#71717a' }}>
+          Deep-Link Navigation
         </span>
       </div>
 

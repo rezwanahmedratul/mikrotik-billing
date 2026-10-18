@@ -1,96 +1,213 @@
 import React, { useState } from 'react';
 import { BarChart3 } from 'lucide-react';
 
-export default function FinancialChart({ chartData = [], maxChartValue = 1000, formatCurrency, formatNumber }) {
+export default function FinancialChart({ chartData = [], maxChartValue = 1150, formatCurrency, formatNumber }) {
   const [chartView, setChartView] = useState('comparison'); // 'comparison', 'difference', 'cumulative'
   const [hoveredMonth, setHoveredMonth] = useState(null);
 
+  // Compute fixed 4 grid tick lines
+  const ticks = [1, 0.75, 0.5, 0.25, 0];
+
   return (
     <div
-      className="card p-3.5 p-md-4 h-100"
-      style={{ background: '#121216', border: '1px solid rgba(255, 255, 255, 0.08)' }}
+      className="card p-3.5 p-md-4 h-100 d-flex flex-column justify-content-between"
+      style={{
+        background: '#111115',
+        border: '1px solid rgba(255, 255, 255, 0.08)',
+        borderRadius: 12,
+      }}
     >
-      <div className="d-flex flex-column flex-sm-row align-items-sm-center justify-content-between gap-2 mb-4">
-        <div>
-          <div className="d-flex align-items-center gap-2">
-            <BarChart3 size={18} style={{ color: '#38bdf8' }} />
-            <h5 className="fw-bold mb-0 text-white" style={{ fontSize: '1rem', letterSpacing: '-0.01em' }}>
-              Financial Performance & Cashflow
-            </h5>
+      {/* Header & Mode Switcher */}
+      <div>
+        <div className="d-flex flex-column flex-sm-row align-items-sm-center justify-content-between gap-2 mb-4">
+          <div>
+            <div className="d-flex align-items-center gap-2 mb-0.5">
+              <BarChart3 size={16} style={{ color: '#d1d1d6' }} />
+              <h5 className="fw-bold mb-0 text-white" style={{ fontSize: '0.96rem', letterSpacing: '-0.01em' }}>
+                Financial Performance & Cashflow
+              </h5>
+            </div>
+            <p className="small mb-0" style={{ fontSize: '0.76rem', color: '#71717a' }}>
+              Comparing Previous Years Current Year Revenue Trends (BDT ৳)
+            </p>
           </div>
-          <p className="small text-muted mb-0" style={{ fontSize: '0.78rem' }}>
-            Comparing Previous Year vs Current Year Revenue Trends (BDT ৳)
-          </p>
-        </div>
 
-        {/* View Switcher Tabs */}
-        <div className="btn-group btn-group-sm" role="group">
-          <button
-            type="button"
-            className={`btn btn-sm ${chartView === 'comparison' ? 'btn-primary' : 'btn-secondary'}`}
-            onClick={() => setChartView('comparison')}
-            style={{ fontSize: '0.75rem' }}
+          {/* Segmented Control matching screenshot */}
+          <div
+            className="d-inline-flex align-items-center p-0.5 rounded-2"
+            style={{
+              background: '#16161c',
+              border: '1px solid rgba(255, 255, 255, 0.08)',
+            }}
           >
-            Monthly Comparison
-          </button>
-          <button
-            type="button"
-            className={`btn btn-sm ${chartView === 'difference' ? 'btn-primary' : 'btn-secondary'}`}
-            onClick={() => setChartView('difference')}
-            style={{ fontSize: '0.75rem' }}
-          >
-            Growth Delta
-          </button>
-          <button
-            type="button"
-            className={`btn btn-sm ${chartView === 'cumulative' ? 'btn-primary' : 'btn-secondary'}`}
-            onClick={() => setChartView('cumulative')}
-            style={{ fontSize: '0.75rem' }}
-          >
-            Cumulative
-          </button>
-        </div>
-      </div>
-
-      {/* Interactive SVG Chart */}
-      <div className="position-relative w-100" style={{ height: 260 }}>
-        <svg className="w-100 h-100" viewBox="0 0 600 240" preserveAspectRatio="none">
-          {/* Gridlines */}
-          {[0, 0.25, 0.5, 0.75, 1].map((pct, i) => {
-            const y = 200 - pct * 170;
-            return (
-              <g key={i}>
-                <line
-                  x1="30"
-                  y1={y}
-                  x2="590"
-                  y2={y}
-                  stroke="rgba(255, 255, 255, 0.05)"
-                  strokeDasharray="3 3"
-                />
-                <text
-                  x="25"
-                  y={y + 3}
-                  textAnchor="end"
-                  fill="#52525b"
-                  fontSize="9"
-                  fontFamily="monospace"
+            {[
+              { id: 'comparison', label: 'Monthly Comparison' },
+              { id: 'difference', label: 'Growth Delta' },
+              { id: 'cumulative', label: 'Cumulative' },
+            ].map((btn) => {
+              const isActive = chartView === btn.id;
+              return (
+                <button
+                  key={btn.id}
+                  type="button"
+                  onClick={() => setChartView(btn.id)}
+                  className="btn btn-sm border-0 py-1 px-2.5"
+                  style={{
+                    background: isActive ? '#ffffff' : 'transparent',
+                    color: isActive ? '#09090b' : '#8e8e93',
+                    fontSize: '0.72rem',
+                    fontWeight: isActive ? 600 : 500,
+                    borderRadius: 6,
+                    transition: 'all 0.15s ease',
+                  }}
                 >
-                  {formatNumber(maxChartValue * pct)}
-                </text>
-              </g>
-            );
-          })}
+                  {btn.label}
+                </button>
+              );
+            })}
+          </div>
+        </div>
 
-          {/* Bars / Lines */}
-          {chartData.map((d, i) => {
-            const colWidth = 46;
-            const x = 40 + i * colWidth;
-            const isHovered = hoveredMonth === d.month;
+        {/* Interactive SVG Chart */}
+        <div className="position-relative w-100" style={{ height: 260 }}>
+          <svg className="w-100 h-100" viewBox="0 0 620 240" preserveAspectRatio="none">
+            {/* Gridlines & Y-Axis Labels */}
+            {ticks.map((pct, i) => {
+              const y = 200 - pct * 170;
+              return (
+                <g key={i}>
+                  <line
+                    x1="45"
+                    y1={y}
+                    x2="610"
+                    y2={y}
+                    stroke="rgba(255, 255, 255, 0.05)"
+                    strokeDasharray="3 3"
+                  />
+                  <text
+                    x="38"
+                    y={y + 3}
+                    textAnchor="end"
+                    fill="#52525b"
+                    fontSize="9"
+                    fontFamily="monospace"
+                  >
+                    {formatNumber(Math.round(maxChartValue * pct))}
+                  </text>
+                </g>
+              );
+            })}
 
-            if (chartView === 'comparison') {
-              const prevH = Math.max(3, (d.prev / maxChartValue) * 170);
-              const currH = Math.max(3, (d.curr / maxChartValue) * 170);
+            {/* Bars */}
+            {chartData.map((d, i) => {
+              const colWidth = 46;
+              const x = 54 + i * colWidth;
+              const isHovered = hoveredMonth === d.month;
+
+              if (chartView === 'comparison') {
+                const prevH = Math.max(2, (d.prev / maxChartValue) * 170);
+                const currH = Math.max(2, (d.curr / maxChartValue) * 170);
+
+                return (
+                  <g
+                    key={d.month}
+                    onMouseEnter={() => setHoveredMonth(d.month)}
+                    onMouseLeave={() => setHoveredMonth(null)}
+                    style={{ cursor: 'pointer' }}
+                  >
+                    {isHovered && (
+                      <rect
+                        x={x - 2}
+                        y="30"
+                        width={36}
+                        height={175}
+                        fill="rgba(255, 255, 255, 0.04)"
+                        rx="4"
+                      />
+                    )}
+
+                    {/* Previous Year Pill */}
+                    <rect
+                      x={x}
+                      y={200 - prevH}
+                      width={13}
+                      height={prevH}
+                      rx={3}
+                      fill={isHovered ? '#636366' : '#3a3a3c'}
+                    />
+
+                    {/* Current Year Pill */}
+                    <rect
+                      x={x + 15}
+                      y={200 - currH}
+                      width={13}
+                      height={currH}
+                      rx={3}
+                      fill={isHovered ? '#ffffff' : '#e4e4e7'}
+                    />
+
+                    {/* Month Label */}
+                    <text
+                      x={x + 14}
+                      y="225"
+                      textAnchor="middle"
+                      fill={isHovered ? '#ffffff' : '#71717a'}
+                      fontSize="9.5"
+                      fontWeight={isHovered ? '600' : '400'}
+                    >
+                      {d.month}
+                    </text>
+                  </g>
+                );
+              }
+
+              if (chartView === 'difference') {
+                const isPositive = d.diff >= 0;
+                const diffH = Math.max(3, (Math.abs(d.diff) / maxChartValue) * 170);
+                const color = isPositive ? '#10b981' : '#f43f5e';
+
+                return (
+                  <g
+                    key={d.month}
+                    onMouseEnter={() => setHoveredMonth(d.month)}
+                    onMouseLeave={() => setHoveredMonth(null)}
+                    style={{ cursor: 'pointer' }}
+                  >
+                    {isHovered && (
+                      <rect
+                        x={x - 2}
+                        y="30"
+                        width={32}
+                        height={175}
+                        fill="rgba(255, 255, 255, 0.04)"
+                        rx="4"
+                      />
+                    )}
+                    <rect
+                      x={x + 4}
+                      y={200 - diffH}
+                      width={18}
+                      height={diffH}
+                      rx={3}
+                      fill={color}
+                      opacity={isHovered ? 1 : 0.85}
+                    />
+                    <text
+                      x={x + 13}
+                      y="225"
+                      textAnchor="middle"
+                      fill={isHovered ? '#ffffff' : '#71717a'}
+                      fontSize="9.5"
+                    >
+                      {d.month}
+                    </text>
+                  </g>
+                );
+              }
+
+              // Cumulative View
+              const prevH = Math.max(2, (d.cumPrev / maxChartValue) * 170);
+              const currH = Math.max(2, (d.cumCurr / maxChartValue) * 170);
 
               return (
                 <g
@@ -103,183 +220,85 @@ export default function FinancialChart({ chartData = [], maxChartValue = 1000, f
                     <rect
                       x={x - 2}
                       y="30"
-                      width={38}
+                      width={36}
                       height={175}
                       fill="rgba(255, 255, 255, 0.04)"
                       rx="4"
                     />
                   )}
-                  <rect
-                    x={x}
-                    y={200 - prevH}
-                    width={14}
-                    height={prevH}
-                    rx={3}
-                    fill={isHovered ? '#52525b' : '#3f3f46'}
-                    opacity={0.8}
-                  />
-                  <rect
-                    x={x + 16}
-                    y={200 - currH}
-                    width={14}
-                    height={currH}
-                    rx={3}
-                    fill={isHovered ? '#38bdf8' : '#0ea5e9'}
-                    opacity={0.95}
-                  />
+                  <rect x={x} y={200 - prevH} width={13} height={prevH} rx={3} fill="#3a3a3c" />
+                  <rect x={x + 15} y={200 - currH} width={13} height={currH} rx={3} fill="#ffffff" />
                   <text
-                    x={x + 15}
-                    y={225}
+                    x={x + 14}
+                    y="225"
                     textAnchor="middle"
                     fill={isHovered ? '#ffffff' : '#71717a'}
-                    fontSize="10"
-                    fontWeight={isHovered ? '600' : '400'}
+                    fontSize="9.5"
                   >
                     {d.month}
                   </text>
                 </g>
               );
-            }
+            })}
+          </svg>
 
-            if (chartView === 'difference') {
-              const isPositive = d.diff >= 0;
-              const diffH = Math.max(4, (Math.abs(d.diff) / maxChartValue) * 170);
-              const color = isPositive ? '#10b981' : '#f43f5e';
-
+          {/* Hover Tooltip */}
+          {hoveredMonth && (
+            (() => {
+              const mData = chartData.find((d) => d.month === hoveredMonth);
+              if (!mData) return null;
               return (
-                <g
-                  key={d.month}
-                  onMouseEnter={() => setHoveredMonth(d.month)}
-                  onMouseLeave={() => setHoveredMonth(null)}
-                  style={{ cursor: 'pointer' }}
+                <div
+                  className="position-absolute p-2.5 rounded-2 shadow-2xl"
+                  style={{
+                    top: 10,
+                    right: 20,
+                    background: '#16161c',
+                    border: '1px solid rgba(255, 255, 255, 0.15)',
+                    fontSize: '0.74rem',
+                    zIndex: 10,
+                    minWidth: 160,
+                  }}
                 >
-                  {isHovered && (
-                    <rect
-                      x={x - 4}
-                      y="30"
-                      width={34}
-                      height={175}
-                      fill="rgba(255, 255, 255, 0.04)"
-                      rx="4"
-                    />
-                  )}
-                  <rect
-                    x={x + 3}
-                    y={200 - diffH}
-                    width={20}
-                    height={diffH}
-                    rx={3}
-                    fill={color}
-                    opacity={isHovered ? 1 : 0.8}
-                  />
-                  <text
-                    x={x + 13}
-                    y={225}
-                    textAnchor="middle"
-                    fill={isHovered ? '#ffffff' : '#71717a'}
-                    fontSize="10"
-                  >
-                    {d.month}
-                  </text>
-                </g>
+                  <div className="fw-bold text-white mb-1.5">{mData.month} Overview</div>
+                  <div className="d-flex justify-content-between text-muted mb-1">
+                    <span>Prev Year:</span>
+                    <span className="text-white font-mono">{formatCurrency(mData.prev)}</span>
+                  </div>
+                  <div className="d-flex justify-content-between text-muted mb-1.5">
+                    <span>Curr Year:</span>
+                    <span className="text-white font-mono">{formatCurrency(mData.curr)}</span>
+                  </div>
+                  <div className="d-flex justify-content-between pt-1 border-top border-secondary border-opacity-25">
+                    <span>Delta:</span>
+                    <span className="font-mono" style={{ color: mData.diff >= 0 ? '#34d399' : '#fb7185' }}>
+                      {mData.diff >= 0 ? '+' : ''}
+                      {formatCurrency(mData.diff)}
+                    </span>
+                  </div>
+                </div>
               );
-            }
-
-            // Cumulative View
-            const prevH = Math.max(3, (d.cumPrev / maxChartValue) * 170);
-            const currH = Math.max(3, (d.cumCurr / maxChartValue) * 170);
-
-            return (
-              <g
-                key={d.month}
-                onMouseEnter={() => setHoveredMonth(d.month)}
-                onMouseLeave={() => setHoveredMonth(null)}
-                style={{ cursor: 'pointer' }}
-              >
-                {isHovered && (
-                  <rect
-                    x={x - 2}
-                    y="30"
-                    width={38}
-                    height={175}
-                    fill="rgba(255, 255, 255, 0.04)"
-                    rx="4"
-                  />
-                )}
-                <rect x={x} y={200 - prevH} width={14} height={prevH} rx={3} fill="#3f3f46" />
-                <rect x={x + 16} y={200 - currH} width={14} height={currH} rx={3} fill="#10b981" />
-                <text
-                  x={x + 15}
-                  y={225}
-                  textAnchor="middle"
-                  fill={isHovered ? '#ffffff' : '#71717a'}
-                  fontSize="10"
-                >
-                  {d.month}
-                </text>
-              </g>
-            );
-          })}
-        </svg>
-
-        {/* Tooltip on Hover */}
-        {hoveredMonth && (
-          (() => {
-            const mData = chartData.find((d) => d.month === hoveredMonth);
-            if (!mData) return null;
-            return (
-              <div
-                className="position-absolute p-2.5 rounded-2 shadow-xl"
-                style={{
-                  top: 10,
-                  right: 20,
-                  background: '#1c1c24',
-                  border: '1px solid rgba(255, 255, 255, 0.15)',
-                  fontSize: '0.75rem',
-                  zIndex: 10,
-                  minWidth: 160,
-                }}
-              >
-                <div className="fw-bold text-white mb-1">{mData.month} Overview</div>
-                <div className="d-flex justify-content-between text-muted mb-0.5">
-                  <span>Prev Year:</span>
-                  <span className="text-white font-mono">{formatCurrency(mData.prev)}</span>
-                </div>
-                <div className="d-flex justify-content-between text-muted mb-1">
-                  <span>Curr Year:</span>
-                  <span className="text-white font-mono" style={{ color: '#38bdf8' }}>
-                    {formatCurrency(mData.curr)}
-                  </span>
-                </div>
-                <div className="d-flex justify-content-between pt-1 border-top border-secondary border-opacity-25">
-                  <span>Delta:</span>
-                  <span className="font-mono" style={{ color: mData.diff >= 0 ? '#34d399' : '#fb7185' }}>
-                    {mData.diff >= 0 ? '+' : ''}
-                    {formatCurrency(mData.diff)}
-                  </span>
-                </div>
-              </div>
-            );
-          })()
-        )}
+            })()
+          )}
+        </div>
       </div>
 
-      {/* Legend */}
+      {/* Legend Matching Screenshot */}
       <div
-        className="d-flex align-items-center justify-content-center gap-4 mt-3 pt-3 border-top"
-        style={{ borderColor: 'rgba(255, 255, 255, 0.06)', fontSize: '0.78rem' }}
+        className="d-flex align-items-center justify-content-center gap-4 pt-3 border-top"
+        style={{ borderColor: 'rgba(255, 255, 255, 0.06)', fontSize: '0.74rem' }}
       >
-        <div className="d-flex align-items-center gap-2">
-          <span style={{ width: 10, height: 10, borderRadius: 2, background: '#3f3f46' }}></span>
-          <span className="text-muted">Previous Year</span>
+        <div className="d-flex align-items-center gap-1.5">
+          <span style={{ width: 8, height: 8, borderRadius: '50%', background: '#3a3a3c' }}></span>
+          <span style={{ color: '#8e8e93' }}>Previous Year</span>
         </div>
-        <div className="d-flex align-items-center gap-2">
-          <span style={{ width: 10, height: 10, borderRadius: 2, background: '#0ea5e9' }}></span>
-          <span className="text-muted">Current Year</span>
+        <div className="d-flex align-items-center gap-1.5">
+          <span style={{ width: 8, height: 8, borderRadius: '50%', background: '#ffffff' }}></span>
+          <span style={{ color: '#8e8e93' }}>Current Year</span>
         </div>
-        <div className="d-flex align-items-center gap-2">
-          <span style={{ width: 10, height: 10, borderRadius: 2, background: '#10b981' }}></span>
-          <span className="text-muted">Growth Spread</span>
+        <div className="d-flex align-items-center gap-1.5">
+          <span style={{ width: 8, height: 8, borderRadius: '50%', background: '#636366' }}></span>
+          <span style={{ color: '#8e8e93' }}>Growth Spread</span>
         </div>
       </div>
     </div>

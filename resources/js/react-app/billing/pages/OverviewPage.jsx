@@ -2,7 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import {
   DollarSign,
-  CreditCard,
+  Calendar,
   Zap,
   AlertTriangle,
   Wifi,
@@ -31,31 +31,27 @@ export default function OverviewPage({
       exit={{ opacity: 0, y: -8 }}
       transition={{ duration: 0.18 }}
     >
-      {/* ── 6 KEY TELEMETRY CARDS ROW ── */}
+      {/* ── 6 KEY TELEMETRY CARDS ROW MATCHING SCREENSHOT ── */}
       <div className="row g-3 mb-4">
-        {/* Total Revenue */}
+        {/* Total Realized */}
         <div className="col-12 col-sm-6 col-xl-2">
           <MetricCard
             title="Total Realized"
             value={formatCurrency(totalRevenue)}
             subtitle="Broadband + Hotspot"
             icon={DollarSign}
-            iconColor="#10b981"
-            trendText="YTD Realized"
-            trendType="positive"
+            badgeText="YTD Realized"
           />
         </div>
 
-        {/* Monthly Rent MRR */}
+        {/* Monthly Rent (MFR) */}
         <div className="col-12 col-sm-6 col-xl-2">
           <MetricCard
-            title="Monthly Rent (MRR)"
+            title="Monthly Rent (MFR)"
             value={formatCurrency(billInfo.monthly_rent)}
             subtitle="Target monthly billing"
-            icon={CreditCard}
-            iconColor="#38bdf8"
-            trendText="Expected"
-            trendType="neutral"
+            icon={Calendar}
+            badgeText="Expected"
           />
         </div>
 
@@ -66,24 +62,18 @@ export default function OverviewPage({
             value={formatCurrency(billInfo.today_paid_amount)}
             subtitle="Cash + Gateway stream"
             icon={Zap}
-            iconColor="#fbbf24"
-            valueColor="#34d399"
-            trendText="Live"
-            trendType="positive"
+            badgeText="Live"
           />
         </div>
 
-        {/* Active Due Amount */}
+        {/* Pending Active Due */}
         <div className="col-12 col-sm-6 col-xl-2">
           <MetricCard
             title="Pending Active Due"
             value={formatCurrency(billInfo.due_amount)}
             subtitle="Outstanding receivables"
             icon={AlertTriangle}
-            iconColor="#f43f5e"
-            valueColor="#fb7185"
-            trendText="Overdue"
-            trendType="negative"
+            badgeText="Overdue"
           />
         </div>
 
@@ -94,24 +84,19 @@ export default function OverviewPage({
             value={formatCurrency(billInfo.hotspot_total)}
             subtitle={`Today: ${formatCurrency(billInfo.hotspot_today)}`}
             icon={Wifi}
-            iconColor="#c084fc"
-            trendText="Vouchers"
-            trendType="neutral"
+            badgeText="Vouchers"
           />
         </div>
 
-        {/* Subscriber Health Ratio */}
+        {/* Subscriber Health */}
         <div className="col-12 col-sm-6 col-xl-2">
           <MetricCard
             title="Subscriber Health"
             value={`${activePercent}%`}
             subtitle="Active subscriber ratio"
             icon={Users}
-            iconColor="#10b981"
-            progressPercent={activePercent}
-            progressColor="#10b981"
-            trendText={`${formatNumber(customersData.active)} Active`}
-            trendType="positive"
+            badgeText="Active"
+            badgeDot={true}
           />
         </div>
       </div>
@@ -140,23 +125,35 @@ export default function OverviewPage({
       {billInfo.by_status && (
         <div
           className="card p-3.5 p-md-4 mb-4"
-          style={{ background: '#121216', border: '1px solid rgba(255, 255, 255, 0.08)' }}
+          style={{
+            background: '#111115',
+            border: '1px solid rgba(255, 255, 255, 0.08)',
+            borderRadius: 12,
+          }}
         >
           <div className="d-flex align-items-center gap-2 mb-3">
-            <Layers size={18} style={{ color: '#c084fc' }} />
-            <h5 className="fw-bold mb-0 text-white" style={{ fontSize: '1rem', letterSpacing: '-0.01em' }}>
+            <Layers size={17} style={{ color: '#d1d1d6' }} />
+            <h5 className="fw-bold mb-0 text-white" style={{ fontSize: '0.96rem', letterSpacing: '-0.01em' }}>
               Billing Matrix by Subscriber Status
             </h5>
           </div>
 
           <div className="table-responsive">
-            <table className="table mb-0 align-middle">
+            <table className="table mb-0 align-middle" style={{ '--bs-table-bg': 'transparent', color: '#e4e4e7' }}>
               <thead>
-                <tr>
-                  <th style={{ width: '25%' }}>Status Group</th>
-                  <th style={{ width: '25%' }}>Monthly Rent</th>
-                  <th style={{ width: '25%' }}>Advance Paid</th>
-                  <th style={{ width: '25%' }}>Pending Due Amount</th>
+                <tr style={{ borderBottom: '1px solid rgba(255, 255, 255, 0.08)' }}>
+                  <th style={{ width: '25%', color: '#71717a', fontSize: '0.72rem', letterSpacing: '0.06em', fontWeight: 600, background: 'transparent' }}>
+                    STATUS GROUP
+                  </th>
+                  <th style={{ width: '25%', color: '#71717a', fontSize: '0.72rem', letterSpacing: '0.06em', fontWeight: 600, background: 'transparent' }}>
+                    MONTHLY RENT
+                  </th>
+                  <th style={{ width: '25%', color: '#71717a', fontSize: '0.72rem', letterSpacing: '0.06em', fontWeight: 600, background: 'transparent' }}>
+                    ADVANCE PAID
+                  </th>
+                  <th style={{ width: '25%', color: '#71717a', fontSize: '0.72rem', letterSpacing: '0.06em', fontWeight: 600, background: 'transparent' }}>
+                    PENDING DUE AMOUNT
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -170,33 +167,41 @@ export default function OverviewPage({
                   const color = statusColors[st] || '#ffffff';
 
                   return (
-                    <tr key={st}>
+                    <tr key={st} style={{ borderBottom: '1px solid rgba(255, 255, 255, 0.04)' }}>
                       <td>
                         <span
-                          className="badge text-capitalize"
+                          className="badge text-capitalize d-inline-flex align-items-center gap-1.5"
                           style={{
-                            background: '#18181c',
+                            background: '#16161c',
                             color,
-                            border: `1px solid ${color}40`,
-                            fontSize: '0.75rem',
+                            border: `1px solid ${color}30`,
+                            fontSize: '0.74rem',
+                            fontWeight: 500,
+                            padding: '3px 8px',
+                            borderRadius: 5,
                           }}
                         >
                           <span
                             style={{
                               display: 'inline-block',
-                              width: 6,
-                              height: 6,
+                              width: 5,
+                              height: 5,
                               borderRadius: '50%',
                               background: color,
-                              marginRight: 6,
                             }}
                           ></span>
                           {st}
                         </span>
                       </td>
-                      <td className="font-mono text-white fw-semibold">{formatCurrency(row.monthly_rent)}</td>
-                      <td className="font-mono text-success">{formatCurrency(row.advance)}</td>
-                      <td className="font-mono text-warning">{formatCurrency(row.due_amount)}</td>
+                      <td className="font-mono text-white fw-semibold" style={{ fontSize: '0.84rem' }}>
+                        {formatCurrency(row.monthly_rent)}
+                      </td>
+                      <td className="font-mono text-success" style={{ fontSize: '0.84rem' }}>
+                        {formatCurrency(row.advance)}
+                      </td>
+                      <td className="font-mono text-warning" style={{ fontSize: '0.84rem' }}>
+                        {formatCurrency(row.due_amount)}
+                      </td>
                     </tr>
                   );
                 })}

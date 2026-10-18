@@ -38,8 +38,9 @@ export default function RouterCard({
     <div
       className="card p-3.5 h-100 hover-lift d-flex flex-column justify-content-between"
       style={{
-        background: '#121216',
-        border: `1px solid ${isOnline ? 'rgba(255, 255, 255, 0.08)' : 'rgba(244, 63, 94, 0.2)'}`,
+        background: '#111115',
+        border: `1px solid ${isOnline ? 'rgba(255, 255, 255, 0.08)' : 'rgba(244, 63, 94, 0.25)'}`,
+        borderRadius: 12,
       }}
     >
       <div>
@@ -272,8 +273,14 @@ export default function RouterCard({
           <button
             onClick={() => onPingTest(router)}
             disabled={isPinging}
-            className="btn btn-sm btn-secondary p-1.5 px-2 d-inline-flex align-items-center gap-1"
-            style={{ fontSize: '0.72rem' }}
+            className="btn btn-sm p-1.5 px-2 d-inline-flex align-items-center gap-1"
+            style={{
+              background: '#16161b',
+              border: '1px solid rgba(255, 255, 255, 0.1)',
+              color: '#e4e4e7',
+              borderRadius: 6,
+              fontSize: '0.72rem',
+            }}
             title="Test socket latency"
           >
             <Activity size={12} className={isPinging ? 'animate-spin' : ''} style={{ color: '#38bdf8' }} />
@@ -284,19 +291,31 @@ export default function RouterCard({
           <button
             onClick={() => onSyncRouter(router.id)}
             disabled={isSyncing || !router.is_connected}
-            className="btn btn-sm btn-secondary p-1.5 px-2 d-inline-flex align-items-center gap-1"
-            style={{ fontSize: '0.72rem' }}
+            className="btn btn-sm p-1.5 px-2 d-inline-flex align-items-center gap-1"
+            style={{
+              background: '#16161b',
+              border: '1px solid rgba(255, 255, 255, 0.1)',
+              color: '#e4e4e7',
+              borderRadius: 6,
+              fontSize: '0.72rem',
+            }}
             title="Synchronize subscribers & profiles"
           >
-            <RefreshCw size={12} className={isSyncing ? 'animate-spin' : ''} style={{ color: '#10b981' }} />
+            <RefreshCw size={12} className={isSyncing ? 'animate-spin' : ''} style={{ color: '#34d399' }} />
             <span>{isSyncing ? 'Syncing...' : 'Sync'}</span>
           </button>
 
           {/* Active Sessions */}
           <button
             onClick={() => onOpenSessions(router.router_name)}
-            className="btn btn-sm btn-secondary p-1.5 px-2 d-inline-flex align-items-center gap-1"
-            style={{ fontSize: '0.72rem' }}
+            className="btn btn-sm p-1.5 px-2 d-inline-flex align-items-center gap-1"
+            style={{
+              background: '#16161b',
+              border: '1px solid rgba(255, 255, 255, 0.1)',
+              color: '#e4e4e7',
+              borderRadius: 6,
+              fontSize: '0.72rem',
+            }}
             title="View active subscriber sessions"
           >
             <Radio size={12} style={{ color: '#c084fc' }} />
@@ -308,16 +327,28 @@ export default function RouterCard({
           {/* Reboot */}
           <button
             onClick={() => onRebootClick(router)}
-            className="btn btn-sm btn-secondary p-1.5"
+            className="btn btn-sm p-1.5"
+            style={{
+              background: '#16161b',
+              border: '1px solid rgba(255, 255, 255, 0.1)',
+              color: '#fb923c',
+              borderRadius: 6,
+            }}
             title="Reboot router"
           >
-            <RotateCcw size={12} style={{ color: '#fb923c' }} />
+            <RotateCcw size={12} />
           </button>
 
           {/* Edit */}
           <button
             onClick={() => onEditClick(router)}
-            className="btn btn-sm btn-secondary p-1.5"
+            className="btn btn-sm p-1.5"
+            style={{
+              background: '#16161b',
+              border: '1px solid rgba(255, 255, 255, 0.1)',
+              color: '#e4e4e7',
+              borderRadius: 6,
+            }}
             title="Edit credentials"
           >
             <Edit2 size={12} />
@@ -326,7 +357,13 @@ export default function RouterCard({
           {/* Delete */}
           <button
             onClick={() => onDeleteClick(router)}
-            className="btn btn-sm btn-secondary p-1.5 text-danger"
+            className="btn btn-sm p-1.5"
+            style={{
+              background: '#16161b',
+              border: '1px solid rgba(244, 63, 94, 0.3)',
+              color: '#fb7185',
+              borderRadius: 6,
+            }}
             title="Delete router"
           >
             <Trash2 size={12} />

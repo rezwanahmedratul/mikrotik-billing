@@ -1,5 +1,5 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import {
   Activity,
   PlusCircle,
@@ -9,6 +9,8 @@ import {
   RefreshCw,
   BarChart3,
   Users,
+  Settings,
+  ChevronDown,
 } from 'lucide-react';
 
 export default function DashboardHeader({
@@ -21,133 +23,244 @@ export default function DashboardHeader({
   lastUpdated,
   routerCount = 0,
 }) {
+  const [isIntervalOpen, setIsIntervalOpen] = useState(false);
+
+  const intervals = [
+    { value: 0, label: 'Manual' },
+    { value: 15, label: 'Every 15s' },
+    { value: 30, label: 'Every 30s' },
+    { value: 60, label: 'Every 60s' },
+  ];
+
+  const currentIntervalLabel = intervals.find((i) => i.value === refreshInterval)?.label || 'Manual';
+
   return (
     <>
-      {/* Top Deck */}
+      {/* ─────────────────────────────────────────────────────────────
+          TOP HEADER COMMAND DECK
+      ───────────────────────────────────────────────────────────── */}
       <div
         className="d-flex flex-column flex-lg-row align-items-lg-center justify-content-between gap-3 mb-4 p-3.5 rounded-3"
         style={{
-          background: 'rgba(18, 18, 22, 0.75)',
+          background: '#111115',
           border: '1px solid rgba(255, 255, 255, 0.08)',
-          backdropFilter: 'blur(12px)',
         }}
       >
+        {/* Left: Brand / Hub Identity */}
         <div className="d-flex align-items-center gap-3">
           <div
-            className="d-flex align-items-center justify-content-center rounded-3"
-            style={{ width: 44, height: 44, background: '#1c1c24', border: '1px solid rgba(255, 255, 255, 0.12)' }}
+            className="d-flex align-items-center justify-content-center rounded-3 flex-shrink-0"
+            style={{
+              width: 42,
+              height: 42,
+              background: '#16161c',
+              border: '1px solid rgba(255, 255, 255, 0.1)',
+            }}
           >
-            <Activity size={22} style={{ color: '#10b981' }} />
+            <Activity size={20} className="text-white" />
           </div>
           <div>
             <div className="d-flex align-items-center gap-2">
-              <h4 className="fw-bold mb-0 text-white" style={{ fontSize: '1.25rem', letterSpacing: '-0.02em' }}>
+              <h4 className="fw-bold mb-0 text-white" style={{ fontSize: '1.2rem', letterSpacing: '-0.02em' }}>
                 ISP Operations Command Hub
               </h4>
               <span
-                className="badge"
+                className="badge d-inline-flex align-items-center gap-1.5 py-1 px-2"
                 style={{
-                  background: 'rgba(16, 185, 129, 0.12)',
-                  color: '#34d399',
-                  border: '1px solid rgba(16, 185, 129, 0.3)',
+                  background: 'rgba(255, 255, 255, 0.06)',
+                  color: '#e4e4e7',
+                  border: '1px solid rgba(255, 255, 255, 0.12)',
+                  fontSize: '0.68rem',
+                  fontWeight: 500,
+                  borderRadius: 6,
                 }}
               >
                 <span
-                  className="glow-dot-emerald me-1.5"
                   style={{
                     display: 'inline-block',
-                    width: 6,
-                    height: 6,
+                    width: 5,
+                    height: 5,
                     borderRadius: '50%',
                     background: '#10b981',
-                    boxShadow: '0 0 8px #10b981',
+                    boxShadow: '0 0 6px #10b981',
                   }}
                 ></span>
                 Live Telemetry
               </span>
             </div>
-            <p className="mb-0 text-muted small" style={{ fontSize: '0.8rem', color: '#a1a1aa' }}>
-              Real-time financial telemetry, subscriber lifecycle, and MikroTik NOC control
+            <p className="mb-0 small" style={{ fontSize: '0.78rem', color: '#8e8e93' }}>
+              Real-time financial telemetry, subscriber life cycle, and MikroTik NOC control
             </p>
           </div>
         </div>
 
-        {/* Quick Action Launcher Buttons */}
+        {/* Right: Quick Actions Bar matching screenshot */}
         <div className="d-flex flex-wrap align-items-center gap-2">
+          {/* New Customer: Solid White Pill Button */}
           <a
             href="/billing/create-customer"
-            className="btn btn-sm btn-primary d-inline-flex align-items-center gap-1.5 shadow-sm"
+            className="btn btn-sm d-inline-flex align-items-center gap-1.5 px-3 py-1.5 text-decoration-none shadow-sm"
+            style={{
+              background: '#ffffff',
+              color: '#09090b',
+              fontWeight: 600,
+              fontSize: '0.8rem',
+              borderRadius: 8,
+              border: 'none',
+              transition: 'background 0.15s ease',
+            }}
           >
-            <PlusCircle size={15} />
+            <PlusCircle size={15} style={{ color: '#09090b' }} />
             <span>New Customer</span>
           </a>
+
+          {/* Collect Bill Button */}
           <a
             href="/billing/payment-collection"
-            className="btn btn-sm btn-secondary d-inline-flex align-items-center gap-1.5"
+            className="btn btn-sm d-inline-flex align-items-center gap-1.5 px-3 py-1.5 text-decoration-none"
+            style={{
+              background: '#16161b',
+              border: '1px solid rgba(255, 255, 255, 0.1)',
+              color: '#e4e4e7',
+              fontSize: '0.8rem',
+              fontWeight: 500,
+              borderRadius: 8,
+            }}
           >
-            <Receipt size={15} style={{ color: '#34d399' }} />
+            <Receipt size={14} style={{ color: '#a1a1aa' }} />
             <span>Collect Bill</span>
           </a>
+
+          {/* MikroTik NOC Button */}
           <button
             onClick={() => setActiveTab('mikrotik')}
-            className="btn btn-sm btn-secondary d-inline-flex align-items-center gap-1.5"
+            className="btn btn-sm d-inline-flex align-items-center gap-1.5 px-3 py-1.5"
+            style={{
+              background: activeTab === 'mikrotik' ? '#1f1f26' : '#16161b',
+              border: '1px solid rgba(255, 255, 255, 0.1)',
+              color: '#e4e4e7',
+              fontSize: '0.8rem',
+              fontWeight: 500,
+              borderRadius: 8,
+            }}
           >
-            <Server size={15} style={{ color: '#38bdf8' }} />
+            <Server size={14} style={{ color: '#a1a1aa' }} />
             <span>MikroTik NOC</span>
           </button>
+
+          {/* Invoices Button */}
           <a
             href="/billing/payment-invoice"
-            className="btn btn-sm btn-secondary d-inline-flex align-items-center gap-1.5"
+            className="btn btn-sm d-inline-flex align-items-center gap-1.5 px-3 py-1.5 text-decoration-none"
+            style={{
+              background: '#16161b',
+              border: '1px solid rgba(255, 255, 255, 0.1)',
+              color: '#e4e4e7',
+              fontSize: '0.8rem',
+              fontWeight: 500,
+              borderRadius: 8,
+            }}
           >
-            <FileText size={15} style={{ color: '#c084fc' }} />
+            <FileText size={14} style={{ color: '#a1a1aa' }} />
             <span>Invoices</span>
           </a>
 
-          {/* Refresh controls */}
-          <div className="d-flex align-items-center gap-1 ms-lg-2 ps-lg-2 border-start border-secondary border-opacity-25">
-            <select
-              className="form-select form-select-sm"
-              value={refreshInterval}
-              onChange={(e) => setRefreshInterval(Number(e.target.value))}
-              style={{
-                width: 'auto',
-                fontSize: '0.75rem',
-                padding: '0.3rem 0.6rem',
-                background: '#141418',
-                borderColor: 'rgba(255,255,255,0.12)',
-                color: '#a1a1aa',
-              }}
-              title="Auto-refresh interval"
-            >
-              <option value={0}>Manual</option>
-              <option value={15}>Every 15s</option>
-              <option value={30}>Every 30s</option>
-              <option value={60}>Every 60s</option>
-            </select>
+          {/* Refresh Controls: Custom Minimal Dropdown Button */}
+          <div className="position-relative">
             <button
-              onClick={onRefresh}
-              disabled={isRefreshing}
-              className="btn btn-sm btn-secondary d-inline-flex align-items-center justify-content-center p-2"
-              title={`Last updated ${lastUpdated.toLocaleTimeString()}`}
+              onClick={() => setIsIntervalOpen(!isIntervalOpen)}
+              className="btn btn-sm d-inline-flex align-items-center gap-1.5 px-3 py-1.5"
+              style={{
+                background: '#16161b',
+                border: '1px solid rgba(255, 255, 255, 0.1)',
+                color: '#e4e4e7',
+                fontSize: '0.8rem',
+                fontWeight: 500,
+                borderRadius: 8,
+              }}
+              title="Auto-refresh setting"
             >
-              <RefreshCw size={14} className={isRefreshing ? 'animate-spin' : ''} />
+              <Settings size={14} style={{ color: '#a1a1aa' }} />
+              <span>{currentIntervalLabel}</span>
+              <ChevronDown size={12} style={{ color: '#71717a' }} />
             </button>
+
+            <AnimatePresence>
+              {isIntervalOpen && (
+                <motion.div
+                  initial={{ opacity: 0, y: 5 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 5 }}
+                  className="position-absolute end-0 mt-1 py-1 rounded-2 shadow-2xl z-50"
+                  style={{
+                    background: '#16161c',
+                    border: '1px solid rgba(255, 255, 255, 0.12)',
+                    minWidth: 130,
+                    zIndex: 100,
+                  }}
+                >
+                  {intervals.map((item) => (
+                    <button
+                      key={item.value}
+                      onClick={() => {
+                        setRefreshInterval(item.value);
+                        setIsIntervalOpen(false);
+                      }}
+                      className="dropdown-item px-3 py-1.5 small text-start d-flex align-items-center justify-content-between w-100 border-0"
+                      style={{
+                        background: refreshInterval === item.value ? 'rgba(255,255,255,0.08)' : 'transparent',
+                        color: refreshInterval === item.value ? '#ffffff' : '#a1a1aa',
+                        fontSize: '0.75rem',
+                      }}
+                    >
+                      <span>{item.label}</span>
+                      {refreshInterval === item.value && (
+                        <span style={{ width: 4, height: 4, borderRadius: '50%', background: '#ffffff' }}></span>
+                      )}
+                    </button>
+                  ))}
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
+
+          {/* Instant Manual Refresh Spinner */}
+          <button
+            onClick={onRefresh}
+            disabled={isRefreshing}
+            className="btn btn-sm d-inline-flex align-items-center justify-content-center p-2"
+            style={{
+              background: '#16161b',
+              border: '1px solid rgba(255, 255, 255, 0.1)',
+              color: '#e4e4e7',
+              borderRadius: 8,
+            }}
+            title={`Refresh data (Last updated ${lastUpdated.toLocaleTimeString()})`}
+          >
+            <RefreshCw size={14} className={isRefreshing ? 'animate-spin' : ''} />
+          </button>
         </div>
       </div>
 
-      {/* Mode Switcher Navigation Pills with Framer Motion Animated Layout Indicator */}
+      {/* ─────────────────────────────────────────────────────────────
+          TAB SWITCHER SEGMENTED BAR (MATCHING SCREENSHOT)
+      ───────────────────────────────────────────────────────────── */}
       <div
-        className="d-flex align-items-center gap-1 p-1.5 rounded-3 mb-4"
+        className="d-flex align-items-center gap-1.5 p-1 rounded-3 mb-4"
         style={{
-          background: '#101014',
+          background: '#111115',
           border: '1px solid rgba(255, 255, 255, 0.08)',
           width: 'fit-content',
         }}
       >
         {[
           { id: 'overview', label: 'Overview & Financials', icon: BarChart3 },
-          { id: 'mikrotik', label: 'MikroTik Control NOC', icon: Server, badge: routerCount ? `${routerCount} Routers` : null },
+          {
+            id: 'mikrotik',
+            label: 'MikroTik Control NOC',
+            icon: Server,
+            badge: routerCount ? `${routerCount} Routers` : '0 Routers',
+          },
           { id: 'subscribers', label: 'Subscribers & Resellers', icon: Users },
           { id: 'collections', label: 'Live Payment Stream', icon: Receipt },
         ].map((tab) => {
@@ -157,42 +270,36 @@ export default function DashboardHeader({
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className="mono-tab-pill position-relative"
+              className="position-relative d-inline-flex align-items-center gap-2 px-3 py-1.5"
               style={{
-                color: isActive ? '#ffffff' : '#a1a1aa',
-                background: 'transparent',
-                border: 'none',
+                color: isActive ? '#ffffff' : '#8e8e93',
+                background: isActive ? '#1c1c24' : 'transparent',
+                border: isActive ? '1px solid rgba(255, 255, 255, 0.14)' : '1px solid transparent',
+                borderRadius: 7,
+                fontSize: '0.8rem',
+                fontWeight: isActive ? 600 : 500,
+                cursor: 'pointer',
+                transition: 'all 0.15s ease',
               }}
             >
-              {isActive && (
-                <motion.div
-                  layoutId="activeDashboardTab"
-                  className="position-absolute top-0 start-0 end-0 bottom-0 rounded-2"
+              <Icon size={14} style={{ color: isActive ? '#ffffff' : '#71717a' }} />
+              <span>{tab.label}</span>
+              {tab.badge && (
+                <span
+                  className="badge font-mono"
                   style={{
-                    background: '#1c1c24',
-                    border: '1px solid rgba(255, 255, 255, 0.12)',
-                    zIndex: 0,
+                    background: isActive ? 'rgba(255, 255, 255, 0.12)' : 'rgba(255, 255, 255, 0.06)',
+                    color: isActive ? '#ffffff' : '#a1a1aa',
+                    border: '1px solid rgba(255, 255, 255, 0.1)',
+                    fontSize: '0.65rem',
+                    fontWeight: 600,
+                    padding: '2px 6px',
+                    borderRadius: 4,
                   }}
-                  transition={{ type: 'spring', stiffness: 450, damping: 35 }}
-                />
+                >
+                  {tab.badge}
+                </span>
               )}
-              <span className="position-relative d-inline-flex align-items-center gap-2" style={{ zIndex: 1 }}>
-                <Icon size={15} style={{ color: isActive ? '#fafafa' : '#71717a' }} />
-                <span>{tab.label}</span>
-                {tab.badge && (
-                  <span
-                    className="badge"
-                    style={{
-                      background: 'rgba(56, 189, 248, 0.15)',
-                      color: '#38bdf8',
-                      fontSize: '0.65rem',
-                      padding: '2px 5px',
-                    }}
-                  >
-                    {tab.badge}
-                  </span>
-                )}
-              </span>
             </button>
           );
         })}

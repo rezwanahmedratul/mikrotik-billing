@@ -25,17 +25,27 @@ export default function CollectionsPage({
     >
       <div
         className="card p-3.5 p-md-4"
-        style={{ background: '#121216', border: '1px solid rgba(255, 255, 255, 0.08)' }}
+        style={{
+          background: '#111115',
+          border: '1px solid rgba(255, 255, 255, 0.08)',
+          borderRadius: 12,
+        }}
       >
         <div className="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3 mb-3">
           <div className="d-flex align-items-center gap-2">
-            <Receipt size={18} style={{ color: '#10b981' }} />
-            <h5 className="fw-bold mb-0 text-white" style={{ fontSize: '1rem', letterSpacing: '-0.01em' }}>
+            <Receipt size={17} style={{ color: '#d1d1d6' }} />
+            <h5 className="fw-bold mb-0 text-white" style={{ fontSize: '0.96rem', letterSpacing: '-0.01em' }}>
               Real-Time Payment Collections Stream
             </h5>
             <span
-              className="badge"
-              style={{ background: '#18181c', color: '#a1a1aa', border: '1px solid rgba(255,255,255,0.08)' }}
+              className="badge font-mono"
+              style={{
+                background: '#18181f',
+                color: '#a1a1aa',
+                border: '1px solid rgba(255, 255, 255, 0.1)',
+                fontSize: '0.68rem',
+                borderRadius: 5,
+              }}
             >
               Latest {filteredCollections.length} Records
             </span>
@@ -43,7 +53,7 @@ export default function CollectionsPage({
 
           <div className="d-flex align-items-center gap-2">
             <div className="position-relative" style={{ minWidth: 240 }}>
-              <Search size={14} className="position-absolute text-muted" style={{ left: 10, top: 10 }} />
+              <Search size={14} className="position-absolute text-muted" style={{ left: 10, top: 9 }} />
               <input
                 type="text"
                 className="form-control form-control-sm ps-4"
@@ -53,14 +63,22 @@ export default function CollectionsPage({
                 style={{
                   fontSize: '0.78rem',
                   background: '#16161c',
-                  borderColor: 'rgba(255,255,255,0.1)',
+                  borderColor: 'rgba(255, 255, 255, 0.1)',
                   color: '#fafafa',
+                  borderRadius: 8,
                 }}
               />
             </div>
             <a
               href="/billing/collection-report"
-              className="btn btn-sm btn-secondary d-inline-flex align-items-center gap-1"
+              className="btn btn-sm d-inline-flex align-items-center gap-1.5 px-3 py-1.5 text-decoration-none"
+              style={{
+                background: '#16161b',
+                border: '1px solid rgba(255, 255, 255, 0.1)',
+                color: '#e4e4e7',
+                borderRadius: 8,
+                fontSize: '0.8rem',
+              }}
             >
               <span>Full Audit Report</span>
               <ChevronRight size={14} />
@@ -69,15 +87,15 @@ export default function CollectionsPage({
         </div>
 
         <div className="table-responsive">
-          <table className="table mb-0 align-middle">
+          <table className="table mb-0 align-middle" style={{ '--bs-table-bg': 'transparent', color: '#e4e4e7' }}>
             <thead>
-              <tr>
-                <th>Customer ID</th>
-                <th>Client Name</th>
-                <th>Package</th>
-                <th>Amount Collected</th>
-                <th>Payment Date</th>
-                <th>Method</th>
+              <tr style={{ borderBottom: '1px solid rgba(255, 255, 255, 0.08)' }}>
+                <th style={{ color: '#71717a', fontSize: '0.72rem', letterSpacing: '0.06em', fontWeight: 600, background: 'transparent' }}>CUSTOMER ID</th>
+                <th style={{ color: '#71717a', fontSize: '0.72rem', letterSpacing: '0.06em', fontWeight: 600, background: 'transparent' }}>CLIENT NAME</th>
+                <th style={{ color: '#71717a', fontSize: '0.72rem', letterSpacing: '0.06em', fontWeight: 600, background: 'transparent' }}>PACKAGE</th>
+                <th style={{ color: '#71717a', fontSize: '0.72rem', letterSpacing: '0.06em', fontWeight: 600, background: 'transparent' }}>AMOUNT COLLECTED</th>
+                <th style={{ color: '#71717a', fontSize: '0.72rem', letterSpacing: '0.06em', fontWeight: 600, background: 'transparent' }}>PAYMENT DATE</th>
+                <th style={{ color: '#71717a', fontSize: '0.72rem', letterSpacing: '0.06em', fontWeight: 600, background: 'transparent' }}>METHOD</th>
               </tr>
             </thead>
             <tbody>

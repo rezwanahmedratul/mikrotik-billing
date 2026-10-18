@@ -28,9 +28,8 @@ export default function SubscribersPage({ reseller = {}, customersData = {}, for
             value={formatNumber(reseller.total_resellers)}
             subtitle={`${reseller.active_resellers || 0} Active • ${reseller.suspended_resellers || 0} Suspended`}
             icon={Briefcase}
-            iconColor="#a1a1aa"
-            trendText="Network"
-            trendType="neutral"
+            badgeText="Network"
+            badgeColor="#a1a1aa"
           />
         </div>
 
@@ -40,9 +39,9 @@ export default function SubscribersPage({ reseller = {}, customersData = {}, for
             value={formatNumber(reseller.total_customers)}
             subtitle={`${reseller.active_customers || 0} Active Subscribers`}
             icon={Users}
-            iconColor="#38bdf8"
-            trendText="Subscribers"
-            trendType="positive"
+            badgeText="Subscribers"
+            badgeDot={true}
+            badgeColor="#34d399"
           />
         </div>
 
@@ -52,10 +51,9 @@ export default function SubscribersPage({ reseller = {}, customersData = {}, for
             value={formatCurrency(reseller.total_balance)}
             subtitle="Float balance in reseller wallets"
             icon={Wallet}
-            iconColor="#10b981"
-            valueColor="#34d399"
-            trendText="Deposit"
-            trendType="positive"
+            badgeText="Deposit"
+            badgeDot={true}
+            badgeColor="#34d399"
           />
         </div>
 
@@ -65,28 +63,41 @@ export default function SubscribersPage({ reseller = {}, customersData = {}, for
             value={formatCurrency(reseller.total_commission)}
             subtitle="Commissions earned by agents"
             icon={TrendingUp}
-            iconColor="#c084fc"
-            trendText="Commissions"
-            trendType="neutral"
+            badgeText="Commissions"
+            badgeColor="#c084fc"
           />
         </div>
       </div>
 
       {/* ── SUBSCRIBER MANAGEMENT CARDS ── */}
       <div
-        className="card p-4 mb-4"
-        style={{ background: '#121216', border: '1px solid rgba(255, 255, 255, 0.08)' }}
+        className="card p-3.5 p-md-4 mb-4"
+        style={{
+          background: '#111115',
+          border: '1px solid rgba(255, 255, 255, 0.08)',
+          borderRadius: 12,
+        }}
       >
         <div className="d-flex align-items-center justify-content-between mb-3">
           <div>
-            <h6 className="fw-bold text-white mb-0" style={{ fontSize: '1rem' }}>
+            <h6 className="fw-bold text-white mb-0" style={{ fontSize: '0.96rem', letterSpacing: '-0.01em' }}>
               Subscriber Lifecycle Management
             </h6>
-            <p className="text-muted small mb-0" style={{ fontSize: '0.78rem' }}>
+            <p className="small mb-0" style={{ fontSize: '0.76rem', color: '#71717a' }}>
               Direct access to account stages and provisioning status
             </p>
           </div>
-          <a href="/billing/customers" className="btn btn-sm btn-secondary d-inline-flex align-items-center gap-1.5">
+          <a
+            href="/billing/customers"
+            className="btn btn-sm d-inline-flex align-items-center gap-1.5 px-3 py-1.5 text-decoration-none"
+            style={{
+              background: '#16161b',
+              border: '1px solid rgba(255, 255, 255, 0.1)',
+              color: '#e4e4e7',
+              fontSize: '0.8rem',
+              borderRadius: 8,
+            }}
+          >
             <span>Customer Directory</span>
             <ExternalLink size={12} />
           </a>
