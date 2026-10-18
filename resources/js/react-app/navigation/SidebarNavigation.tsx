@@ -566,7 +566,7 @@ export const SidebarNavigation: React.FC = () => {
 
   return (
     <nav
-      className="mono-sidebar-root d-flex flex-column w-100 flex-grow-1"
+      className="mono-sidebar-root react-sidebar-navigation d-flex flex-column w-100 flex-grow-1"
       style={{
         width: '100%',
         padding: '10px 12px 20px 12px',

@@ -30,8 +30,16 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
-        if (request()->header('x-forwarded-proto') === 'https' || (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https') || request()->isSecure()) {
+        $isHttpsForwarded = request()->header('x-forwarded-proto') === 'https' 
+            || (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https') 
+            || request()->isSecure();
+
+        if ($isHttpsForwarded) {
             \Illuminate\Support\Facades\URL::forceScheme('https');
+            $host = request()->header('x-forwarded-host') ?: request()->getHost();
+            if ($host) {
+                \Illuminate\Support\Facades\URL::forceRootUrl('https://' . $host);
+            }
         }
         // ╔══════════════════════════════════════════════════════════════════╗
         // ║  Attribution Guard — required by the CodePagol Open Source      ║
