@@ -13,7 +13,7 @@
                 <a wire:navigate.hover wire:current="active" class="nav-link" href="{{ route('reseller.dashboard') }}"
                     role="button">
                     <div class="d-flex align-items-center">
-                        <span class="nav-link-icon"><i class="bi bi-speedometer2 me-2"></i></span>
+                        <span class="nav-link-icon"><i class="bi bi-speedometer2"></i></span>
                         <span class="nav-link-text ps-1">{{ __('Dashboard') }}</span>
                     </div>
                 </a>
@@ -158,7 +158,7 @@
                     role="button">
                     <div class="d-flex align-items-center">
                         <span class="nav-link-icon">
-                            <i class="bi bi-speedometer2 me-2"></i>
+                            <i class="bi bi-speedometer2"></i>
                         </span>
                         <span class="nav-link-text ps-1">{{ __('Dashboard') }}</span>
                     </div>
@@ -373,7 +373,7 @@
                 <a wire:navigate.hover wire:current="active" class="nav-link"
                     href="{{ route('admin.profit-summary') }}" role="button">
                     <div class="d-flex align-items-center">
-                        <span class="nav-link-icon"><i class="bi bi-graph-up-arrow text-success"></i></span>
+                        <span class="nav-link-icon"><i class="bi bi-graph-up-arrow"></i></span>
                         <span class="nav-link-text ps-1">{{ __('Profit & Loss') }}</span>
                     </div>
                 </a>

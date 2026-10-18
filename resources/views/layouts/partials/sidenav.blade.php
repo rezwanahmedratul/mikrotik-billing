@@ -67,71 +67,65 @@
             document.querySelector('.navbar-vertical').classList.add(`navbar-${navbarStyle}`);
         }
     </script>
-    <div class="d-flex align-items-center">
+    <div class="d-flex align-items-center justify-content-between px-3 py-3 border-bottom" style="border-color: rgba(255, 255, 255, 0.07) !important;">
+        <a class="navbar-brand d-flex align-items-center gap-2.5 p-0 m-0 text-decoration-none" href="{{url('/')}}">
+            @if (siteUrlSettings('site_logo'))
+                <img style="width: 140px; height: auto; max-height: 38px; object-fit: contain; flex-shrink: 0;" src="{{ site_image(siteUrlSettings('site_logo')) }}" alt="logo"/>
+            @else
+                {{-- Sleek modern glowing brand mark emblem --}}
+                <div class="brand-logo-emblem d-flex align-items-center justify-content-center rounded-3 flex-shrink-0"
+                     style="width: 32px; height: 32px; background: linear-gradient(135deg, #1c1c24 0%, #121216 100%); border: 1px solid rgba(255, 255, 255, 0.14); box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect width="20" height="8" x="2" y="14" rx="2" />
+                        <path d="M6 18h.01" />
+                        <path d="M10 18h.01" />
+                        <path d="M15 10v4" />
+                        <path d="M17.8 8A6 6 0 0 0 6.2 8" />
+                        <path d="m9 2 3 3-3 3" />
+                    </svg>
+                </div>
+                <div class="d-flex align-items-center gap-2">
+                    <span class="fw-bold text-white font-sans" style="font-size: 1.05rem; letter-spacing: -0.02em;">
+                        {{ siteUrlSettings('site_name') ?? 'Smart ISP' }}
+                    </span>
+                    <span class="badge font-mono" style="background: rgba(255, 255, 255, 0.08); color: #a1a1aa; border: 1px solid rgba(255, 255, 255, 0.12); font-size: 0.62rem; padding: 2px 5px; border-radius: 4px;">
+                        NOC
+                    </span>
+                </div>
+            @endif
+        </a>
         <div class="toggle-icon-wrapper">
-            <button class="btn navbar-toggler-humburger-icon navbar-vertical-toggle" data-bs-placement="left" title="Toggle Navigation">
+            <button class="btn navbar-toggler-humburger-icon navbar-vertical-toggle p-1.5 rounded-2 d-flex align-items-center justify-content-center"
+                    data-bs-placement="left" title="Toggle Navigation"
+                    style="background: transparent; border: none; color: #a1a1aa;">
                 <span class="navbar-toggle-icon">
                     <span class="toggle-line"></span>
                 </span>
             </button>
         </div>
-        <a class="navbar-brand" href="{{url('/')}}">
-            <div class="d-flex align-items-center {{ siteUrlSettings('site_logo') ? 'py-1' : 'py-3' }}">
-                @if (siteUrlSettings('site_logo'))
-                    <img class="me-2" style="width: 150px; height: auto; max-height: 45px; max-width: 100%; object-fit: contain; flex-shrink: 0;" src="{{ site_image(siteUrlSettings('site_logo')) }}" alt="logo"/>
-                @else
-                    @if (siteUrlSettings('site_icon'))
-                        <img class="me-2" src="{{ site_image(siteUrlSettings('site_icon')) }}" alt="" width="40" />
-                        <span class="font-sans-serif text-success">{{ siteUrlSettings('site_name') ?? 'Smart ISP' }}</span>
-                    @else
-                        <span class="font-sans-serif text-success">{{ siteUrlSettings('site_name') ?? 'Smart ISP' }}</span>
-                    @endif
-                @endif
-            </div>
-        </a>
     </div>
     <div class="collapse navbar-collapse" id="navbarVerticalCollapse">
-        <div class="navbar-vertical-content scrollbar">
-            @include('layouts.partials.sidebarpanel')
-            <div class="settings my-3">
-                <div class="card shadow-none">
-                    <div class="card-body alert mb-0" role="alert">
-                        <div class="text-center">
-                            <div class="row">                                
-                                <div class="col-12 d-flex align-items-center justify-content-end">
-                                    <button class="btn btn-link btn-close p-0"
-                                            aria-label="Close"
-                                            data-bs-dismiss="alert"></button>
-                                </div>
-                                <div class="col-12 d-flex align-items-center justify-content-center">
-                                    <img src="{{ asset('images/navbar-vertical.png') }}" alt="" width="80">
-                                </div>
-                            </div>
+        <div class="navbar-vertical-content scrollbar d-flex flex-column justify-content-between h-100">
+            <div>
+                @include('layouts.partials.sidebarpanel')
+            </div>
 
-                            <p class="fs-11 mt-2">
-                                {{ __('Need the full Support?') }}<br>
-                                {{ __('Contact the developer for purchase.') }}
-                            </p>
-
-                            <div class="d-grid">
-                                <a class="btn btn-sm btn-primary"
-                                data-bs-toggle="collapse"
-                                href="#purchaseInfo"
-                                role="button"
-                                aria-expanded="false"
-                                aria-controls="purchaseInfo">
-                                    {{ __('Purchase Now') }}
-                                </a>
-                            </div>
-
-                            <div class="collapse mt-2" id="purchaseInfo">
-                                <div class="card card-body text-start p-0">
-                                    <strong>Developer:</strong> Ratul<br>
-                                    <strong>Email:</strong> <a href="mailto:rezwanahmedratul007@gmail.com">rezwanahmedratul007@gmail.com</a>
-                                </div>
-                            </div>
-                        </div>
+            {{-- Sleek System Operational Widget replacing generic promo box --}}
+            <div class="sidebar-status-widget mx-2.5 my-3 p-3 rounded-3"
+                 style="background: #111115; border: 1px solid rgba(255, 255, 255, 0.08);">
+                <div class="d-flex align-items-center justify-content-between mb-2">
+                    <div class="d-flex align-items-center gap-2">
+                        <span style="display:inline-block; width:6px; height:6px; border-radius:50%; background:#10b981; box-shadow:0 0 8px #10b981;"></span>
+                        <span style="font-size:0.75rem; color:#e4e4e7; font-weight:600;">RouterOS Daemon</span>
                     </div>
+                    <span class="badge font-mono" style="background:#18181f; color:#34d399; border:1px solid rgba(16, 185, 129, 0.25); font-size:0.6rem; padding: 2px 5px; border-radius: 4px;">
+                        LIVE
+                    </span>
+                </div>
+                <div class="d-flex align-items-center justify-content-between pt-2 border-top"
+                     style="border-color: rgba(255, 255, 255, 0.06) !important; font-size:0.7rem; color:#71717a;">
+                    <span>System Engine</span>
+                    <span class="font-mono text-muted">v2.4 Pro</span>
                 </div>
             </div>
         </div>
