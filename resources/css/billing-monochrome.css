@@ -1873,3 +1873,231 @@ html[data-bs-theme="light"] .react-sidebar-navigation .nav-link:active * {
   stroke: #ffffff !important;
 }
 
+/* ─────────────────────────────────────────────────────────────────────────────
+   Minimal SaaS Monochromatic Filter Controls & Buttons
+───────────────────────────────────────────────────────────────────────────── */
+.mono-filter-btn {
+  background-color: var(--mono-surface) !important;
+  border: 1px solid var(--mono-card-border) !important;
+  color: var(--mono-text-secondary) !important;
+  font-size: 0.8125rem !important;
+  font-weight: 500 !important;
+  padding: 0.35rem 0.85rem !important;
+  transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+}
+
+.mono-filter-btn:hover {
+  background-color: var(--mono-surface-elevated) !important;
+  border-color: var(--mono-card-border-hover) !important;
+  color: var(--mono-text-primary) !important;
+}
+
+.mono-filter-badge {
+  background: rgba(120, 120, 128, 0.15) !important;
+  color: var(--mono-text-secondary) !important;
+  border-radius: 9999px !important;
+  padding: 0.15rem 0.45rem !important;
+  font-family: var(--font-mono) !important;
+  font-size: 0.7rem !important;
+  font-weight: 600 !important;
+  margin-left: 0.35rem !important;
+}
+
+/* Dark mode checked state: Solid White minimal pill */
+.btn-check:checked + .mono-filter-btn {
+  background-color: #ffffff !important;
+  color: #09090b !important;
+  border-color: #ffffff !important;
+  font-weight: 700 !important;
+  box-shadow: 0 2px 10px rgba(255, 255, 255, 0.15) !important;
+}
+
+.btn-check:checked + .mono-filter-btn * {
+  color: #09090b !important;
+}
+
+.btn-check:checked + .mono-filter-btn .mono-filter-badge {
+  background-color: #09090b !important;
+  color: #ffffff !important;
+}
+
+/* Light mode checked state: Solid Dark minimal pill */
+html[data-bs-theme="light"] .btn-check:checked + .mono-filter-btn {
+  background-color: #09090b !important;
+  color: #ffffff !important;
+  border-color: #09090b !important;
+  font-weight: 700 !important;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15) !important;
+}
+
+html[data-bs-theme="light"] .btn-check:checked + .mono-filter-btn * {
+  color: #ffffff !important;
+}
+
+html[data-bs-theme="light"] .btn-check:checked + .mono-filter-btn .mono-filter-badge {
+  background-color: #ffffff !important;
+  color: #09090b !important;
+}
+
+/* High-Contrast Monochromatic Action Buttons */
+.btn-mono {
+  background-color: #ffffff !important;
+  color: #09090b !important;
+  border: 1px solid #ffffff !important;
+  font-weight: 600 !important;
+  transition: all 0.15s ease-in-out !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3) !important;
+}
+
+.btn-mono:hover {
+  background-color: #e4e4e7 !important;
+  color: #09090b !important;
+  border-color: #e4e4e7 !important;
+}
+
+html[data-bs-theme="light"] .btn-mono {
+  background-color: #09090b !important;
+  color: #ffffff !important;
+  border: 1px solid #09090b !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15) !important;
+}
+
+html[data-bs-theme="light"] .btn-mono:hover {
+  background-color: #27272a !important;
+  color: #ffffff !important;
+  border-color: #27272a !important;
+}
+
+.btn-mono-secondary {
+  background-color: var(--mono-surface-elevated) !important;
+  color: var(--mono-text-primary) !important;
+  border: 1px solid var(--mono-card-border) !important;
+  font-weight: 600 !important;
+  transition: all 0.15s ease-in-out !important;
+}
+
+.btn-mono-secondary:hover {
+  background-color: #27272a !important;
+  border-color: var(--mono-card-border-hover) !important;
+  color: #ffffff !important;
+}
+
+html[data-bs-theme="light"] .btn-mono-secondary {
+  background-color: #ffffff !important;
+  color: #09090b !important;
+  border: 1px solid rgba(0, 0, 0, 0.12) !important;
+}
+
+html[data-bs-theme="light"] .btn-mono-secondary:hover {
+  background-color: #f4f5f8 !important;
+  border-color: rgba(0, 0, 0, 0.22) !important;
+  color: #09090b !important;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Universal Monochromatic Table Aesthetics (DataTables & Native Tables)
+───────────────────────────────────────────────────────────────────────────── */
+.table {
+  --bs-table-bg: transparent !important;
+  color: var(--mono-text-primary) !important;
+  border-color: var(--mono-hairline) !important;
+}
+
+.table thead th,
+.table-light th,
+.thead-light th,
+.table thead {
+  background-color: var(--mono-surface-elevated) !important;
+  color: var(--mono-text-secondary) !important;
+  border-bottom: 1px solid var(--mono-card-border) !important;
+  font-size: 0.75rem !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.05em !important;
+  font-weight: 600 !important;
+}
+
+.table td,
+table.dataTable tbody td {
+  border-color: var(--mono-hairline) !important;
+  color: var(--mono-text-primary) !important;
+  vertical-align: middle !important;
+}
+
+table.dataTable tbody tr,
+.table tbody tr {
+  background-color: transparent !important;
+  color: var(--mono-text-primary) !important;
+}
+
+table.dataTable tbody td.dataTables_empty,
+td.dataTables_empty {
+  background-color: var(--mono-surface) !important;
+  color: var(--mono-text-muted) !important;
+  text-align: center !important;
+  padding: 3rem 1.5rem !important;
+  font-family: var(--font-sans) !important;
+  font-size: 0.9rem !important;
+  border-bottom: 1px solid var(--mono-hairline) !important;
+}
+
+.table-hover tbody tr:hover,
+table.dataTable.hover tbody tr:hover {
+  background-color: rgba(255, 255, 255, 0.03) !important;
+}
+
+html[data-bs-theme="light"] .table-hover tbody tr:hover,
+html[data-bs-theme="light"] table.dataTable.hover tbody tr:hover {
+  background-color: rgba(0, 0, 0, 0.02) !important;
+}
+
+/* Monochromatic Table Totals Footer */
+.page-totals-row {
+  background-color: var(--mono-surface-elevated) !important;
+  border-top: 1px solid var(--mono-card-border) !important;
+  border-bottom: 1px solid var(--mono-card-border) !important;
+  color: var(--mono-text-primary) !important;
+}
+
+.grand-totals-row {
+  background-color: var(--mono-surface) !important;
+  border-top: 2px solid var(--mono-card-border) !important;
+  border-bottom: 2px solid var(--mono-card-border) !important;
+  color: var(--mono-text-primary) !important;
+  font-weight: 700 !important;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Global Clean Card & Modal Fixes
+───────────────────────────────────────────────────────────────────────────── */
+.card {
+  background-color: var(--mono-card) !important;
+  border: 1px solid var(--mono-card-border) !important;
+  color: var(--mono-text-primary) !important;
+}
+
+.card-header.bg-white,
+.card-header.bg-light {
+  background-color: var(--mono-surface-elevated) !important;
+  color: var(--mono-text-primary) !important;
+  border-color: var(--mono-card-border) !important;
+}
+
+.modal-content {
+  background-color: var(--mono-card) !important;
+  border: 1px solid var(--mono-card-border) !important;
+  color: var(--mono-text-primary) !important;
+}
+
+.modal-header,
+.modal-footer {
+  background-color: var(--mono-surface-elevated) !important;
+  border-color: var(--mono-card-border) !important;
+}
+
+.modal-body.bg-light {
+  background-color: var(--mono-bg) !important;
+}
+

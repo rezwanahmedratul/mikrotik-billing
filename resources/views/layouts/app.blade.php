@@ -141,16 +141,9 @@
     <!--    Main Content-->
     <!-- ===============================================-->
     <main class="main" id="top">
-        <div class="container-fluid" data-layout="container">
+        <div class="container-fluid p-0 m-0 w-100" data-layout="container">
             <script>
-                var isFluid = JSON.parse(localStorage.getItem('isFluid'));
-                if (isFluid == null || isFluid == false) {
-                    var container = document.querySelector('[data-layout="container"]');
-                    if (container) {
-                        container.classList.remove('container-fluid');
-                        container.classList.add('container');
-                    }
-                }
+                localStorage.setItem('isFluid', 'true');
             </script>
             @include('layouts.partials.sidenav')
             <div class="content">
@@ -179,13 +172,14 @@
                     var navTopComboEl = document.querySelector('.content [data-navbar-top="combo"]');
 
                     if (navVerticalEl) navVerticalEl.removeAttribute('style');
-                    if (navTopVerticalEl) navTopVerticalEl.removeAttribute('style');
+                    if (navTopVerticalEl) navTopVerticalEl.remove();
                     if (navTopEl) navTopEl.remove();
                     if (navDoubleTopEl) navDoubleTopEl.remove();
                     if (navTopComboEl) navTopComboEl.remove();
                 </script>
-                {{ $slot }}
-                <footer class="footer">
+                <div class="content-body px-3 px-md-4 py-3">
+                    {{ $slot }}
+                </div>
                     <div class="row g-0 justify-content-between fs-10 mt-4 mb-3 px-3">
                         <div class="col-12 col-sm-auto text-center">
                             <p class="mb-0 text-600">{{ __('Thank you for stay with us') }} <span class="d-none d-sm-inline-block">|

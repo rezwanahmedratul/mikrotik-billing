@@ -4,6 +4,7 @@ import BillingDashboard from './billing/BillingDashboard';
 import MikrotikControlDashboard from './billing/MikrotikControlDashboard';
 import CommandPalette from './billing/CommandPalette';
 import SidebarNavigation from './navigation/SidebarNavigation';
+import TopNavbar from './navigation/TopNavbar';
 
 // Declare global window properties
 declare global {
@@ -12,6 +13,17 @@ declare global {
     __MIKROTIK_CSRF_TOKEN__?: string;
     __MIKROTIK_INITIAL_ROUTERS__?: any[];
   }
+}
+
+// Mount React + TypeScript Top Navigation Bar if container is present
+const topbarRootEl = document.getElementById('react-topbar-root');
+if (topbarRootEl) {
+  const topbarRoot = createRoot(topbarRootEl);
+  topbarRoot.render(
+    <React.StrictMode>
+      <TopNavbar />
+    </React.StrictMode>
+  );
 }
 
 // Mount React + TypeScript Sidebar Navigation if container is present

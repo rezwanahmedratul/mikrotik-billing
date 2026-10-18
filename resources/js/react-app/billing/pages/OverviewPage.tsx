@@ -43,71 +43,71 @@ export default function OverviewPage({
       exit={{ opacity: 0, y: -8 }}
       transition={{ duration: 0.18 }}
     >
-      {/* ── 6 KEY TELEMETRY CARDS ROW ── */}
+      {/* ── 6 KEY TELEMETRY CARDS (SPACIOUS 3-COLUMN MINIMAL SAAS GRID) ── */}
       <div className="row g-3 mb-4">
         {/* Total Realized */}
-        <div className="col-12 col-sm-6 col-xl-2">
+        <div className="col-12 col-sm-6 col-lg-4">
           <MetricCard
             title="Total Realized"
             value={formatCurrency(totalRevenue)}
-            subtitle="Broadband + Hotspot"
+            subtitle="Broadband & Hotspot YTD Revenue"
             icon={DollarSign}
             badgeText="YTD Realized"
           />
         </div>
 
         {/* Monthly Rent (MFR) */}
-        <div className="col-12 col-sm-6 col-xl-2">
+        <div className="col-12 col-sm-6 col-lg-4">
           <MetricCard
             title="Monthly Rent (MFR)"
             value={formatCurrency(billInfo.monthly_rent || 0)}
-            subtitle="Target monthly billing"
+            subtitle="Projected monthly billing targets"
             icon={Calendar}
-            badgeText="Expected"
+            badgeText="Target"
           />
         </div>
 
         {/* Today Collected */}
-        <div className="col-12 col-sm-6 col-xl-2">
+        <div className="col-12 col-sm-6 col-lg-4">
           <MetricCard
             title="Today Collected"
             value={formatCurrency(billInfo.today_paid_amount || 0)}
-            subtitle="Cash + Gateway stream"
+            subtitle="Cash & Gateway stream today"
             icon={Zap}
-            badgeText="Live"
+            badgeText="Live Stream"
           />
         </div>
 
         {/* Pending Active Due */}
-        <div className="col-12 col-sm-6 col-xl-2">
+        <div className="col-12 col-sm-6 col-lg-4">
           <MetricCard
             title="Pending Active Due"
             value={formatCurrency(billInfo.due_amount || 0)}
-            subtitle="Outstanding receivables"
+            subtitle="Total outstanding active receivables"
             icon={AlertTriangle}
-            badgeText="Overdue"
+            badgeText="Receivables"
           />
         </div>
 
         {/* Hotspot Sales */}
-        <div className="col-12 col-sm-6 col-xl-2">
+        <div className="col-12 col-sm-6 col-lg-4">
           <MetricCard
             title="Hotspot Sales"
             value={formatCurrency(billInfo.hotspot_total || 0)}
-            subtitle={`Today: ${formatCurrency(billInfo.hotspot_today || 0)}`}
+            subtitle={`Daily: ${formatCurrency(billInfo.hotspot_today || 0)} · Vouchers`}
             icon={Wifi}
             badgeText="Vouchers"
           />
         </div>
 
         {/* Subscriber Health */}
-        <div className="col-12 col-sm-6 col-xl-2">
+        <div className="col-12 col-sm-6 col-lg-4">
           <MetricCard
             title="Subscriber Health"
             value={`${activePercent}%`}
-            subtitle="Active subscriber ratio"
+            subtitle="Active accounts vs total subscribers"
             icon={Users}
-            badgeText="Active"
+            badgeText="Account Ratio"
             badgeDot={true}
           />
         </div>

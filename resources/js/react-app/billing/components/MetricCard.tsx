@@ -23,69 +23,91 @@ export default function MetricCard({
   badgeText,
   trendText,
   badgeDot = false,
-  badgeColor = '#a1a1aa',
   trendType = 'neutral',
   progressPercent,
-  progressColor = '#10b981',
 }: MetricCardProps) {
   const displayBadge = badgeText || trendText;
-  const isDot = badgeDot || (trendType === 'positive' && !badgeText);
-  const resolvedBadgeColor =
-    badgeColor !== '#a1a1aa'
-      ? badgeColor
-      : trendType === 'positive'
-      ? '#34d399'
-      : trendType === 'negative'
-      ? '#fb7185'
-      : '#a1a1aa';
+  const isDot = badgeDot || trendType === 'positive';
 
   return (
     <div
-      className="card p-3.5 h-100 hover-lift d-flex flex-column justify-content-between"
+      className="card p-4 h-100 d-flex flex-column justify-content-between transition-all"
       style={{
         background: 'var(--mono-card)',
         border: '1px solid var(--mono-card-border)',
         borderRadius: 14,
+        boxShadow: '0 1px 3px rgba(0, 0, 0, 0.05)',
+        transition: 'transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease',
+      }}
+      onMouseEnter={(e) => {
+        e.currentTarget.style.transform = 'translateY(-2px)';
+        e.currentTarget.style.borderColor = 'var(--mono-card-border-hover)';
+        e.currentTarget.style.boxShadow = '0 6px 16px rgba(0, 0, 0, 0.08)';
+      }}
+      onMouseLeave={(e) => {
+        e.currentTarget.style.transform = 'none';
+        e.currentTarget.style.borderColor = 'var(--mono-card-border)';
+        e.currentTarget.style.boxShadow = '0 1px 3px rgba(0, 0, 0, 0.05)';
       }}
     >
-      {/* Top Row: Title & Icon Container */}
+      {/* ── TOP ROW: TITLE & MINIMAL MONOCHROME ICON ── */}
       <div>
-        <div className="d-flex align-items-center justify-content-between mb-2">
-          <span className="small fw-medium" style={{ fontSize: '0.78rem', color: 'var(--mono-text-muted)' }}>
+        <div className="d-flex align-items-center justify-content-between mb-3">
+          <span
+            className="fw-semibold text-truncate pe-2"
+            style={{
+              fontSize: '0.82rem',
+              color: 'var(--mono-text-secondary)',
+              letterSpacing: '-0.01em',
+            }}
+          >
             {title}
           </span>
           {Icon && (
             <div
-              className="d-flex align-items-center justify-content-center"
+              className="d-flex align-items-center justify-content-center flex-shrink-0"
               style={{
-                width: 30,
-                height: 30,
+                width: 32,
+                height: 32,
                 background: 'var(--mono-surface-elevated)',
                 border: '1px solid var(--mono-card-border)',
                 borderRadius: 8,
+                color: 'var(--mono-text-primary)',
               }}
             >
-              <Icon size={15} style={{ color: 'var(--mono-text-secondary)' }} />
+              <Icon size={15} />
             </div>
           )}
         </div>
 
-        {/* Middle: Big Value */}
+        {/* ── MIDDLE: HERO VALUE ── */}
         <div
-          className="fw-bold font-mono mb-2"
-          style={{ fontSize: '1.45rem', letterSpacing: '-0.02em', lineHeight: 1.1, color: 'var(--mono-text-primary)' }}
+          className="fw-bold font-mono mb-3"
+          style={{
+            fontSize: '1.75rem',
+            letterSpacing: '-0.03em',
+            lineHeight: 1.15,
+            color: 'var(--mono-text-primary)',
+          }}
         >
           {value}
         </div>
 
         {/* Optional Progress Bar */}
         {progressPercent !== undefined && progressPercent !== null && (
-          <div className="rounded-pill overflow-hidden my-2" style={{ height: 4, background: 'var(--mono-surface-elevated)' }}>
+          <div
+            className="rounded-pill overflow-hidden my-2.5"
+            style={{
+              height: 4,
+              background: 'var(--mono-surface-elevated)',
+              border: '1px solid var(--mono-card-border)',
+            }}
+          >
             <div
               style={{
                 width: `${Math.min(100, Math.max(4, Number(progressPercent)))}%`,
                 height: '100%',
-                background: progressColor,
+                background: 'var(--mono-text-primary)',
                 transition: 'width 0.4s ease',
               }}
             />
@@ -93,21 +115,30 @@ export default function MetricCard({
         )}
       </div>
 
-      {/* Bottom Row: Subtitle & Tag Badge */}
+      {/* ── BOTTOM ROW: SUBTITLE & MINIMAL MONOCHROME STATUS BADGE ── */}
       <div
-        className="d-flex align-items-center justify-content-between pt-1"
-        style={{ fontSize: '0.74rem' }}
+        className="d-flex align-items-center justify-content-between pt-2 border-top"
+        style={{
+          borderColor: 'var(--mono-card-border)',
+          fontSize: '0.76rem',
+        }}
       >
-        <span className="text-truncate me-1" style={{ color: 'var(--mono-text-muted)' }}>
+        <span
+          className="text-truncate me-2"
+          style={{
+            color: 'var(--mono-text-muted)',
+            fontWeight: 400,
+          }}
+        >
           {subtitle}
         </span>
 
         {displayBadge && (
           <span
-            className="badge d-inline-flex align-items-center gap-1 font-mono flex-shrink-0"
+            className="badge d-inline-flex align-items-center gap-1.5 font-mono flex-shrink-0"
             style={{
               background: 'var(--mono-surface-elevated)',
-              color: resolvedBadgeColor,
+              color: 'var(--mono-text-secondary)',
               border: '1px solid var(--mono-card-border)',
               fontSize: '0.68rem',
               fontWeight: 500,
@@ -122,7 +153,7 @@ export default function MetricCard({
                   width: 5,
                   height: 5,
                   borderRadius: '50%',
-                  background: resolvedBadgeColor === '#34d399' ? '#10b981' : resolvedBadgeColor,
+                  background: 'var(--mono-text-primary)',
                 }}
               />
             )}

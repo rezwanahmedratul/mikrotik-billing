@@ -44,18 +44,17 @@ export default function SubscribersPage({
     >
       {/* ── RESELLER ECOSYSTEM ROW ── */}
       <div className="row g-3 mb-4">
-        <div className="col-6 col-md-3">
+        <div className="col-12 col-sm-6 col-xl-3">
           <MetricCard
             title="Total Resellers"
             value={formatNumber(reseller.total_resellers || 0)}
-            subtitle={`${reseller.active_resellers || 0} Active • ${reseller.suspended_resellers || 0} Suspended`}
+            subtitle={`${reseller.active_resellers || 0} Active · ${reseller.suspended_resellers || 0} Suspended`}
             icon={Briefcase}
             badgeText="Network"
-            badgeColor="var(--mono-text-muted)"
           />
         </div>
 
-        <div className="col-6 col-md-3">
+        <div className="col-12 col-sm-6 col-xl-3">
           <MetricCard
             title="Reseller Customers"
             value={formatNumber(reseller.total_customers || 0)}
@@ -63,30 +62,27 @@ export default function SubscribersPage({
             icon={Users}
             badgeText="Subscribers"
             badgeDot={true}
-            badgeColor="#34d399"
           />
         </div>
 
-        <div className="col-6 col-md-3">
+        <div className="col-12 col-sm-6 col-xl-3">
           <MetricCard
             title="Reseller Float Balances"
             value={formatCurrency(reseller.total_balance || 0)}
             subtitle="Float balance in reseller wallets"
             icon={Wallet}
-            badgeText="Deposit"
+            badgeText="Float Balance"
             badgeDot={true}
-            badgeColor="#34d399"
           />
         </div>
 
-        <div className="col-6 col-md-3">
+        <div className="col-12 col-sm-6 col-xl-3">
           <MetricCard
             title="Total Commissions"
             value={formatCurrency(reseller.total_commission || 0)}
             subtitle="Commissions earned by agents"
             icon={TrendingUp}
             badgeText="Commissions"
-            badgeColor="var(--mono-text-secondary)"
           />
         </div>
       </div>

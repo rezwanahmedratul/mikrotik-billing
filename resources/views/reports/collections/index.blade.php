@@ -25,10 +25,10 @@
                             </select>
                         </div>
                         <div class="col-md-3 col-sm-6 d-flex gap-2">
-                            <button type="submit" id="report-submit" class="btn btn-primary w-100">
+                            <button type="submit" id="report-submit" class="btn btn-mono w-100">
                                 <i class="bi bi-funnel me-1"></i> {{ __('Filter') }}
                             </button>
-                            <button type="button" id="report-reset" class="btn btn-outline-secondary" title="{{ __('Reset Filter') }}">
+                            <button type="button" id="report-reset" class="btn btn-mono-secondary" title="{{ __('Reset Filter') }}">
                                 <i class="bi bi-arrow-counterclockwise"></i>
                             </button>
                         </div>
@@ -40,7 +40,7 @@
                 <div class="card-body">
                     <div class="table-responsive">
                         <table class="table table-bordered table-striped align-middle w-100" id="collection-report-table">
-                            <thead class="table-light">
+                            <thead>
                                 <tr>
                                     <th>{{ __('Invoice No') }}</th>
                                     <th>{{ __('Customer ID') }}</th>
@@ -58,13 +58,13 @@
                                     <th>{{ __('Collected By') }}</th>
                                 </tr>
                             </thead>
-                            <tfoot class="table-light fw-bold">
+                            <tfoot class="border-top fw-bold font-mono">
                                 <tr>
                                     <th colspan="7" class="text-end">{{ __('Page Total:') }}</th>
                                     <th class="text-end" id="footer-bill">0.00</th>
-                                    <th class="text-end text-warning" id="footer-discount">0.00</th>
-                                    <th class="text-end text-success" id="footer-collected">0.00</th>
-                                    <th class="text-end text-danger" id="footer-due">0.00</th>
+                                    <th class="text-end" id="footer-discount">0.00</th>
+                                    <th class="text-end" id="footer-collected">0.00</th>
+                                    <th class="text-end" id="footer-due">0.00</th>
                                     <th colspan="3"></th>
                                 </tr>
                             </tfoot>

@@ -1,27 +1,27 @@
 <div>
-    <div class="container-fluid py-4">
+    <div class="container-fluid py-2">
 
         {{-- Header --}}
         <div class="d-flex align-items-center justify-content-between mb-4">
             <div>
-                <h4 class="fw-bold mb-0" style="color:#1a1f36;">
-                    <i class="bi bi-wallet2 me-2 text-danger"></i>{{ __('Expense Management') }}
+                <h4 class="fw-bold mb-0" style="color: var(--mono-text-primary); font-family: var(--font-sans); letter-spacing: -0.02em;">
+                    <i class="bi bi-wallet2 me-2" style="color: var(--mono-text-primary);"></i>{{ __('Expense Management') }}
                 </h4>
-                <p class="text-muted small mb-0">{{ __('Track all ISP operating costs') }}</p>
+                <p class="small mb-0" style="color: var(--mono-text-muted);">{{ __('Track all ISP operating costs') }}</p>
             </div>
             <button wire:click="openCreate"
-                class="btn btn-danger rounded-3 px-4 fw-semibold shadow-sm">
+                class="btn btn-mono rounded-3 px-4 fw-semibold shadow-sm">
                 <i class="bi bi-plus-lg me-1"></i> {{ __('Add Expense') }}
             </button>
         </div>
 
         {{-- Filter Bar --}}
-        <div class="card border-0 shadow-sm rounded-4 mb-4">
+        <div class="card rounded-4 mb-4" style="background: var(--mono-card); border: 1px solid var(--mono-card-border) !important;">
             <div class="card-body py-3">
                 <div class="row g-3 align-items-end">
                     <div class="col-md-3">
-                        <label class="form-label small fw-semibold text-muted mb-1">{{ __('Category') }}</label>
-                        <select wire:model.live="filterCategory" class="form-select form-select-sm rounded-3">
+                        <label class="form-label small fw-semibold mb-1" style="color: var(--mono-text-muted);">{{ __('Category') }}</label>
+                        <select wire:model.live="filterCategory" class="form-select form-select-sm rounded-3" style="background: var(--mono-surface-elevated); border-color: var(--mono-card-border); color: var(--mono-text-primary);">
                             <option value="">{{ __('All Categories') }}</option>
                             @foreach($categories as $key => $label)
                                 <option value="{{ $key }}">{{ __($label) }}</option>
@@ -29,8 +29,8 @@
                         </select>
                     </div>
                     <div class="col-md-2">
-                        <label class="form-label small fw-semibold text-muted mb-1">{{ __('Month') }}</label>
-                        <select wire:model.live="filterMonth" class="form-select form-select-sm rounded-3">
+                        <label class="form-label small fw-semibold mb-1" style="color: var(--mono-text-muted);">{{ __('Month') }}</label>
+                        <select wire:model.live="filterMonth" class="form-select form-select-sm rounded-3" style="background: var(--mono-surface-elevated); border-color: var(--mono-card-border); color: var(--mono-text-primary);">
                             <option value="">{{ __('All Months') }}</option>
                             @foreach($months as $num => $name)
                                 <option value="{{ $num }}">{{ __($name) }}</option>
@@ -38,8 +38,8 @@
                         </select>
                     </div>
                     <div class="col-md-2">
-                        <label class="form-label small fw-semibold text-muted mb-1">{{ __('Year') }}</label>
-                        <select wire:model.live="filterYear" class="form-select form-select-sm rounded-3">
+                        <label class="form-label small fw-semibold mb-1" style="color: var(--mono-text-muted);">{{ __('Year') }}</label>
+                        <select wire:model.live="filterYear" class="form-select form-select-sm rounded-3" style="background: var(--mono-surface-elevated); border-color: var(--mono-card-border); color: var(--mono-text-primary);">
                             <option value="">{{ __('All Years') }}</option>
                             @foreach($years as $y)
                                 <option value="{{ $y }}">{{ $y }}</option>
@@ -50,14 +50,8 @@
                         <div class="d-flex flex-wrap gap-2 justify-content-end">
                             @foreach($categories as $key => $label)
                                 @if(isset($totals[$key]) && $totals[$key] > 0)
-                                    @php
-                                        $colorMap = ['item_purchase'=>'primary','raw_bill'=>'warning','employee_salary'=>'info','reseller_payout'=>'purple','miscellaneous'=>'secondary'];
-                                        $c = $colorMap[$key] ?? 'secondary';
-                                        $style = $c === 'purple' ? 'background:#f3e8ff;color:#7c3aed;border-color:#c4b5fd;' : '';
-                                    @endphp
-                                    <span class="badge rounded-pill px-3 py-2 small fw-semibold
-                                        {{ $c !== 'purple' ? "bg-{$c}-subtle text-{$c} border border-{$c}-subtle" : '' }}"
-                                        style="{{ $style }}">
+                                    <span class="badge font-mono rounded-pill px-3 py-2 small fw-semibold"
+                                        style="background: var(--mono-surface-elevated); color: var(--mono-text-secondary); border: 1px solid var(--mono-card-border);">
                                         {{ __($label) }}: ৳{{ number_format($totals[$key], 2) }}
                                     </span>
                                 @endif
@@ -70,23 +64,23 @@
 
         {{-- Grand Total Banner --}}
         @if($grandTotal > 0)
-        <div class="alert rounded-4 border-0 mb-4 py-3 px-4 d-flex align-items-center"
-             style="background: linear-gradient(135deg,#fff0f0,#ffe5e5); border-left: 4px solid #ef4444 !important;">
-            <i class="bi bi-exclamation-circle-fill text-danger fs-5 me-3"></i>
+        <div class="alert rounded-4 mb-4 py-3 px-4 d-flex align-items-center"
+             style="background: var(--mono-surface-elevated); border: 1px solid var(--mono-card-border) !important; border-left: 4px solid var(--mono-text-primary) !important;">
+            <i class="bi bi-wallet2 fs-5 me-3" style="color: var(--mono-text-primary);"></i>
             <div>
-                <span class="fw-semibold text-dark">{{ __('Total Expenses (current filter):') }}</span>
-                <span class="fw-bold text-danger fs-5 ms-2">৳{{ number_format($grandTotal, 2) }}</span>
+                <span class="fw-semibold" style="color: var(--mono-text-secondary);">{{ __('Total Expenses (current filter):') }}</span>
+                <span class="fw-bold font-mono fs-5 ms-2" style="color: var(--mono-text-primary);">৳{{ number_format($grandTotal, 2) }}</span>
             </div>
         </div>
         @endif
 
         {{-- Expense Table --}}
-        <div class="card border-0 shadow-sm rounded-4">
+        <div class="card rounded-4 overflow-hidden" style="background: var(--mono-card); border: 1px solid var(--mono-card-border) !important;">
             <div class="card-body p-0">
                 <div class="table-responsive">
                     <table class="table table-hover align-middle mb-0">
-                        <thead style="background:#f8f9fc;">
-                            <tr class="small text-muted fw-semibold">
+                        <thead style="background: var(--mono-surface-elevated);">
+                            <tr class="small fw-semibold" style="color: var(--mono-text-muted);">
                                 <th class="ps-4 py-3">#</th>
                                 <th>{{ __('Date') }}</th>
                                 <th>{{ __('Category') }}</th>

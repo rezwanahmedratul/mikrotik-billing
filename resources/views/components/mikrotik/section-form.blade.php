@@ -1,13 +1,13 @@
-<div class="card border-0 shadow-sm mb-2" style="border-radius: 12px;">
-    <div class="card-header bg-white pt-3 pb-2 px-4 position-relative" style="border-bottom: 1px solid rgba(0, 0, 0, 0.065); border-top-left-radius: 12px; border-top-right-radius: 12px;">
-        <!-- Modern Left Accent Bar -->
-        <div class="position-absolute bg-success" style="width: 4px; left: 0; top: 18px; bottom: 8px; border-radius: 0 4px 4px 0;"></div>
+<div class="card border-0 shadow-sm mb-3" style="border-radius: 12px; background: var(--mono-card); border: 1px solid var(--mono-card-border) !important;">
+    <div class="card-header pt-3 pb-2 px-4 position-relative" style="background: var(--mono-card); border-bottom: 1px solid var(--mono-card-border); border-top-left-radius: 12px; border-top-right-radius: 12px;">
+        <!-- Minimal Monochrome Left Accent Bar -->
+        <div class="position-absolute" style="width: 3px; left: 0; top: 16px; bottom: 10px; border-radius: 0 3px 3px 0; background: var(--mono-text-primary);"></div>
         
-        <h5 class="card-title fw-bold text-dark mb-0 ps-2" style="font-size: 1.1rem; letter-spacing: -0.2px;">
+        <h5 class="card-title fw-bold mb-0 ps-2" style="font-size: 1.05rem; letter-spacing: -0.01em; color: var(--mono-text-primary);">
             {{ $title ?? '' }}
         </h5>
     </div>
-    <div class="card-body px-4 py-3 {{ $class ?? '' }}" {{ $attributes ?? '' }} style="border-bottom-left-radius: 12px; border-bottom-right-radius: 12px;">
+    <div class="card-body px-4 py-3 {{ $class ?? '' }}" {{ $attributes ?? '' }} style="border-bottom-left-radius: 12px; border-bottom-right-radius: 12px; background: var(--mono-card); color: var(--mono-text-primary);">
         {{ $aside ?? '' }}
     </div>
 </div>

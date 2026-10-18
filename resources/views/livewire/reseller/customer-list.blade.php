@@ -18,45 +18,45 @@
                     <div class="d-flex flex-wrap gap-2">
                         <div class="filter-group d-flex gap-1 overflow-auto pb-1">
                             <input type="radio" class="btn-check" name="collection" id="all_list" autocomplete="off">
-                            <label class="btn btn-outline-primary btn-sm rounded-pill px-3 shadow-none fw-600" for="all_list">
-                                <i class="bi bi-people-fill me-1"></i> {{ __('All Customers') }} <span class="badge bg-white text-primary fw-bold"></span>
+                            <label class="mono-filter-btn btn btn-sm rounded-pill px-3 shadow-none" for="all_list">
+                                <i class="bi bi-people-fill me-1"></i> {{ __('All Customers') }} <span class="mono-filter-badge badge"></span>
                             </label>
                             
                             <input type="radio" class="btn-check" name="collection" id="all_active_list" autocomplete="off" checked>
-                            <label class="btn btn-outline-primary btn-sm rounded-pill px-3 shadow-none fw-600" for="all_active_list">
-                                <i class="bi bi-people-fill me-1"></i> {{ __('All Active') }} <span class="badge bg-white text-primary fw-bold"></span>
+                            <label class="mono-filter-btn btn btn-sm rounded-pill px-3 shadow-none" for="all_active_list">
+                                <i class="bi bi-people-fill me-1"></i> {{ __('All Active') }} <span class="mono-filter-badge badge"></span>
                             </label>
 
                             <input type="radio" class="btn-check" name="collection" id="collection_list" autocomplete="off">
-                            <label class="btn btn-outline-success btn-sm rounded-pill px-3 shadow-none fw-600" for="collection_list">
-                                <i class="bi bi-cash-stack me-1"></i> {{ __('Paid') }} <span class="badge bg-white text-success fw-bold"></span>
+                            <label class="mono-filter-btn btn btn-sm rounded-pill px-3 shadow-none" for="collection_list">
+                                <i class="bi bi-cash-stack me-1"></i> {{ __('Paid') }} <span class="mono-filter-badge badge"></span>
                             </label>
 
                             <input type="radio" class="btn-check" name="collection" id="without_collection_list" autocomplete="off">
-                            <label class="btn btn-outline-indigo btn-sm rounded-pill px-3 shadow-none fw-600" for="without_collection_list">
-                                <i class="bi bi-wallet2 me-1"></i> {{ __('Unpaid') }} <span class="badge bg-white text-indigo fw-bold"></span>
+                            <label class="mono-filter-btn btn btn-sm rounded-pill px-3 shadow-none" for="without_collection_list">
+                                <i class="bi bi-wallet2 me-1"></i> {{ __('Unpaid') }} <span class="mono-filter-badge badge"></span>
                             </label>
 
                             <input type="radio" class="btn-check" name="collection" id="pending_customer" autocomplete="off">
-                            <label class="btn btn-outline-warning btn-sm rounded-pill px-3 shadow-none fw-600" for="pending_customer">
-                                <i class="bi bi-clock-history me-1"></i> {{ __('Pending') }} <span class="badge bg-white text-warning fw-bold"></span>
+                            <label class="mono-filter-btn btn btn-sm rounded-pill px-3 shadow-none" for="pending_customer">
+                                <i class="bi bi-clock-history me-1"></i> {{ __('Pending') }} <span class="mono-filter-badge badge"></span>
                             </label>
 
                             <input type="radio" class="btn-check" name="collection" id="disable_customer" autocomplete="off">
-                            <label class="btn btn-outline-danger btn-sm rounded-pill px-3 shadow-none fw-600" for="disable_customer">
-                                <i class="bi bi-slash-circle me-1"></i> {{ __('Disabled') }} <span class="badge bg-white text-danger fw-bold"></span>
+                            <label class="mono-filter-btn btn btn-sm rounded-pill px-3 shadow-none" for="disable_customer">
+                                <i class="bi bi-slash-circle me-1"></i> {{ __('Disabled') }} <span class="mono-filter-badge badge"></span>
                             </label>
 
                             <input type="radio" class="btn-check" name="collection" id="inactive_customer" autocomplete="off">
-                            <label class="btn btn-outline-secondary btn-sm rounded-pill px-3 shadow-none fw-600" for="inactive_customer">
-                                <i class="bi bi-person-x me-1"></i> {{ __('Inactive') }} <span class="badge bg-white text-secondary fw-bold"></span>
+                            <label class="mono-filter-btn btn btn-sm rounded-pill px-3 shadow-none" for="inactive_customer">
+                                <i class="bi bi-person-x me-1"></i> {{ __('Inactive') }} <span class="mono-filter-badge badge"></span>
                             </label>
                         </div>
                         <div class="ms-auto border-start ps-2">
-                            <a href="{{ route('reseller.customers.create') }}" class="btn btn-primary btn-sm rounded-pill px-3 fw-bold me-1">
+                            <a href="{{ route('reseller.customers.create') }}" class="btn btn-mono btn-sm rounded-pill px-3 fw-bold me-1">
                                 <i class="bi bi-plus-lg me-1"></i> {{ __('Register Customer') }}
                             </a>
-                            <button type="button" id="reset_table" class="btn btn-light btn-sm rounded-pill px-3 fw-bold border" title="{{ __('Reset all filters and search') }}">
+                            <button type="button" id="reset_table" class="btn btn-mono-secondary btn-sm rounded-pill px-3 fw-bold" title="{{ __('Reset all filters and search') }}">
                                 <i class="bi bi-arrow-clockwise"></i> {{ __('Reset') }}
                             </button>
                         </div>
@@ -67,9 +67,9 @@
     </div>
 
     <div class="card border-0 shadow-sm m-3 p-0 overflow-hidden">
-        <div class="table-responsive bg-white px-3 pb-3" wire:ignore>
+        <div class="table-responsive px-3 pb-3" wire:ignore>
             <table class="customer-table table table-hover custom-data-table border-0 w-100" style="width:100%">
-                <thead class="bg-light">
+                <thead>
                     <tr>
                         <th class="text-center">{{ __('SL') }}</th>
                         <th class="text-center">{{ __('Customer Identity') }}</th>
@@ -98,17 +98,17 @@
                     </tr>
                 </thead>
                 <tbody class="text-center"></tbody>
-                <tfoot class="bg-light border-top">
-                    <tr class="page-totals-row table-info">
+                <tfoot class="border-top">
+                    <tr class="page-totals-row">
                         @for($i=0; $i<23; $i++)
-                            <th id="page_total_{{ $i }}" @if($i==0) class="text-end fw-bold" @elseif($i==3) class="text-start small" @elseif($i==5) class="text-end" @endif>
+                            <th id="page_total_{{ $i }}" @if($i==0) class="text-end fw-bold" @elseif($i==3) class="text-start small font-mono" @elseif($i==5) class="text-end font-mono" @endif>
                                 @if($i==0) {{ __('Page Totals:') }} @endif
                             </th>
                         @endfor
                     </tr>
-                    <tr class="grand-totals-row table-primary">
+                    <tr class="grand-totals-row">
                         @for($i=0; $i<23; $i++)
-                            <th id="full_total_{{ $i }}" @if($i==0) class="text-end fw-bold" @elseif($i==3) class="text-start small" @elseif($i==5) class="text-end" @endif>
+                            <th id="full_total_{{ $i }}" @if($i==0) class="text-end fw-bold" @elseif($i==3) class="text-start small font-mono" @elseif($i==5) class="text-end font-mono" @endif>
                                 @if($i==0) {{ __('Grand Totals:') }} @endif
                             </th>
                         @endfor
@@ -383,10 +383,10 @@
                     if ($('#page_total_3').length) {
                         $('#page_total_3').html(
                             '<div class="text-muted" ' + breakdownStyle + '>' +
-                            '<div><i class="bi bi-calendar3 me-1"></i>{{ __('Rent:') }} <span class="text-dark fw-bold">' + pageTotals.rent.toFixed(2) + '</span></div>' +
-                            '<div><i class="bi bi-exclamation-triangle me-1"></i>{{ __('P.Due:') }} <span class="text-dark fw-bold">' + pageTotals.prev_due.toFixed(2) + '</span></div>' +
-                            '<div><i class="bi bi-plus-circle me-1"></i>{{ __('Add:') }} <span class="text-dark fw-bold">' + pageTotals.add_charge.toFixed(2) + '</span> | <i class="bi bi-percent me-1"></i>{{ __('Vat:') }} <span class="text-dark fw-bold">' + pageTotals.vat.toFixed(0) + '</span></div>' +
-                            '<div><i class="bi bi-tag me-1"></i>{{ __('Disc:') }} <span class="text-danger fw-bold">' + pageTotals.disc.toFixed(2) + '</span> | <i class="bi bi-wallet-fill me-1"></i>{{ __('Adv:') }} <span class="text-success fw-bold">' + pageTotals.adv.toFixed(2) + '</span></div>' +
+                            '<div><i class="bi bi-calendar3 me-1"></i>{{ __('Rent:') }} <span class="fw-bold font-mono">' + pageTotals.rent.toFixed(2) + '</span></div>' +
+                            '<div><i class="bi bi-exclamation-triangle me-1"></i>{{ __('P.Due:') }} <span class="fw-bold font-mono">' + pageTotals.prev_due.toFixed(2) + '</span></div>' +
+                            '<div><i class="bi bi-plus-circle me-1"></i>{{ __('Add:') }} <span class="fw-bold font-mono">' + pageTotals.add_charge.toFixed(2) + '</span> | <i class="bi bi-percent me-1"></i>{{ __('Vat:') }} <span class="fw-bold font-mono">' + pageTotals.vat.toFixed(0) + '</span></div>' +
+                            '<div><i class="bi bi-tag me-1"></i>{{ __('Disc:') }} <span class="fw-bold font-mono">' + pageTotals.disc.toFixed(2) + '</span> | <i class="bi bi-wallet-fill me-1"></i>{{ __('Adv:') }} <span class="fw-bold font-mono">' + pageTotals.adv.toFixed(2) + '</span></div>' +
                             '</div>'
                         );
                     }
@@ -394,10 +394,10 @@
                     if ($('#page_total_5').length) {
                         $('#page_total_5').html(
                             '<div class="billing-card small shadow-none border-0 text-start bg-transparent p-0">' +
-                            '<div class="d-flex justify-content-between text-muted"><span>{{ __('Bill:') }}</span> <span class="fw-bold text-primary">' + pageTotals.bill.toFixed(2) + '</span></div>' +
-                            '<div class="d-flex justify-content-between text-muted"><span>{{ __('Paid:') }}</span> <span class="fw-bold text-success">' + pageTotals.paid.toFixed(2) + '</span></div>' +
-                            '<hr class="my-1">' +
-                            '<div class="d-flex justify-content-between"><span>{{ __('Due:') }}</span> <span class="fw-bold text-danger">' + pageTotals.due.toFixed(2) + '</span></div>' +
+                            '<div class="d-flex justify-content-between text-muted"><span>{{ __('Bill:') }}</span> <span class="fw-bold font-mono">' + pageTotals.bill.toFixed(2) + '</span></div>' +
+                            '<div class="d-flex justify-content-between text-muted"><span>{{ __('Paid:') }}</span> <span class="fw-bold font-mono">' + pageTotals.paid.toFixed(2) + '</span></div>' +
+                            '<hr class="my-1 border-secondary opacity-25">' +
+                            '<div class="d-flex justify-content-between"><span>{{ __('Due:') }}</span> <span class="fw-bold font-mono">' + pageTotals.due.toFixed(2) + '</span></div>' +
                             '</div>'
                         );
                     }
@@ -405,10 +405,10 @@
                     if ($('#full_total_3').length) {
                         $('#full_total_3').html(
                             '<div class="text-muted" ' + breakdownStyle + '>' +
-                            '<div><i class="bi bi-calendar3 me-1 text-primary"></i>{{ __('Rent:') }} <span class="text-primary fw-bold">' + grandTotals.rent.toFixed(2) + '</span></div>' +
-                            '<div><i class="bi bi-exclamation-triangle me-1 text-primary"></i>{{ __('P.Due:') }} <span class="text-primary fw-bold">' + grandTotals.prev_due.toFixed(2) + '</span></div>' +
-                            '<div><i class="bi bi-plus-circle me-1 text-primary"></i>{{ __('Add:') }} <span class="text-primary fw-bold">' + grandTotals.add_charge.toFixed(2) + '</span> | <i class="bi bi-percent me-1 text-primary"></i>{{ __('Vat:') }} <span class="text-primary fw-bold">' + grandTotals.vat.toFixed(0) + '</span></div>' +
-                            '<div><i class="bi bi-tag me-1 text-primary"></i>{{ __('Disc:') }} <span class="text-primary fw-bold">' + grandTotals.disc.toFixed(2) + '</span> | <i class="bi bi-wallet-fill me-1 text-primary"></i>{{ __('Adv:') }} <span class="text-primary fw-bold">' + grandTotals.adv.toFixed(2) + '</span></div>' +
+                            '<div><i class="bi bi-calendar3 me-1"></i>{{ __('Rent:') }} <span class="fw-bold font-mono">' + grandTotals.rent.toFixed(2) + '</span></div>' +
+                            '<div><i class="bi bi-exclamation-triangle me-1"></i>{{ __('P.Due:') }} <span class="fw-bold font-mono">' + grandTotals.prev_due.toFixed(2) + '</span></div>' +
+                            '<div><i class="bi bi-plus-circle me-1"></i>{{ __('Add:') }} <span class="fw-bold font-mono">' + grandTotals.add_charge.toFixed(2) + '</span> | <i class="bi bi-percent me-1"></i>{{ __('Vat:') }} <span class="fw-bold font-mono">' + grandTotals.vat.toFixed(0) + '</span></div>' +
+                            '<div><i class="bi bi-tag me-1"></i>{{ __('Disc:') }} <span class="fw-bold font-mono">' + grandTotals.disc.toFixed(2) + '</span> | <i class="bi bi-wallet-fill me-1"></i>{{ __('Adv:') }} <span class="fw-bold font-mono">' + grandTotals.adv.toFixed(2) + '</span></div>' +
                             '</div>'
                         );
                     }
@@ -416,10 +416,10 @@
                     if ($('#full_total_5').length) {
                         $('#full_total_5').html(
                             '<div class="billing-card small shadow-none border-0 text-start bg-transparent p-0">' +
-                            '<div class="d-flex justify-content-between text-primary"><span>{{ __('Bill:') }}</span> <span class="fw-bold">' + grandTotals.bill.toFixed(2) + '</span></div>' +
-                            '<div class="d-flex justify-content-between text-primary"><span>{{ __('Paid:') }}</span> <span class="fw-bold">' + grandTotals.paid.toFixed(2) + '</span></div>' +
-                            '<hr class="my-1 border-primary opacity-50">' +
-                            '<div class="d-flex justify-content-between text-primary"><span>{{ __('Due:') }}</span> <span class="fw-bold">' + grandTotals.due.toFixed(2) + '</span></div>' +
+                            '<div class="d-flex justify-content-between"><span>{{ __('Bill:') }}</span> <span class="fw-bold font-mono">' + grandTotals.bill.toFixed(2) + '</span></div>' +
+                            '<div class="d-flex justify-content-between"><span>{{ __('Paid:') }}</span> <span class="fw-bold font-mono">' + grandTotals.paid.toFixed(2) + '</span></div>' +
+                            '<hr class="my-1 border-secondary opacity-25">' +
+                            '<div class="d-flex justify-content-between"><span>{{ __('Due:') }}</span> <span class="fw-bold font-mono">' + grandTotals.due.toFixed(2) + '</span></div>' +
                             '</div>'
                         );
                     }
