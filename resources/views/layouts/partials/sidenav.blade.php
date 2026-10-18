@@ -98,7 +98,7 @@
     </script>
 
     {{-- React Sidebar Root Container: wire:persist ensures DOM is kept alive during Livewire navigation --}}
-    <div class="collapse navbar-collapse d-flex flex-column flex-grow-1 overflow-hidden" id="navbarVerticalCollapse">
+    <div class="navbar-collapse show d-flex flex-column flex-grow-1 overflow-hidden" id="navbarVerticalCollapse">
         <div class="navbar-vertical-content scrollbar d-flex flex-column flex-grow-1 w-100 p-0" style="padding: 0 !important; overflow-y: auto; overflow-x: hidden;">
             <div id="react-sidebar-root" wire:persist="smart-isp-sidebar" class="d-flex flex-column flex-grow-1 w-100"></div>
         </div>

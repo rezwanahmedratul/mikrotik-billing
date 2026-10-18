@@ -21,7 +21,4 @@
         window.__MIKROTIK_INITIAL_ROUTERS__ = {!! json_encode($routers->items() ?? [], JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT) !!};
     </script>
 
-    @push('scripts')
-        @vite(['resources/js/react-app/billing-main.jsx'])
-    @endpush
 </div>

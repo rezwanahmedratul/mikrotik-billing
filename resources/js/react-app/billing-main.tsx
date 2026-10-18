@@ -17,24 +17,32 @@ declare global {
 
 // Sidebar Root instance reference to prevent duplicate createRoot calls
 let sidebarRootInstance: Root | null = null;
+let currentSidebarEl: HTMLElement | null = null;
 let topbarRootInstance: Root | null = null;
+let currentTopbarEl: HTMLElement | null = null;
 let commandPaletteRootInstance: Root | null = null;
+let currentCommandPaletteEl: HTMLElement | null = null;
 
 export function mountSidebarNavigation(): void {
   const sidebarRootEl = document.getElementById('react-sidebar-root');
   if (!sidebarRootEl) {
     sidebarRootInstance = null;
+    currentSidebarEl = null;
     return;
   }
 
-  // If already mounted and has children, do nothing
-  if (sidebarRootEl.dataset.reactMounted === 'true' && sidebarRootEl.childElementCount > 0) {
+  // If already mounted on this exact DOM node and contains elements, do nothing
+  if (currentSidebarEl === sidebarRootEl && sidebarRootEl.childElementCount > 0) {
     return;
   }
 
   try {
+    if (sidebarRootInstance && currentSidebarEl !== sidebarRootEl) {
+      sidebarRootInstance = null;
+    }
     if (!sidebarRootInstance) {
       sidebarRootInstance = createRoot(sidebarRootEl);
+      currentSidebarEl = sidebarRootEl;
     }
     sidebarRootEl.dataset.reactMounted = 'true';
     sidebarRootInstance.render(
@@ -43,9 +51,9 @@ export function mountSidebarNavigation(): void {
       </React.StrictMode>
     );
   } catch (err) {
-    // If createRoot fails due to container replacement, recreate
     try {
       sidebarRootInstance = createRoot(sidebarRootEl);
+      currentSidebarEl = sidebarRootEl;
       sidebarRootEl.dataset.reactMounted = 'true';
       sidebarRootInstance.render(
         <React.StrictMode>
@@ -62,14 +70,19 @@ export function mountTopNavbar(): void {
   const topbarRootEl = document.getElementById('react-topbar-root');
   if (!topbarRootEl) {
     topbarRootInstance = null;
+    currentTopbarEl = null;
     return;
   }
-  if (topbarRootEl.dataset.reactMounted === 'true' && topbarRootEl.childElementCount > 0) {
+  if (currentTopbarEl === topbarRootEl && topbarRootEl.childElementCount > 0) {
     return;
   }
   try {
+    if (topbarRootInstance && currentTopbarEl !== topbarRootEl) {
+      topbarRootInstance = null;
+    }
     if (!topbarRootInstance) {
       topbarRootInstance = createRoot(topbarRootEl);
+      currentTopbarEl = topbarRootEl;
     }
     topbarRootEl.dataset.reactMounted = 'true';
     topbarRootInstance.render(
@@ -80,6 +93,7 @@ export function mountTopNavbar(): void {
   } catch {
     try {
       topbarRootInstance = createRoot(topbarRootEl);
+      currentTopbarEl = topbarRootEl;
       topbarRootEl.dataset.reactMounted = 'true';
       topbarRootInstance.render(
         <React.StrictMode>
@@ -92,13 +106,21 @@ export function mountTopNavbar(): void {
 
 export function mountCommandPalette(): void {
   const commandPaletteRootEl = document.getElementById('billing-command-palette-root');
-  if (!commandPaletteRootEl) return;
-  if (commandPaletteRootEl.dataset.reactMounted === 'true' && commandPaletteRootEl.childElementCount > 0) {
+  if (!commandPaletteRootEl) {
+    commandPaletteRootInstance = null;
+    currentCommandPaletteEl = null;
+    return;
+  }
+  if (currentCommandPaletteEl === commandPaletteRootEl && commandPaletteRootEl.childElementCount > 0) {
     return;
   }
   try {
+    if (commandPaletteRootInstance && currentCommandPaletteEl !== commandPaletteRootEl) {
+      commandPaletteRootInstance = null;
+    }
     if (!commandPaletteRootInstance) {
       commandPaletteRootInstance = createRoot(commandPaletteRootEl);
+      currentCommandPaletteEl = commandPaletteRootEl;
     }
     commandPaletteRootEl.dataset.reactMounted = 'true';
     commandPaletteRootInstance.render(

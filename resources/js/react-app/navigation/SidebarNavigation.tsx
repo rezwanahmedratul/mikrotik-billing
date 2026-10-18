@@ -74,6 +74,18 @@ declare global {
   }
 }
 
+// Guarantee root-relative path for same-origin SPA navigation without reload
+export const toRelativePath = (url?: string): string => {
+  if (!url || url === '#' || url.startsWith('javascript:')) return url || '#';
+  try {
+    const origin = typeof window !== 'undefined' ? window.location.origin : 'http://localhost';
+    const parsed = new URL(url, origin);
+    return parsed.pathname + parsed.search + parsed.hash;
+  } catch {
+    return url;
+  }
+};
+
 export const SidebarNavigation: React.FC = () => {
   // Read config injected from Blade
   const config = typeof window !== 'undefined' ? (window.__SIDEBAR_CONFIG__ || {}) : {};
@@ -398,20 +410,21 @@ export const SidebarNavigation: React.FC = () => {
 
   // Determine if a URL is currently active
   const isLinkActive = useCallback((href?: string, exact?: boolean) => {
-    if (!href) return false;
+    if (!href || href === '#') return false;
     try {
-      const urlPath = new URL(href, window.location.origin).pathname;
+      const urlPath = toRelativePath(href).split('?')[0].split('#')[0];
+      const curPath = currentPath.split('?')[0].split('#')[0];
       if (exact) {
-        return currentPath === urlPath;
+        return curPath === urlPath;
       }
-      if (urlPath === currentPath) return true;
+      if (urlPath === curPath) return true;
       if (
         (urlPath === '/dashboard' || urlPath === '/billing/dashboard') &&
-        (currentPath === '/dashboard' || currentPath === '/billing/dashboard')
+        (curPath === '/dashboard' || curPath === '/billing/dashboard')
       ) {
         return true;
       }
-      return urlPath !== '/' && urlPath !== '/billing' && (currentPath === urlPath || currentPath.startsWith(urlPath + '/'));
+      return urlPath !== '/' && urlPath !== '/billing' && (curPath === urlPath || curPath.startsWith(urlPath + '/'));
     } catch {
       return false;
     }
@@ -506,22 +519,26 @@ export const SidebarNavigation: React.FC = () => {
 
   // Instant SPA Navigation Handler (eliminates navbar reload flicker)
   const handleNavigate = (e: React.MouseEvent<HTMLAnchorElement>, href?: string) => {
-    if (!href) return;
+    if (!href || href === '#' || href.startsWith('javascript:')) return;
     // Allow default browser action for ctrl/cmd/middle-click (open in new tab)
     if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) {
       return;
     }
 
+    const relPath = toRelativePath(href);
+    const purePath = relPath.split('?')[0].split('#')[0];
+
     // Optimistically update active state immediately
-    try {
-      const urlPath = new URL(href, window.location.origin).pathname;
-      setCurrentPath(urlPath);
-    } catch {}
+    setCurrentPath(purePath);
 
     // Use Livewire SPA navigation if supported
     if (typeof window !== 'undefined' && window.Livewire?.navigate) {
       e.preventDefault();
-      window.Livewire.navigate(href);
+      try {
+        window.Livewire.navigate(relPath);
+      } catch {
+        window.location.href = relPath;
+      }
     }
   };
 
@@ -753,7 +770,7 @@ export const SidebarNavigation: React.FC = () => {
                                 return (
                                   <li key={subItem.id} className="mono-sub-item">
                                     <a
-                                      href={subItem.href}
+                                      href={toRelativePath(subItem.href)}
                                       wire:navigate="true"
                                       onClick={e => handleNavigate(e, subItem.href)}
                                       className="mono-sub-link d-flex align-items-center justify-content-between text-decoration-none"
@@ -815,7 +832,7 @@ export const SidebarNavigation: React.FC = () => {
                 return (
                   <li key={item.id} className="mono-nav-item">
                     <a
-                      href={item.href}
+                      href={toRelativePath(item.href)}
                       wire:navigate="true"
                       onClick={e => handleNavigate(e, item.href)}
                       className="mono-nav-link d-flex align-items-center justify-content-between text-decoration-none"
