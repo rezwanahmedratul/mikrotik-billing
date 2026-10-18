@@ -149,6 +149,19 @@ Route::middleware([
 
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
         Route::get('/api/dashboard-stats', [DashboardController::class, 'getDashboardStats'])->name('billing.api.dashboard-stats');
+
+        // MikroTik Reactive Control & Telemetry API Endpoints
+        Route::prefix('api/mikrotik')->name('billing.api.mikrotik.')->group(function () {
+            Route::get('/overview', [\App\Http\Controllers\Api\MikrotikDashboardApiController::class, 'getOverview'])->name('overview');
+            Route::post('/toggle-connect', [\App\Http\Controllers\Api\MikrotikDashboardApiController::class, 'toggleConnect'])->name('toggle-connect');
+            Route::post('/sync-router', [\App\Http\Controllers\Api\MikrotikDashboardApiController::class, 'syncRouter'])->name('sync-router');
+            Route::post('/test-connection', [\App\Http\Controllers\Api\MikrotikDashboardApiController::class, 'testConnection'])->name('test-connection');
+            Route::post('/reboot-router', [\App\Http\Controllers\Api\MikrotikDashboardApiController::class, 'rebootRouter'])->name('reboot-router');
+            Route::get('/live-traffic', [\App\Http\Controllers\Api\MikrotikDashboardApiController::class, 'getLiveTraffic'])->name('live-traffic');
+            Route::get('/active-sessions', [\App\Http\Controllers\Api\MikrotikDashboardApiController::class, 'getActiveSessions'])->name('active-sessions');
+            Route::post('/router', [\App\Http\Controllers\Api\MikrotikDashboardApiController::class, 'saveRouter'])->name('save-router');
+            Route::delete('/router/{id}', [\App\Http\Controllers\Api\MikrotikDashboardApiController::class, 'deleteRouter'])->name('delete-router');
+        });
         Route::resources([
             'collection-report' => CollectionReportController::class,
         ]);

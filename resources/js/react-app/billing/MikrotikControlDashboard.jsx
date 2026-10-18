@@ -1,0 +1,630 @@
+import React, { useState, useEffect, useMemo } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import {
+  Server,
+  Cpu,
+  RefreshCw,
+  PlusCircle,
+  RotateCcw,
+  CheckCircle2,
+  AlertTriangle,
+  Users,
+  Search,
+  Shield,
+  Radio,
+} from 'lucide-react';
+import AddRouterModal from './AddRouterModal';
+import ActiveSessionsModal from './ActiveSessionsModal';
+import LiveTrafficWidget from './LiveTrafficWidget';
+import RouterCard from './components/RouterCard';
+import SubsystemsGrid from './components/SubsystemsGrid';
+import MetricCard from './components/MetricCard';
+
+export default function MikrotikControlDashboard({ initialData = {}, isStandalone = false }) {
+  const [data, setData] = useState({
+    summary: {
+      total_routers: 0,
+      online_routers: 0,
+      offline_routers: 0,
+      total_subscribers: 0,
+      avg_cpu_load: 0,
+    },
+    routers: [],
+    interfaces: [],
+  });
+
+  const [isLoading, setIsLoading] = useState(true);
+  const [isRefreshing, setIsRefreshing] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [editingRouter, setEditingRouter] = useState(null);
+  const [activeSessionsRouter, setActiveSessionsRouter] = useState(null);
+  const [pingResults, setPingResults] = useState({}); // router_id -> { latency_ms, status, type }
+  const [testingPingId, setTestingPingId] = useState(null);
+  const [syncingRouterId, setSyncingRouterId] = useState(null);
+  const [rebootConfirmRouter, setRebootConfirmRouter] = useState(null);
+  const [isRebooting, setIsRebooting] = useState(false);
+  const [notification, setNotification] = useState(null);
+
+  // Fetch complete overview on mount
+  useEffect(() => {
+    fetchOverview();
+  }, []);
+
+  const showNotification = (msg, type = 'success') => {
+    setNotification({ msg, type });
+    setTimeout(() => setNotification(null), 4000);
+  };
+
+  const fetchOverview = async (quiet = false) => {
+    if (!quiet) setIsRefreshing(true);
+    try {
+      const res = await fetch('/billing/api/mikrotik/overview', {
+        headers: {
+          'Accept': 'application/json',
+          'X-Requested-With': 'XMLHttpRequest',
+        },
+      });
+      const json = await res.json();
+      if (json.success) {
+        setData(json);
+      }
+    } catch (err) {
+      console.error('Failed to load MikroTik overview:', err);
+    } finally {
+      setIsLoading(false);
+      setIsRefreshing(false);
+    }
+  };
+
+  // Toggle Router Active/Connected
+  const handleToggleConnect = async (routerId) => {
+    try {
+      const res = await fetch('/billing/api/mikrotik/toggle-connect', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '',
+        },
+        body: JSON.stringify({ router_id: routerId }),
+      });
+      const resData = await res.json();
+      if (resData.success) {
+        showNotification(resData.message, 'success');
+        fetchOverview(true);
+      } else {
+        showNotification(resData.message, 'error');
+      }
+    } catch (err) {
+      showNotification('Failed to toggle connection: ' + err.message, 'error');
+    }
+  };
+
+  // Ping Socket Test
+  const handlePingTest = async (router) => {
+    setTestingPingId(router.id);
+    try {
+      const res = await fetch('/billing/api/mikrotik/test-connection', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '',
+        },
+        body: JSON.stringify({ router_id: router.id }),
+      });
+      const resData = await res.json();
+      setPingResults((prev) => ({
+        ...prev,
+        [router.id]: resData,
+      }));
+    } catch (err) {
+      setPingResults((prev) => ({
+        ...prev,
+        [router.id]: { success: false, message: 'Ping failed' },
+      }));
+    } finally {
+      setTestingPingId(null);
+    }
+  };
+
+  // Sync Router Secrets
+  const handleSyncRouter = async (routerId) => {
+    setSyncingRouterId(routerId);
+    try {
+      const res = await fetch('/billing/api/mikrotik/sync-router', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '',
+        },
+        body: JSON.stringify({ router_id: routerId }),
+      });
+      const resData = await res.json();
+      if (resData.success) {
+        showNotification(resData.message, 'success');
+        fetchOverview(true);
+      } else {
+        showNotification(resData.message, 'error');
+      }
+    } catch (err) {
+      showNotification('Sync failed: ' + err.message, 'error');
+    } finally {
+      setSyncingRouterId(null);
+    }
+  };
+
+  // Sync All Routers
+  const handleSyncAll = async () => {
+    setIsRefreshing(true);
+    try {
+      const res = await fetch('/billing/api/mikrotik/sync-router', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '',
+        },
+        body: JSON.stringify({}),
+      });
+      const resData = await res.json();
+      if (resData.success) {
+        showNotification(resData.message, 'success');
+        fetchOverview(true);
+      } else {
+        showNotification(resData.message, 'error');
+      }
+    } catch (err) {
+      showNotification('Fleet sync failed: ' + err.message, 'error');
+    } finally {
+      setIsRefreshing(false);
+    }
+  };
+
+  // Soft Reboot Router
+  const handleReboot = async () => {
+    if (!rebootConfirmRouter) return;
+    setIsRebooting(true);
+    try {
+      const res = await fetch('/billing/api/mikrotik/reboot-router', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '',
+        },
+        body: JSON.stringify({ router_id: rebootConfirmRouter.id }),
+      });
+      const resData = await res.json();
+      if (resData.success) {
+        showNotification(resData.message, 'success');
+        setRebootConfirmRouter(null);
+        fetchOverview(true);
+      } else {
+        showNotification(resData.message, 'error');
+      }
+    } catch (err) {
+      showNotification('Reboot command error: ' + err.message, 'error');
+    } finally {
+      setIsRebooting(false);
+    }
+  };
+
+  // Delete Router
+  const handleDeleteRouter = async (router) => {
+    if (!confirm(`Are you sure you want to delete router '${router.router_name}'?`)) return;
+    try {
+      const res = await fetch(`/billing/api/mikrotik/router/${router.id}`, {
+        method: 'DELETE',
+        headers: {
+          'Accept': 'application/json',
+          'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '',
+        },
+      });
+      const resData = await res.json();
+      if (resData.success) {
+        showNotification(resData.message, 'success');
+        fetchOverview(true);
+      } else {
+        showNotification(resData.message, 'error');
+      }
+    } catch (err) {
+      showNotification('Delete error: ' + err.message, 'error');
+    }
+  };
+
+  const formatBytes = (bytes) => {
+    if (!bytes) return '0 MB';
+    const mb = bytes / (1024 * 1024);
+    return mb >= 1024 ? `${(mb / 1024).toFixed(1)} GB` : `${Math.round(mb)} MB`;
+  };
+
+  // Filter routers by search
+  const filteredRouters = useMemo(() => {
+    if (!searchQuery.trim()) return data.routers || [];
+    const q = searchQuery.toLowerCase();
+    return (data.routers || []).filter((r) => {
+      const name = r.router_name?.toLowerCase() || '';
+      const ip = r.ip_address?.toLowerCase() || '';
+      const model = r.hardware?.board_name?.toLowerCase() || '';
+      return name.includes(q) || ip.includes(q) || model.includes(q);
+    });
+  }, [data.routers, searchQuery]);
+
+  const summary = data.summary || {};
+
+  return (
+    <div className="mikrotik-control-dashboard" style={{ animation: 'fadeIn 0.25s ease-out' }}>
+      {/* Toast Notification */}
+      <AnimatePresence>
+        {notification && (
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            className="position-fixed top-4 end-4 p-3 rounded-3 shadow-2xl d-flex align-items-center gap-2.5 z-50"
+            style={{
+              top: 20,
+              right: 20,
+              zIndex: 9999,
+              background: notification.type === 'success' ? '#101014' : '#140c0e',
+              border: `1px solid ${notification.type === 'success' ? 'rgba(16, 185, 129, 0.4)' : 'rgba(244, 63, 94, 0.4)'}`,
+              color: '#fafafa',
+              fontSize: '0.82rem',
+            }}
+          >
+            {notification.type === 'success' ? (
+              <CheckCircle2 size={16} style={{ color: '#10b981' }} />
+            ) : (
+              <AlertTriangle size={16} style={{ color: '#f43f5e' }} />
+            )}
+            <span>{notification.msg}</span>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* ─────────────────────────────────────────────────────────────
+          TOP FLEET COMMAND BAR (STANDALONE HEADER)
+      ───────────────────────────────────────────────────────────── */}
+      {isStandalone && (
+        <div
+          className="d-flex flex-column flex-lg-row align-items-lg-center justify-content-between gap-3 mb-4 p-3.5 rounded-3"
+          style={{
+            background: 'rgba(18, 18, 22, 0.75)',
+            border: '1px solid rgba(255, 255, 255, 0.08)',
+            backdropFilter: 'blur(12px)',
+          }}
+        >
+          <div className="d-flex align-items-center gap-3">
+            <div
+              className="d-flex align-items-center justify-content-center rounded-3"
+              style={{ width: 44, height: 44, background: '#1c1c24', border: '1px solid rgba(255, 255, 255, 0.12)' }}
+            >
+              <Server size={22} style={{ color: '#38bdf8' }} />
+            </div>
+            <div>
+              <div className="d-flex align-items-center gap-2">
+                <h4 className="fw-bold mb-0 text-white" style={{ fontSize: '1.25rem', letterSpacing: '-0.02em' }}>
+                  MikroTik NOC Control Center
+                </h4>
+                <span
+                  className="badge"
+                  style={{
+                    background: 'rgba(56, 189, 248, 0.12)',
+                    color: '#38bdf8',
+                    border: '1px solid rgba(56, 189, 248, 0.3)',
+                  }}
+                >
+                  <span
+                    className="glow-dot-cyan me-1.5"
+                    style={{
+                      display: 'inline-block',
+                      width: 6,
+                      height: 6,
+                      borderRadius: '50%',
+                      background: '#38bdf8',
+                      boxShadow: '0 0 8px #38bdf8',
+                    }}
+                  ></span>
+                  NOC Live
+                </span>
+              </div>
+              <p className="mb-0 text-muted small" style={{ fontSize: '0.8rem', color: '#a1a1aa' }}>
+                Centralized RouterOS management, interface telemetry, and subscriber tunnels
+              </p>
+            </div>
+          </div>
+
+          <div className="d-flex flex-wrap align-items-center gap-2">
+            <button
+              onClick={() => {
+                setEditingRouter(null);
+                setIsAddModalOpen(true);
+              }}
+              className="btn btn-sm btn-primary d-inline-flex align-items-center gap-1.5 shadow-sm"
+            >
+              <PlusCircle size={15} />
+              <span>Add MikroTik</span>
+            </button>
+
+            <button
+              onClick={handleSyncAll}
+              disabled={isRefreshing}
+              className="btn btn-sm btn-secondary d-inline-flex align-items-center gap-1.5"
+              title="Synchronize all connected routers"
+            >
+              <RefreshCw size={14} className={isRefreshing ? 'animate-spin' : ''} style={{ color: '#34d399' }} />
+              <span>Sync Fleet</span>
+            </button>
+
+            <button
+              onClick={() => fetchOverview(false)}
+              disabled={isRefreshing}
+              className="btn btn-sm btn-secondary p-2 d-inline-flex align-items-center justify-content-center"
+              title="Refresh hardware telemetry"
+            >
+              <RefreshCw size={14} className={isRefreshing ? 'animate-spin' : ''} />
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* ─────────────────────────────────────────────────────────────
+          FLEET TELEMETRY STAT CARDS ROW (MODULAR METRIC CARDS)
+      ───────────────────────────────────────────────────────────── */}
+      <div className="row g-3 mb-4">
+        <div className="col-6 col-md-3">
+          <MetricCard
+            title="Total Fleet"
+            value={`${summary.total_routers || 0} Devices`}
+            subtitle={`${summary.online_routers || 0} Online • ${summary.offline_routers || 0} Offline`}
+            icon={Server}
+            iconColor="#38bdf8"
+            trendText={summary.online_routers > 0 ? 'Operational' : 'All Offline'}
+            trendType={summary.online_routers > 0 ? 'positive' : 'negative'}
+          />
+        </div>
+
+        <div className="col-6 col-md-3">
+          <MetricCard
+            title="Active Secrets / Users"
+            value={(summary.total_subscribers || 0).toLocaleString()}
+            subtitle="Synchronized across router fleet"
+            icon={Users}
+            iconColor="#10b981"
+            trendText="Active Tunnels"
+            trendType="positive"
+          />
+        </div>
+
+        <div className="col-6 col-md-3">
+          <MetricCard
+            title="Fleet Avg CPU Load"
+            value={`${summary.avg_cpu_load || 0}%`}
+            subtitle="Combined core processing load"
+            icon={Cpu}
+            iconColor="#f59e0b"
+            progressPercent={summary.avg_cpu_load}
+            progressColor={summary.avg_cpu_load > 70 ? '#f43f5e' : '#10b981'}
+            trendText={summary.avg_cpu_load > 70 ? 'High' : 'Normal'}
+            trendType={summary.avg_cpu_load > 70 ? 'negative' : 'positive'}
+          />
+        </div>
+
+        <div className="col-6 col-md-3">
+          <MetricCard
+            title="Daemon Socket Pools"
+            value="API + SSH"
+            subtitle="Persistent socket multiplexing active"
+            icon={Shield}
+            iconColor="#06b6d4"
+            trendText="Pool Active"
+            trendType="positive"
+          />
+        </div>
+      </div>
+
+      {/* ─────────────────────────────────────────────────────────────
+          MODULAR LIVE INTERFACE BANDWIDTH GRAPH
+      ───────────────────────────────────────────────────────────── */}
+      {data.routers.length > 0 && (
+        <LiveTrafficWidget
+          routers={data.routers}
+          interfaces={data.interfaces || ['ether1', 'ether2', 'ether3', 'bridge']}
+        />
+      )}
+
+      {/* ─────────────────────────────────────────────────────────────
+          MODULAR ROUTER FLEET CARDS SECTION
+      ───────────────────────────────────────────────────────────── */}
+      <div className="mb-4">
+        <div className="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3 mb-3">
+          <div className="d-flex align-items-center gap-2">
+            <Radio size={18} style={{ color: '#38bdf8' }} />
+            <h5 className="fw-bold mb-0 text-white" style={{ fontSize: '1rem', letterSpacing: '-0.01em' }}>
+              Router Infrastructure Fleet
+            </h5>
+            <span
+              className="badge"
+              style={{ background: '#18181c', color: '#a1a1aa', border: '1px solid rgba(255, 255, 255, 0.08)' }}
+            >
+              {filteredRouters.length} Devices
+            </span>
+          </div>
+
+          <div className="d-flex align-items-center gap-2">
+            <div className="position-relative" style={{ minWidth: 240 }}>
+              <Search size={14} className="position-absolute text-muted" style={{ left: 10, top: 10 }} />
+              <input
+                type="text"
+                className="form-control form-control-sm ps-4"
+                placeholder="Search router by name, IP, model..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                style={{ fontSize: '0.78rem', background: '#16161c', borderColor: 'rgba(255, 255, 255, 0.1)', color: '#fafafa' }}
+              />
+            </div>
+            {!isStandalone && (
+              <button
+                onClick={() => {
+                  setEditingRouter(null);
+                  setIsAddModalOpen(true);
+                }}
+                className="btn btn-sm btn-primary d-inline-flex align-items-center gap-1 shadow-sm"
+              >
+                <PlusCircle size={14} />
+                <span>Add Router</span>
+              </button>
+            )}
+          </div>
+        </div>
+
+        {filteredRouters.length === 0 ? (
+          <div
+            className="p-5 text-center rounded-3"
+            style={{ background: '#121216', border: '1px solid rgba(255, 255, 255, 0.08)' }}
+          >
+            <Server size={32} className="text-muted mb-2 opacity-50" />
+            <h6 className="text-white fw-bold">No MikroTik Routers Found</h6>
+            <p className="text-muted small mb-3">
+              {searchQuery ? 'No routers matched your search query.' : 'Register your first MikroTik router to start monitoring.'}
+            </p>
+            <button
+              onClick={() => {
+                setEditingRouter(null);
+                setIsAddModalOpen(true);
+              }}
+              className="btn btn-sm btn-primary"
+            >
+              Add MikroTik Router
+            </button>
+          </div>
+        ) : (
+          <div className="row g-3">
+            {filteredRouters.map((router) => (
+              <div key={router.id} className="col-12 col-md-6 col-xl-4">
+                <RouterCard
+                  router={router}
+                  ping={pingResults[router.id]}
+                  isPinging={testingPingId === router.id}
+                  isSyncing={syncingRouterId === router.id}
+                  onToggleConnect={handleToggleConnect}
+                  onPingTest={handlePingTest}
+                  onSyncRouter={handleSyncRouter}
+                  onOpenSessions={(rName) => setActiveSessionsRouter(rName)}
+                  onRebootClick={(r) => setRebootConfirmRouter(r)}
+                  onEditClick={(r) => {
+                    setEditingRouter(r);
+                    setIsAddModalOpen(true);
+                  }}
+                  onDeleteClick={handleDeleteRouter}
+                  formatBytes={formatBytes}
+                />
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* ─────────────────────────────────────────────────────────────
+          MODULAR SUBSYSTEMS SHORTCUTS GRID
+      ───────────────────────────────────────────────────────────── */}
+      <SubsystemsGrid />
+
+      {/* ─────────────────────────────────────────────────────────────
+          MODALS
+      ───────────────────────────────────────────────────────────── */}
+      <AddRouterModal
+        isOpen={isAddModalOpen}
+        onClose={() => {
+          setIsAddModalOpen(false);
+          setEditingRouter(null);
+        }}
+        editingRouter={editingRouter}
+        onRouterSaved={() => {
+          showNotification('Router successfully configured!', 'success');
+          fetchOverview(true);
+        }}
+      />
+
+      <ActiveSessionsModal
+        isOpen={!!activeSessionsRouter}
+        onClose={() => setActiveSessionsRouter(null)}
+        routerName={activeSessionsRouter}
+      />
+
+      {/* Reboot Confirm Modal */}
+      <AnimatePresence>
+        {rebootConfirmRouter && (
+          <div
+            className="modal-backdrop-custom fixed-inset d-flex align-items-center justify-content-center p-3"
+            style={{
+              position: 'fixed',
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              background: 'rgba(5, 5, 7, 0.85)',
+              backdropFilter: 'blur(8px)',
+              zIndex: 1060,
+            }}
+          >
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              className="p-4 rounded-4 shadow-2xl"
+              style={{
+                maxWidth: 420,
+                width: '100%',
+                background: '#121216',
+                border: '1px solid rgba(244, 63, 94, 0.3)',
+              }}
+            >
+              <div className="d-flex align-items-center gap-3 mb-3">
+                <div
+                  className="d-flex align-items-center justify-content-center rounded-circle flex-shrink-0"
+                  style={{ width: 40, height: 40, background: 'rgba(244, 63, 94, 0.15)', color: '#f43f5e' }}
+                >
+                  <RotateCcw size={20} />
+                </div>
+                <div>
+                  <h6 className="fw-bold mb-0 text-white">Reboot MikroTik Router?</h6>
+                  <p className="text-muted small mb-0" style={{ fontSize: '0.75rem' }}>
+                    Device: <span className="text-white fw-bold">{rebootConfirmRouter.router_name}</span>
+                  </p>
+                </div>
+              </div>
+
+              <p className="small text-muted mb-4" style={{ fontSize: '0.8rem' }}>
+                This will trigger a soft reboot on the RouterOS hardware. All active PPPoE and Hotspot sessions on this router will briefly disconnect.
+              </p>
+
+              <div className="d-flex align-items-center justify-content-end gap-2">
+                <button
+                  type="button"
+                  onClick={() => setRebootConfirmRouter(null)}
+                  className="btn btn-sm btn-secondary"
+                  disabled={isRebooting}
+                >
+                  Cancel
+                </button>
+                <button
+                  type="button"
+                  onClick={handleReboot}
+                  disabled={isRebooting}
+                  className="btn btn-sm btn-danger d-inline-flex align-items-center gap-1.5"
+                >
+                  {isRebooting ? <RefreshCw size={13} className="animate-spin" /> : <RotateCcw size={13} />}
+                  <span>{isRebooting ? 'Rebooting...' : 'Yes, Reboot Device'}</span>
+                </button>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}

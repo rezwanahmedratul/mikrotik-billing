@@ -1,6 +1,7 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import BillingDashboard from './billing/BillingDashboard';
+import MikrotikControlDashboard from './billing/MikrotikControlDashboard';
 import CommandPalette from './billing/CommandPalette';
 
 // Mount Billing Dashboard if container is present on /billing/dashboard
@@ -11,6 +12,21 @@ if (dashboardRootEl) {
   root.render(
     <React.StrictMode>
       <BillingDashboard initialData={initialData} />
+    </React.StrictMode>
+  );
+}
+
+// Mount Dedicated MikroTik Control Dashboard if container is present on /billing/mikrotik
+const mikrotikRootEl = document.getElementById('mikrotik-dashboard-react-root');
+if (mikrotikRootEl) {
+  const initialData = {
+    csrfToken: window.__MIKROTIK_CSRF_TOKEN__ || '',
+    initialRouters: window.__MIKROTIK_INITIAL_ROUTERS__ || [],
+  };
+  const mRoot = createRoot(mikrotikRootEl);
+  mRoot.render(
+    <React.StrictMode>
+      <MikrotikControlDashboard initialData={initialData} isStandalone={true} />
     </React.StrictMode>
   );
 }
