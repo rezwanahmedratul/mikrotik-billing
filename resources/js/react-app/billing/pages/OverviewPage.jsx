@@ -126,32 +126,32 @@ export default function OverviewPage({
         <div
           className="card p-3.5 p-md-4 mb-4"
           style={{
-            background: '#111115',
-            border: '1px solid rgba(255, 255, 255, 0.08)',
+            background: 'var(--mono-card)',
+            border: '1px solid var(--mono-card-border)',
             borderRadius: 12,
           }}
         >
           <div className="d-flex align-items-center gap-2 mb-3">
-            <Layers size={17} style={{ color: '#d1d1d6' }} />
-            <h5 className="fw-bold mb-0 text-white" style={{ fontSize: '0.96rem', letterSpacing: '-0.01em' }}>
+            <Layers size={17} style={{ color: 'var(--mono-text-secondary)' }} />
+            <h5 className="fw-bold mb-0" style={{ fontSize: '0.96rem', letterSpacing: '-0.01em', color: 'var(--mono-text-primary)' }}>
               Billing Matrix by Subscriber Status
             </h5>
           </div>
 
           <div className="table-responsive">
-            <table className="table mb-0 align-middle" style={{ '--bs-table-bg': 'transparent', color: '#e4e4e7' }}>
+            <table className="table mb-0 align-middle" style={{ '--bs-table-bg': 'transparent', color: 'var(--mono-text-primary)' }}>
               <thead>
-                <tr style={{ borderBottom: '1px solid rgba(255, 255, 255, 0.08)' }}>
-                  <th style={{ width: '25%', color: '#71717a', fontSize: '0.72rem', letterSpacing: '0.06em', fontWeight: 600, background: 'transparent' }}>
+                <tr style={{ borderBottom: '1px solid var(--mono-card-border)' }}>
+                  <th style={{ width: '25%', color: 'var(--mono-text-muted)', fontSize: '0.72rem', letterSpacing: '0.06em', fontWeight: 600, background: 'transparent' }}>
                     STATUS GROUP
                   </th>
-                  <th style={{ width: '25%', color: '#71717a', fontSize: '0.72rem', letterSpacing: '0.06em', fontWeight: 600, background: 'transparent' }}>
+                  <th style={{ width: '25%', color: 'var(--mono-text-muted)', fontSize: '0.72rem', letterSpacing: '0.06em', fontWeight: 600, background: 'transparent' }}>
                     MONTHLY RENT
                   </th>
-                  <th style={{ width: '25%', color: '#71717a', fontSize: '0.72rem', letterSpacing: '0.06em', fontWeight: 600, background: 'transparent' }}>
+                  <th style={{ width: '25%', color: 'var(--mono-text-muted)', fontSize: '0.72rem', letterSpacing: '0.06em', fontWeight: 600, background: 'transparent' }}>
                     ADVANCE PAID
                   </th>
-                  <th style={{ width: '25%', color: '#71717a', fontSize: '0.72rem', letterSpacing: '0.06em', fontWeight: 600, background: 'transparent' }}>
+                  <th style={{ width: '25%', color: 'var(--mono-text-muted)', fontSize: '0.72rem', letterSpacing: '0.06em', fontWeight: 600, background: 'transparent' }}>
                     PENDING DUE AMOUNT
                   </th>
                 </tr>
@@ -164,15 +164,15 @@ export default function OverviewPage({
                     inactive: '#f43f5e',
                     pending: '#f59e0b',
                   };
-                  const color = statusColors[st] || '#ffffff';
+                  const color = statusColors[st] || 'var(--mono-text-primary)';
 
                   return (
-                    <tr key={st} style={{ borderBottom: '1px solid rgba(255, 255, 255, 0.04)' }}>
+                    <tr key={st} style={{ borderBottom: '1px solid var(--mono-hairline)' }}>
                       <td>
                         <span
                           className="badge text-capitalize d-inline-flex align-items-center gap-1.5"
                           style={{
-                            background: '#16161c',
+                            background: 'var(--mono-surface-elevated)',
                             color,
                             border: `1px solid ${color}30`,
                             fontSize: '0.74rem',
@@ -193,7 +193,7 @@ export default function OverviewPage({
                           {st}
                         </span>
                       </td>
-                      <td className="font-mono text-white fw-semibold" style={{ fontSize: '0.84rem' }}>
+                      <td className="font-mono fw-semibold" style={{ fontSize: '0.84rem', color: 'var(--mono-text-primary)' }}>
                         {formatCurrency(row.monthly_rent)}
                       </td>
                       <td className="font-mono text-success" style={{ fontSize: '0.84rem' }}>

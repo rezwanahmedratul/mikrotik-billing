@@ -111,14 +111,16 @@ const CP = {
         });
 
         // Apply theme
-        const theme = localStorage.getItem('theme');
-        if (theme === 'dark') {
-            document.documentElement.setAttribute('data-bs-theme', 'dark');
-        } else if (theme === 'auto') {
-            document.documentElement.setAttribute(
-                'data-bs-theme',
-                window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
-            );
+        const theme = localStorage.getItem('theme') || 'auto';
+        let appliedTheme = theme;
+        if (theme === 'auto') {
+            appliedTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        }
+        document.documentElement.setAttribute('data-bs-theme', appliedTheme);
+        if (appliedTheme === 'dark') {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
         }
 
         // Restore collapsed state

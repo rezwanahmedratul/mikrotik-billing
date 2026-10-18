@@ -1,40 +1,51 @@
 import React from 'react';
 import { Users } from 'lucide-react';
+import { useTheme } from '../useTheme';
 
 export default function SubscriberDonutChart({ statusItems = [], totalCustomers = 0, formatNumber }) {
-  // Monochrome palette matching reference screenshot
-  const monochromeColors = {
-    Active: '#ffffff',
-    Pending: '#e4e4e7',
-    Free: '#a1a1aa',
-    Disabled: '#71717a',
-    Inactive: '#52525b',
-  };
+  const { isDark, palette } = useTheme();
+
+  // Dynamic monochrome palette
+  const monochromeColors = isDark
+    ? {
+        Active: '#ffffff',
+        Pending: '#e4e4e7',
+        Free: '#a1a1aa',
+        Disabled: '#71717a',
+        Inactive: '#52525b',
+      }
+    : {
+        Active: '#09090b',
+        Pending: '#3f3f46',
+        Free: '#71717a',
+        Disabled: '#a1a1aa',
+        Inactive: '#cbd5e1',
+      };
 
   return (
     <div
       className="card p-3.5 p-md-4 h-100 d-flex flex-column justify-content-between"
       style={{
-        background: '#111115',
-        border: '1px solid rgba(255, 255, 255, 0.08)',
+        background: 'var(--mono-card)',
+        border: '1px solid var(--mono-card-border)',
         borderRadius: 12,
       }}
     >
       <div>
         <div className="d-flex align-items-center gap-2 mb-0.5">
-          <Users size={16} style={{ color: '#d1d1d6' }} />
-          <h5 className="fw-bold mb-0 text-white" style={{ fontSize: '0.96rem', letterSpacing: '-0.01em' }}>
+          <Users size={16} style={{ color: 'var(--mono-text-secondary)' }} />
+          <h5 className="fw-bold mb-0" style={{ fontSize: '0.96rem', letterSpacing: '-0.01em', color: 'var(--mono-text-primary)' }}>
             Subscriber Breakdown
           </h5>
         </div>
-        <p className="small mb-3" style={{ fontSize: '0.76rem', color: '#71717a' }}>
+        <p className="small mb-3" style={{ fontSize: '0.76rem', color: 'var(--mono-text-muted)' }}>
           Distribution of client account lifecycle
         </p>
 
         {/* Donut SVG */}
         <div className="d-flex justify-content-center position-relative my-3">
           <svg width="180" height="180" viewBox="0 0 100 100">
-            <circle cx="50" cy="50" r="38" fill="transparent" stroke="#222228" strokeWidth="11" />
+            <circle cx="50" cy="50" r="38" fill="transparent" stroke={palette.chartDonutBg} strokeWidth="11" />
 
             {(() => {
               let accumulatedPct = 0;
@@ -72,7 +83,7 @@ export default function SubscriberDonutChart({ statusItems = [], totalCustomers 
               x="50"
               y="47"
               textAnchor="middle"
-              fill="#ffffff"
+              fill={palette.chartDonutCenter}
               fontSize="14"
               fontWeight="bold"
               fontFamily="sans-serif"
@@ -83,7 +94,7 @@ export default function SubscriberDonutChart({ statusItems = [], totalCustomers 
               x="50"
               y="61"
               textAnchor="middle"
-              fill="#71717a"
+              fill={palette.chartText}
               fontSize="6.5"
               fontWeight="600"
               letterSpacing="0.05em"
@@ -98,7 +109,7 @@ export default function SubscriberDonutChart({ statusItems = [], totalCustomers 
       {/* Status Legend List matching screenshot */}
       <div
         className="d-flex flex-column gap-2 pt-3 border-top"
-        style={{ borderColor: 'rgba(255, 255, 255, 0.06)' }}
+        style={{ borderColor: 'var(--mono-card-border)' }}
       >
         {statusItems.map((item) => {
           const color = monochromeColors[item.label] || item.color || '#a1a1aa';
@@ -113,13 +124,13 @@ export default function SubscriberDonutChart({ statusItems = [], totalCustomers 
                     background: color,
                   }}
                 ></span>
-                <span style={{ color: '#a1a1aa', fontSize: '0.78rem' }}>{item.label}</span>
+                <span style={{ color: 'var(--mono-text-secondary)', fontSize: '0.78rem' }}>{item.label}</span>
               </div>
               <div className="d-flex align-items-center gap-1.5">
-                <span className="fw-semibold text-white font-mono" style={{ fontSize: '0.8rem' }}>
+                <span className="fw-semibold font-mono" style={{ fontSize: '0.8rem', color: 'var(--mono-text-primary)' }}>
                   {formatNumber(item.count)}
                 </span>
-                <span style={{ color: '#71717a', fontSize: '0.74rem' }}>
+                <span style={{ color: 'var(--mono-text-muted)', fontSize: '0.74rem' }}>
                   ({item.percentage}%)
                 </span>
               </div>

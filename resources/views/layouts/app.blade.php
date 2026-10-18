@@ -58,16 +58,73 @@
             document.documentElement.classList.remove("navbar-vertical-collapsed");
         }
 
-        // Enforce Monochrome Dark theme by default
-        (() => {
-            const isTheme = localStorage.getItem('theme') || 'dark';
-            const appliedTheme = isTheme === 'light' ? 'light' : 'dark';
-            document.documentElement.setAttribute('data-bs-theme', appliedTheme);
-            if (appliedTheme === 'dark') {
+        // Global theme application helper
+        window.applyGlobalTheme = function(theme) {
+            let applied = theme;
+            if (theme === 'auto') {
+                applied = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+            }
+            document.documentElement.setAttribute('data-bs-theme', applied);
+            if (applied === 'dark') {
                 document.documentElement.classList.add('dark');
             } else {
                 document.documentElement.classList.remove('dark');
             }
+            window.dispatchEvent(new CustomEvent('smartIspThemeChanged', {
+                detail: { theme: applied, rawTheme: theme }
+            }));
+            return applied;
+        };
+
+        // Theme toggle object definition for Alpine.js
+        window.themeToggle = function() {
+            return {
+                theme: localStorage.getItem('theme') || 'auto',
+
+                init() {
+                    this.applyTheme(this.theme);
+
+                    window.addEventListener('livewire:navigated', () => {
+                        this.applyTheme(this.theme);
+                    });
+
+                    window.addEventListener('smartIspThemeChanged', (e) => {
+                        if (e.detail && e.detail.rawTheme && this.theme !== e.detail.rawTheme) {
+                            this.theme = e.detail.rawTheme;
+                        }
+                    });
+
+                    try {
+                        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+                            if (this.theme === 'auto') {
+                                this.applyTheme('auto');
+                            }
+                        });
+                    } catch (e) {}
+                },
+
+                setTheme(newTheme) {
+                    this.theme = newTheme;
+                    localStorage.setItem('theme', newTheme);
+                    this.applyTheme(newTheme);
+                },
+
+                applyTheme(t) {
+                    window.applyGlobalTheme(t);
+                }
+            };
+        };
+
+        document.addEventListener('alpine:init', () => {
+            if (window.Alpine && typeof window.Alpine.data === 'function') {
+                window.Alpine.data('themeToggle', window.themeToggle);
+            }
+        });
+
+        // Apply persisted or default theme immediately
+        (() => {
+            const isTheme = localStorage.getItem('theme') || 'dark';
+            window.applyGlobalTheme(isTheme);
         })();
     </script>
 </head>
@@ -226,40 +283,9 @@
             }
         });
 
-        // For theme toggle
+        // Forward themeToggle to window.themeToggle
         function themeToggle() {
-            return {
-                theme: localStorage.getItem('theme') || 'auto',
-
-                init() {
-                    this.applyTheme(this.theme);
-
-                    // For Livewire SPA support
-                    window.addEventListener('livewire:navigated', () => {
-                        this.applyTheme(this.theme);
-                    });
-                },
-
-                setTheme(theme) {
-                    this.theme = theme;
-                    localStorage.setItem('theme', theme);
-                    this.applyTheme(theme);
-                },
-
-                applyTheme(theme) {
-                    let applied = theme;
-                    if (theme === 'auto') {
-                        const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-                        applied = isDark ? 'dark' : 'light';
-                    }
-                    document.documentElement.setAttribute('data-bs-theme', applied);
-                    if (applied === 'dark') {
-                        document.documentElement.classList.add('dark');
-                    } else {
-                        document.documentElement.classList.remove('dark');
-                    }
-                }
-            }
+            return window.themeToggle();
         }
 
         function layoutController() {

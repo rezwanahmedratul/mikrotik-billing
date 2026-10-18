@@ -27,15 +27,15 @@ export default function MetricCard({
     <div
       className="card p-3.5 h-100 hover-lift d-flex flex-column justify-content-between"
       style={{
-        background: '#111115',
-        border: '1px solid rgba(255, 255, 255, 0.08)',
+        background: 'var(--mono-card)',
+        border: '1px solid var(--mono-card-border)',
         borderRadius: 12,
       }}
     >
       {/* Top Row: Title & Icon Container */}
       <div>
         <div className="d-flex align-items-center justify-content-between mb-2">
-          <span className="small fw-medium" style={{ fontSize: '0.76rem', color: '#8e8e93' }}>
+          <span className="small fw-medium" style={{ fontSize: '0.76rem', color: 'var(--mono-text-muted)' }}>
             {title}
           </span>
           {Icon && (
@@ -44,26 +44,26 @@ export default function MetricCard({
               style={{
                 width: 28,
                 height: 28,
-                background: '#16161c',
-                border: '1px solid rgba(255, 255, 255, 0.08)',
+                background: 'var(--mono-surface-elevated)',
+                border: '1px solid var(--mono-card-border)',
               }}
             >
-              <Icon size={14} style={{ color: '#d1d1d6' }} />
+              <Icon size={14} style={{ color: 'var(--mono-text-secondary)' }} />
             </div>
           )}
         </div>
 
         {/* Middle: Big Value */}
         <div
-          className="fw-bold font-mono text-white mb-2"
-          style={{ fontSize: '1.45rem', letterSpacing: '-0.02em', lineHeight: 1.1 }}
+          className="fw-bold font-mono mb-2"
+          style={{ fontSize: '1.45rem', letterSpacing: '-0.02em', lineHeight: 1.1, color: 'var(--mono-text-primary)' }}
         >
           {value}
         </div>
 
         {/* Optional Progress Bar */}
         {progressPercent !== undefined && progressPercent !== null && (
-          <div className="rounded-pill overflow-hidden my-2" style={{ height: 4, background: '#27272a' }}>
+          <div className="rounded-pill overflow-hidden my-2" style={{ height: 4, background: 'var(--mono-surface-elevated)' }}>
             <div
               style={{
                 width: `${Math.min(100, Math.max(4, Number(progressPercent)))}%`,
@@ -81,7 +81,7 @@ export default function MetricCard({
         className="d-flex align-items-center justify-content-between pt-1"
         style={{ fontSize: '0.74rem' }}
       >
-        <span className="text-truncate me-1" style={{ color: '#71717a' }}>
+        <span className="text-truncate me-1" style={{ color: 'var(--mono-text-muted)' }}>
           {subtitle}
         </span>
 
@@ -89,9 +89,9 @@ export default function MetricCard({
           <span
             className="badge d-inline-flex align-items-center gap-1 font-mono flex-shrink-0"
             style={{
-              background: '#18181f',
+              background: 'var(--mono-surface-elevated)',
               color: resolvedBadgeColor,
-              border: '1px solid rgba(255, 255, 255, 0.1)',
+              border: '1px solid var(--mono-card-border)',
               fontSize: '0.66rem',
               fontWeight: 500,
               padding: '2px 7px',

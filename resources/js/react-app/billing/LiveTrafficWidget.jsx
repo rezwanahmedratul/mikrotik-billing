@@ -10,8 +10,10 @@ import {
   Sliders,
   Wifi,
 } from 'lucide-react';
+import { useTheme } from './useTheme';
 
 export default function LiveTrafficWidget({ routers = [], initialRouter = null, interfaces = [] }) {
+  const { theme, isDark, palette } = useTheme();
   const [selectedRouter, setSelectedRouter] = useState(
     initialRouter || routers.find((r) => r.is_connected)?.router_name || routers[0]?.router_name || ''
   );
@@ -127,8 +129,8 @@ export default function LiveTrafficWidget({ routers = [], initialRouter = null, 
     <div
       className="card p-3.5 p-md-4 mb-4"
       style={{
-        background: '#111115',
-        border: '1px solid rgba(255, 255, 255, 0.08)',
+        background: palette.cardBg,
+        border: `1px solid ${palette.cardBorder}`,
         borderRadius: 12,
       }}
     >
@@ -137,22 +139,22 @@ export default function LiveTrafficWidget({ routers = [], initialRouter = null, 
         <div className="d-flex align-items-center gap-2.5">
           <div
             className="d-flex align-items-center justify-content-center rounded-3"
-            style={{ width: 36, height: 36, background: '#16161c', border: '1px solid rgba(255, 255, 255, 0.1)' }}
+            style={{ width: 36, height: 36, background: palette.surfaceElevated, border: `1px solid ${palette.cardBorder}` }}
           >
-            <Activity size={17} style={{ color: '#d1d1d6' }} />
+            <Activity size={17} style={{ color: palette.textSecondary }} />
           </div>
           <div>
             <div className="d-flex align-items-center gap-2">
-              <h5 className="fw-bold mb-0 text-white" style={{ fontSize: '0.96rem', letterSpacing: '-0.01em' }}>
+              <h5 className="fw-bold mb-0" style={{ fontSize: '0.96rem', letterSpacing: '-0.01em', color: palette.textPrimary }}>
                 Live Interface Bandwidth Monitor
               </h5>
               {!isPaused && (
                 <span
                   className="badge font-mono"
                   style={{
-                    background: '#18181f',
-                    color: '#38bdf8',
-                    border: '1px solid rgba(56, 189, 248, 0.25)',
+                    background: palette.badgeBg,
+                    color: '#0284c7',
+                    border: '1px solid rgba(2, 132, 199, 0.25)',
                     fontSize: '0.68rem',
                     borderRadius: 5,
                   }}
@@ -163,8 +165,8 @@ export default function LiveTrafficWidget({ routers = [], initialRouter = null, 
                       width: 5,
                       height: 5,
                       borderRadius: '50%',
-                      background: '#38bdf8',
-                      boxShadow: '0 0 6px #38bdf8',
+                      background: '#0284c7',
+                      boxShadow: '0 0 6px #0284c7',
                       marginRight: 4,
                     }}
                   ></span>
@@ -172,7 +174,7 @@ export default function LiveTrafficWidget({ routers = [], initialRouter = null, 
                 </span>
               )}
             </div>
-            <p className="small mb-0" style={{ fontSize: '0.76rem', color: '#71717a' }}>
+            <p className="small mb-0" style={{ fontSize: '0.76rem', color: palette.textMuted }}>
               Real-time traffic telemetry via RouterOS socket monitor
             </p>
           </div>
@@ -188,9 +190,9 @@ export default function LiveTrafficWidget({ routers = [], initialRouter = null, 
               style={{
                 width: 'auto',
                 fontSize: '0.78rem',
-                background: '#16161c',
-                borderColor: 'rgba(255, 255, 255, 0.1)',
-                color: '#fafafa',
+                background: palette.surfaceElevated,
+                borderColor: palette.cardBorder,
+                color: palette.textPrimary,
                 borderRadius: 8,
               }}
             >
@@ -209,9 +211,9 @@ export default function LiveTrafficWidget({ routers = [], initialRouter = null, 
             style={{
               width: 'auto',
               fontSize: '0.78rem',
-              background: '#16161c',
-              borderColor: 'rgba(255, 255, 255, 0.1)',
-              color: '#fafafa',
+              background: palette.surfaceElevated,
+              borderColor: palette.cardBorder,
+              color: palette.textPrimary,
               borderRadius: 8,
             }}
           >
@@ -226,9 +228,9 @@ export default function LiveTrafficWidget({ routers = [], initialRouter = null, 
             onClick={() => setIsPaused(!isPaused)}
             className="btn btn-sm d-inline-flex align-items-center gap-1.5 px-3 py-1.5"
             style={{
-              background: '#16161b',
-              border: '1px solid rgba(255, 255, 255, 0.1)',
-              color: '#e4e4e7',
+              background: palette.buttonSecondaryBg,
+              border: `1px solid ${palette.buttonSecondaryBorder}`,
+              color: palette.buttonSecondaryText,
               borderRadius: 8,
               fontSize: '0.8rem',
             }}
@@ -245,15 +247,15 @@ export default function LiveTrafficWidget({ routers = [], initialRouter = null, 
         <div className="col-6 col-md-3">
           <div
             className="p-2.5 rounded-3 d-flex align-items-center justify-content-between"
-            style={{ background: '#16161c', border: '1px solid rgba(255, 255, 255, 0.06)' }}
+            style={{ background: palette.surfaceElevated, border: `1px solid ${palette.cardBorder}` }}
           >
             <div className="d-flex align-items-center gap-2">
               <ArrowDownCircle size={16} style={{ color: '#10b981' }} />
-              <span className="text-muted small" style={{ fontSize: '0.75rem' }}>
+              <span className="small" style={{ fontSize: '0.75rem', color: palette.textMuted }}>
                 Rx (Download)
               </span>
             </div>
-            <span className="font-mono fw-bold text-white" style={{ fontSize: '0.88rem' }}>
+            <span className="font-mono fw-bold" style={{ fontSize: '0.88rem', color: palette.textPrimary }}>
               {formatSpeed(currentSpeed.rx_mbps)}
             </span>
           </div>
@@ -262,15 +264,15 @@ export default function LiveTrafficWidget({ routers = [], initialRouter = null, 
         <div className="col-6 col-md-3">
           <div
             className="p-2.5 rounded-3 d-flex align-items-center justify-content-between"
-            style={{ background: '#16161c', border: '1px solid rgba(255, 255, 255, 0.06)' }}
+            style={{ background: palette.surfaceElevated, border: `1px solid ${palette.cardBorder}` }}
           >
             <div className="d-flex align-items-center gap-2">
-              <ArrowUpCircle size={16} style={{ color: '#38bdf8' }} />
-              <span className="text-muted small" style={{ fontSize: '0.75rem' }}>
+              <ArrowUpCircle size={16} style={{ color: '#0284c7' }} />
+              <span className="small" style={{ fontSize: '0.75rem', color: palette.textMuted }}>
                 Tx (Upload)
               </span>
             </div>
-            <span className="font-mono fw-bold text-white" style={{ fontSize: '0.88rem' }}>
+            <span className="font-mono fw-bold" style={{ fontSize: '0.88rem', color: palette.textPrimary }}>
               {formatSpeed(currentSpeed.tx_mbps)}
             </span>
           </div>
@@ -279,12 +281,12 @@ export default function LiveTrafficWidget({ routers = [], initialRouter = null, 
         <div className="col-6 col-md-3">
           <div
             className="p-2.5 rounded-3 d-flex align-items-center justify-content-between"
-            style={{ background: '#16161c', border: '1px solid rgba(255, 255, 255, 0.06)' }}
+            style={{ background: palette.surfaceElevated, border: `1px solid ${palette.cardBorder}` }}
           >
-            <span className="text-muted small" style={{ fontSize: '0.75rem' }}>
+            <span className="small" style={{ fontSize: '0.75rem', color: palette.textMuted }}>
               Peak Rx
             </span>
-            <span className="font-mono text-muted" style={{ fontSize: '0.8rem' }}>
+            <span className="font-mono" style={{ fontSize: '0.8rem', color: palette.textSecondary }}>
               {formatSpeed(peakSpeed.rx)}
             </span>
           </div>
@@ -293,12 +295,12 @@ export default function LiveTrafficWidget({ routers = [], initialRouter = null, 
         <div className="col-6 col-md-3">
           <div
             className="p-2.5 rounded-3 d-flex align-items-center justify-content-between"
-            style={{ background: '#16161c', border: '1px solid rgba(255, 255, 255, 0.06)' }}
+            style={{ background: palette.surfaceElevated, border: `1px solid ${palette.cardBorder}` }}
           >
-            <span className="text-muted small" style={{ fontSize: '0.75rem' }}>
+            <span className="small" style={{ fontSize: '0.75rem', color: palette.textMuted }}>
               Peak Tx
             </span>
-            <span className="font-mono text-muted" style={{ fontSize: '0.8rem' }}>
+            <span className="font-mono" style={{ fontSize: '0.8rem', color: palette.textSecondary }}>
               {formatSpeed(peakSpeed.tx)}
             </span>
           </div>
@@ -306,7 +308,7 @@ export default function LiveTrafficWidget({ routers = [], initialRouter = null, 
       </div>
 
       {/* Real-time SVG Area Waveform Graph */}
-      <div className="position-relative w-100 rounded-3 overflow-hidden" style={{ height: 140, background: '#0e0e12' }}>
+      <div className="position-relative w-100 rounded-3 overflow-hidden" style={{ height: 140, background: palette.trafficGraphBg }}>
         <svg className="w-100 h-100" viewBox={`0 0 ${width} ${height}`} preserveAspectRatio="none">
           <defs>
             <linearGradient id="rxGradient" x1="0" y1="0" x2="0" y2="1">
@@ -329,7 +331,7 @@ export default function LiveTrafficWidget({ routers = [], initialRouter = null, 
                 y1={y}
                 x2={width}
                 y2={y}
-                stroke="rgba(255, 255, 255, 0.05)"
+                stroke={palette.chartGrid}
                 strokeDasharray="4 4"
               />
             );
@@ -341,7 +343,7 @@ export default function LiveTrafficWidget({ routers = [], initialRouter = null, 
 
           {/* Tx Area & Line */}
           <polygon points={txAreaPoints} fill="url(#txGradient)" />
-          <polyline points={txPoints} fill="none" stroke="#38bdf8" strokeWidth="2" strokeLinecap="round" strokeDasharray="3 3" />
+          <polyline points={txPoints} fill="none" stroke="#0284c7" strokeWidth="2" strokeLinecap="round" strokeDasharray="3 3" />
         </svg>
 
         {/* Legend Overlay */}
@@ -350,19 +352,19 @@ export default function LiveTrafficWidget({ routers = [], initialRouter = null, 
           style={{
             top: 8,
             right: 12,
-            background: 'rgba(18, 18, 24, 0.75)',
+            background: isDark ? 'rgba(18, 18, 24, 0.75)' : 'rgba(255, 255, 255, 0.85)',
             backdropFilter: 'blur(6px)',
-            border: '1px solid rgba(255, 255, 255, 0.08)',
+            border: `1px solid ${palette.cardBorder}`,
             fontSize: '0.72rem',
           }}
         >
           <div className="d-flex align-items-center gap-1.5">
             <span style={{ width: 8, height: 2, background: '#10b981' }}></span>
-            <span className="text-muted">Rx (In)</span>
+            <span style={{ color: palette.textMuted }}>Rx (In)</span>
           </div>
           <div className="d-flex align-items-center gap-1.5">
-            <span style={{ width: 8, height: 2, background: '#38bdf8' }}></span>
-            <span className="text-muted">Tx (Out)</span>
+            <span style={{ width: 8, height: 2, background: '#0284c7' }}></span>
+            <span style={{ color: palette.textMuted }}>Tx (Out)</span>
           </div>
         </div>
       </div>

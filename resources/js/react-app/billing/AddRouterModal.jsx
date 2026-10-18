@@ -12,8 +12,10 @@ import {
   Activity,
   Terminal,
 } from 'lucide-react';
+import { useTheme } from './useTheme';
 
 export default function AddRouterModal({ isOpen, onClose, onRouterSaved, editingRouter = null }) {
+  const { theme, isDark, palette } = useTheme();
   const [formData, setFormData] = useState({
     id: editingRouter?.id || null,
     router_name: editingRouter?.router_name || '',
@@ -137,23 +139,23 @@ export default function AddRouterModal({ isOpen, onClose, onRouterSaved, editing
           className="rounded-4 overflow-hidden w-100 shadow-2xl"
           style={{
             maxWidth: 580,
-            background: '#101014',
-            border: '1px solid rgba(255, 255, 255, 0.12)',
+            background: palette.cardBg,
+            border: `1px solid ${palette.cardBorder}`,
           }}
         >
           {/* Header */}
           <div className="p-3.5 px-4 d-flex align-items-center justify-content-between border-bottom"
-               style={{ borderColor: 'rgba(255, 255, 255, 0.08)', background: '#141419' }}>
+               style={{ borderColor: palette.cardBorder, background: palette.surfaceElevated }}>
             <div className="d-flex align-items-center gap-2.5">
               <div className="d-flex align-items-center justify-content-center rounded-3"
-                   style={{ width: 34, height: 34, background: '#1c1c24', border: '1px solid rgba(255, 255, 255, 0.1)' }}>
-                <Server size={18} className="text-white" />
+                   style={{ width: 34, height: 34, background: palette.cardBg, border: `1px solid ${palette.cardBorder}` }}>
+                <Server size={18} style={{ color: palette.textPrimary }} />
               </div>
               <div>
-                <h6 className="fw-bold mb-0 text-white" style={{ fontSize: '0.95rem', letterSpacing: '-0.01em' }}>
+                <h6 className="fw-bold mb-0" style={{ fontSize: '0.95rem', letterSpacing: '-0.01em', color: palette.textPrimary }}>
                   {editingRouter ? 'Edit MikroTik Router' : 'Register New MikroTik Router'}
                 </h6>
-                <p className="text-muted small mb-0" style={{ fontSize: '0.74rem' }}>
+                <p className="small mb-0" style={{ fontSize: '0.74rem', color: palette.textMuted }}>
                   RouterOS API & SSH telemetry credentials
                 </p>
               </div>
@@ -192,9 +194,9 @@ export default function AddRouterModal({ isOpen, onClose, onRouterSaved, editing
                   onChange={handleChange}
                   required
                   style={{
-                    background: '#16161c',
-                    borderColor: 'rgba(255, 255, 255, 0.1)',
-                    color: '#fafafa',
+                    background: palette.surfaceElevated,
+                    borderColor: palette.cardBorder,
+                    color: palette.textPrimary,
                     fontSize: '0.82rem',
                   }}
                 />
@@ -213,9 +215,9 @@ export default function AddRouterModal({ isOpen, onClose, onRouterSaved, editing
                   onChange={handleChange}
                   required
                   style={{
-                    background: '#16161c',
-                    borderColor: 'rgba(255, 255, 255, 0.1)',
-                    color: '#fafafa',
+                    background: palette.surfaceElevated,
+                    borderColor: palette.cardBorder,
+                    color: palette.textPrimary,
                     fontSize: '0.82rem',
                   }}
                 />
@@ -234,9 +236,9 @@ export default function AddRouterModal({ isOpen, onClose, onRouterSaved, editing
                   onChange={handleChange}
                   required
                   style={{
-                    background: '#16161c',
-                    borderColor: 'rgba(255, 255, 255, 0.1)',
-                    color: '#fafafa',
+                    background: palette.surfaceElevated,
+                    borderColor: palette.cardBorder,
+                    color: palette.textPrimary,
                     fontSize: '0.82rem',
                   }}
                 />
@@ -255,9 +257,9 @@ export default function AddRouterModal({ isOpen, onClose, onRouterSaved, editing
                   onChange={handleChange}
                   required={!editingRouter}
                   style={{
-                    background: '#16161c',
-                    borderColor: 'rgba(255, 255, 255, 0.1)',
-                    color: '#fafafa',
+                    background: palette.surfaceElevated,
+                    borderColor: palette.cardBorder,
+                    color: palette.textPrimary,
                     fontSize: '0.82rem',
                   }}
                 />
@@ -275,9 +277,9 @@ export default function AddRouterModal({ isOpen, onClose, onRouterSaved, editing
                   value={formData.api_port}
                   onChange={handleChange}
                   style={{
-                    background: '#16161c',
-                    borderColor: 'rgba(255, 255, 255, 0.1)',
-                    color: '#fafafa',
+                    background: palette.surfaceElevated,
+                    borderColor: palette.cardBorder,
+                    color: palette.textPrimary,
                     fontSize: '0.82rem',
                   }}
                 />
@@ -295,9 +297,9 @@ export default function AddRouterModal({ isOpen, onClose, onRouterSaved, editing
                   value={formData.ssh_port}
                   onChange={handleChange}
                   style={{
-                    background: '#16161c',
-                    borderColor: 'rgba(255, 255, 255, 0.1)',
-                    color: '#fafafa',
+                    background: palette.surfaceElevated,
+                    borderColor: palette.cardBorder,
+                    color: palette.textPrimary,
                     fontSize: '0.82rem',
                   }}
                 />
@@ -319,14 +321,14 @@ export default function AddRouterModal({ isOpen, onClose, onRouterSaved, editing
                   ) : (
                     <AlertTriangle size={16} style={{ color: '#f43f5e' }} />
                   )}
-                  <span className="small text-white" style={{ fontSize: '0.8rem' }}>
+                  <span className="small fw-medium" style={{ fontSize: '0.8rem', color: palette.textPrimary }}>
                     {testResult.message}
                   </span>
                 </div>
 
                 {testResult.latency_ms !== undefined && (
                   <span className="badge font-mono"
-                        style={{ background: '#18181c', color: '#e4e4e7', border: '1px solid rgba(255, 255, 255, 0.1)' }}>
+                        style={{ background: palette.badgeBg, color: palette.badgeText, border: `1px solid ${palette.badgeBorder}` }}>
                     {testResult.latency_ms} ms
                   </span>
                 )}
@@ -335,7 +337,7 @@ export default function AddRouterModal({ isOpen, onClose, onRouterSaved, editing
 
             {/* Actions Bar */}
             <div className="d-flex align-items-center justify-content-between pt-3 border-top"
-                 style={{ borderColor: 'rgba(255, 255, 255, 0.08)' }}>
+                 style={{ borderColor: palette.cardBorder }}>
               <button
                 type="button"
                 onClick={handleTestConnection}

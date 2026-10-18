@@ -73,17 +73,17 @@ export default function SubscribersPage({ reseller = {}, customersData = {}, for
       <div
         className="card p-3.5 p-md-4 mb-4"
         style={{
-          background: '#111115',
-          border: '1px solid rgba(255, 255, 255, 0.08)',
+          background: 'var(--mono-card)',
+          border: '1px solid var(--mono-card-border)',
           borderRadius: 12,
         }}
       >
         <div className="d-flex align-items-center justify-content-between mb-3">
           <div>
-            <h6 className="fw-bold text-white mb-0" style={{ fontSize: '0.96rem', letterSpacing: '-0.01em' }}>
+            <h6 className="fw-bold mb-0" style={{ fontSize: '0.96rem', letterSpacing: '-0.01em', color: 'var(--mono-text-primary)' }}>
               Subscriber Lifecycle Management
             </h6>
-            <p className="small mb-0" style={{ fontSize: '0.76rem', color: '#71717a' }}>
+            <p className="small mb-0" style={{ fontSize: '0.76rem', color: 'var(--mono-text-muted)' }}>
               Direct access to account stages and provisioning status
             </p>
           </div>
@@ -91,9 +91,9 @@ export default function SubscribersPage({ reseller = {}, customersData = {}, for
             href="/billing/customers"
             className="btn btn-sm d-inline-flex align-items-center gap-1.5 px-3 py-1.5 text-decoration-none"
             style={{
-              background: '#16161b',
-              border: '1px solid rgba(255, 255, 255, 0.1)',
-              color: '#e4e4e7',
+              background: 'var(--mono-surface-elevated)',
+              border: '1px solid var(--mono-card-border)',
+              color: 'var(--mono-text-primary)',
               fontSize: '0.8rem',
               borderRadius: 8,
             }}
@@ -108,20 +108,20 @@ export default function SubscribersPage({ reseller = {}, customersData = {}, for
             <a
               href="/billing/new/customers"
               className="p-3.5 rounded-3 d-block text-decoration-none hover-lift h-100"
-              style={{ background: '#16161c', border: '1px solid rgba(255, 255, 255, 0.06)' }}
+              style={{ background: 'var(--mono-surface-elevated)', border: '1px solid var(--mono-card-border)' }}
             >
               <div className="d-flex align-items-center gap-2.5 mb-2">
                 <div
                   className="d-flex align-items-center justify-content-center rounded-2"
-                  style={{ width: 32, height: 32, background: 'rgba(56, 189, 248, 0.1)', color: '#38bdf8' }}
+                  style={{ width: 32, height: 32, background: 'rgba(56, 189, 248, 0.1)', color: '#0891b2' }}
                 >
                   <UserPlus size={16} />
                 </div>
-                <div className="fw-bold text-white" style={{ fontSize: '0.9rem' }}>
+                <div className="fw-bold" style={{ fontSize: '0.9rem', color: 'var(--mono-text-primary)' }}>
                   Recent Signups
                 </div>
               </div>
-              <div className="font-mono fw-bold text-white mb-1" style={{ fontSize: '1.2rem' }}>
+              <div className="font-mono fw-bold mb-1" style={{ fontSize: '1.2rem', color: 'var(--mono-text-primary)' }}>
                 {formatNumber(customersData.recent)}
               </div>
               <div className="text-muted small" style={{ fontSize: '0.74rem' }}>
@@ -134,20 +134,20 @@ export default function SubscribersPage({ reseller = {}, customersData = {}, for
             <a
               href="/billing/customers?status=pending"
               className="p-3.5 rounded-3 d-block text-decoration-none hover-lift h-100"
-              style={{ background: '#16161c', border: '1px solid rgba(255, 255, 255, 0.06)' }}
+              style={{ background: 'var(--mono-surface-elevated)', border: '1px solid var(--mono-card-border)' }}
             >
               <div className="d-flex align-items-center gap-2.5 mb-2">
                 <div
                   className="d-flex align-items-center justify-content-center rounded-2"
-                  style={{ width: 32, height: 32, background: 'rgba(245, 158, 11, 0.1)', color: '#f59e0b' }}
+                  style={{ width: 32, height: 32, background: 'rgba(245, 158, 11, 0.1)', color: '#d97706' }}
                 >
                   <UserCheck size={16} />
                 </div>
-                <div className="fw-bold text-white" style={{ fontSize: '0.9rem' }}>
+                <div className="fw-bold" style={{ fontSize: '0.9rem', color: 'var(--mono-text-primary)' }}>
                   Pending Provisioning
                 </div>
               </div>
-              <div className="font-mono fw-bold text-white mb-1" style={{ fontSize: '1.2rem', color: '#fbbf24' }}>
+              <div className="font-mono fw-bold mb-1" style={{ fontSize: '1.2rem', color: '#d97706' }}>
                 {formatNumber(customersData.pending)}
               </div>
               <div className="text-muted small" style={{ fontSize: '0.74rem' }}>
@@ -160,7 +160,7 @@ export default function SubscribersPage({ reseller = {}, customersData = {}, for
             <a
               href="/billing/customers?status=disable"
               className="p-3.5 rounded-3 d-block text-decoration-none hover-lift h-100"
-              style={{ background: '#16161c', border: '1px solid rgba(255, 255, 255, 0.06)' }}
+              style={{ background: 'var(--mono-surface-elevated)', border: '1px solid var(--mono-card-border)' }}
             >
               <div className="d-flex align-items-center gap-2.5 mb-2">
                 <div
@@ -169,11 +169,11 @@ export default function SubscribersPage({ reseller = {}, customersData = {}, for
                 >
                   <UserX size={16} />
                 </div>
-                <div className="fw-bold text-white" style={{ fontSize: '0.9rem' }}>
+                <div className="fw-bold" style={{ fontSize: '0.9rem', color: 'var(--mono-text-primary)' }}>
                   Temporary Disabled
                 </div>
               </div>
-              <div className="font-mono fw-bold text-white mb-1" style={{ fontSize: '1.2rem', color: '#fb7185' }}>
+              <div className="font-mono fw-bold mb-1" style={{ fontSize: '1.2rem', color: '#f43f5e' }}>
                 {formatNumber(customersData.temporary_disable)}
               </div>
               <div className="text-muted small" style={{ fontSize: '0.74rem' }}>

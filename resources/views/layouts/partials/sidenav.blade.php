@@ -67,15 +67,14 @@
             document.querySelector('.navbar-vertical').classList.add(`navbar-${navbarStyle}`);
         }
     </script>
-    <div class="d-flex align-items-center justify-content-between px-3 py-3 border-bottom" style="border-color: rgba(255, 255, 255, 0.07) !important;">
+    <div class="d-flex align-items-center justify-content-between px-3 py-3 border-bottom sidebar-brand-header">
         <a class="navbar-brand d-flex align-items-center gap-2.5 p-0 m-0 text-decoration-none" href="{{url('/')}}">
             @if (siteUrlSettings('site_logo'))
                 <img style="width: 140px; height: auto; max-height: 38px; object-fit: contain; flex-shrink: 0;" src="{{ site_image(siteUrlSettings('site_logo')) }}" alt="logo"/>
             @else
                 {{-- Sleek modern glowing brand mark emblem --}}
-                <div class="brand-logo-emblem d-flex align-items-center justify-content-center rounded-3 flex-shrink-0"
-                     style="width: 32px; height: 32px; background: linear-gradient(135deg, #1c1c24 0%, #121216 100%); border: 1px solid rgba(255, 255, 255, 0.14); box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);">
-                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <div class="brand-logo-emblem d-flex align-items-center justify-content-center rounded-3 flex-shrink-0">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <rect width="20" height="8" x="2" y="14" rx="2" />
                         <path d="M6 18h.01" />
                         <path d="M10 18h.01" />
@@ -85,10 +84,10 @@
                     </svg>
                 </div>
                 <div class="d-flex align-items-center gap-2">
-                    <span class="fw-bold text-white font-sans" style="font-size: 1.05rem; letter-spacing: -0.02em;">
+                    <span class="fw-bold font-sans brand-title" style="font-size: 1.05rem; letter-spacing: -0.02em;">
                         {{ siteUrlSettings('site_name') ?? 'Smart ISP' }}
                     </span>
-                    <span class="badge font-mono" style="background: rgba(255, 255, 255, 0.08); color: #a1a1aa; border: 1px solid rgba(255, 255, 255, 0.12); font-size: 0.62rem; padding: 2px 5px; border-radius: 4px;">
+                    <span class="badge font-mono brand-noc-badge">
                         NOC
                     </span>
                 </div>
@@ -96,8 +95,7 @@
         </a>
         <div class="toggle-icon-wrapper">
             <button class="btn navbar-toggler-humburger-icon navbar-vertical-toggle p-1.5 rounded-2 d-flex align-items-center justify-content-center"
-                    data-bs-placement="left" title="Toggle Navigation"
-                    style="background: transparent; border: none; color: #a1a1aa;">
+                    data-bs-placement="left" title="Toggle Navigation">
                 <span class="navbar-toggle-icon">
                     <span class="toggle-line"></span>
                 </span>
@@ -111,19 +109,18 @@
             </div>
 
             {{-- Sleek System Operational Widget replacing generic promo box --}}
-            <div class="sidebar-status-widget mx-2.5 my-3 p-3 rounded-3"
-                 style="background: #111115; border: 1px solid rgba(255, 255, 255, 0.08);">
+            <div class="sidebar-status-widget mx-2.5 my-3 p-3 rounded-3">
                 <div class="d-flex align-items-center justify-content-between mb-2">
                     <div class="d-flex align-items-center gap-2">
                         <span style="display:inline-block; width:6px; height:6px; border-radius:50%; background:#10b981; box-shadow:0 0 8px #10b981;"></span>
-                        <span style="font-size:0.75rem; color:#e4e4e7; font-weight:600;">RouterOS Daemon</span>
+                        <span class="daemon-title" style="font-size:0.75rem; font-weight:600;">RouterOS Daemon</span>
                     </div>
-                    <span class="badge font-mono" style="background:#18181f; color:#34d399; border:1px solid rgba(16, 185, 129, 0.25); font-size:0.6rem; padding: 2px 5px; border-radius: 4px;">
+                    <span class="badge font-mono daemon-badge">
                         LIVE
                     </span>
                 </div>
-                <div class="d-flex align-items-center justify-content-between pt-2 border-top"
-                     style="border-color: rgba(255, 255, 255, 0.06) !important; font-size:0.7rem; color:#71717a;">
+                <div class="d-flex align-items-center justify-content-between pt-2 border-top daemon-footer"
+                     style="font-size:0.7rem;">
                     <span>System Engine</span>
                     <span class="font-mono text-muted">v2.4 Pro</span>
                 </div>

@@ -13,8 +13,10 @@ import {
   Server,
   Loader2,
 } from 'lucide-react';
+import { useTheme } from './useTheme';
 
 export default function ActiveSessionsModal({ isOpen, onClose, routerName }) {
+  const { theme, isDark, palette } = useTheme();
   const [sessions, setSessions] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
@@ -89,32 +91,32 @@ export default function ActiveSessionsModal({ isOpen, onClose, routerName }) {
           style={{
             maxWidth: 780,
             maxHeight: '85vh',
-            background: '#101014',
-            border: '1px solid rgba(255, 255, 255, 0.12)',
+            background: palette.cardBg,
+            border: `1px solid ${palette.cardBorder}`,
           }}
         >
           {/* Header */}
           <div
             className="p-3.5 px-4 d-flex align-items-center justify-content-between border-bottom flex-shrink-0"
-            style={{ borderColor: 'rgba(255, 255, 255, 0.08)', background: '#141419' }}
+            style={{ borderColor: palette.cardBorder, background: palette.surfaceElevated }}
           >
             <div className="d-flex align-items-center gap-2.5">
               <div
                 className="d-flex align-items-center justify-content-center rounded-3"
-                style={{ width: 34, height: 34, background: '#1c1c24', border: '1px solid rgba(255, 255, 255, 0.1)' }}
+                style={{ width: 34, height: 34, background: palette.cardBg, border: `1px solid ${palette.cardBorder}` }}
               >
                 <Radio size={18} style={{ color: '#10b981' }} />
               </div>
               <div>
                 <div className="d-flex align-items-center gap-2">
-                  <h6 className="fw-bold mb-0 text-white" style={{ fontSize: '0.95rem' }}>
+                  <h6 className="fw-bold mb-0" style={{ fontSize: '0.95rem', color: palette.textPrimary }}>
                     Active PPPoE Sessions
                   </h6>
                   <span
                     className="badge"
                     style={{
                       background: 'rgba(16, 185, 129, 0.12)',
-                      color: '#34d399',
+                      color: '#059669',
                       border: '1px solid rgba(16, 185, 129, 0.3)',
                       fontSize: '0.7rem',
                     }}
@@ -122,8 +124,8 @@ export default function ActiveSessionsModal({ isOpen, onClose, routerName }) {
                     {sessions.length} Live
                   </span>
                 </div>
-                <p className="text-muted small mb-0" style={{ fontSize: '0.74rem' }}>
-                  Target Router: <span className="text-white fw-medium">{routerName}</span>
+                <p className="small mb-0" style={{ fontSize: '0.74rem', color: palette.textMuted }}>
+                  Target Router: <span className="fw-medium" style={{ color: palette.textPrimary }}>{routerName}</span>
                 </p>
               </div>
             </div>
@@ -148,7 +150,7 @@ export default function ActiveSessionsModal({ isOpen, onClose, routerName }) {
           </div>
 
           {/* Search bar */}
-          <div className="p-3 px-4 border-bottom flex-shrink-0" style={{ borderColor: 'rgba(255, 255, 255, 0.06)' }}>
+          <div className="p-3 px-4 border-bottom flex-shrink-0" style={{ borderColor: palette.cardBorder }}>
             <div className="position-relative">
               <Search size={14} className="position-absolute text-muted" style={{ left: 12, top: 10 }} />
               <input
@@ -158,9 +160,9 @@ export default function ActiveSessionsModal({ isOpen, onClose, routerName }) {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 style={{
-                  background: '#16161c',
-                  borderColor: 'rgba(255, 255, 255, 0.1)',
-                  color: '#fafafa',
+                  background: palette.surfaceElevated,
+                  borderColor: palette.cardBorder,
+                  color: palette.textPrimary,
                   fontSize: '0.8rem',
                 }}
               />
@@ -171,7 +173,7 @@ export default function ActiveSessionsModal({ isOpen, onClose, routerName }) {
           <div className="flex-grow-1 overflow-auto p-0">
             {isLoading ? (
               <div className="p-5 text-center text-muted">
-                <Loader2 size={24} className="animate-spin mb-2 d-inline-block text-white" />
+                <Loader2 size={24} className="animate-spin mb-2 d-inline-block" style={{ color: palette.textPrimary }} />
                 <p className="small mb-0">Querying active sessions from {routerName}...</p>
               </div>
             ) : filteredSessions.length === 0 ? (
@@ -181,7 +183,7 @@ export default function ActiveSessionsModal({ isOpen, onClose, routerName }) {
             ) : (
               <div className="table-responsive">
                 <table className="table mb-0 align-middle" style={{ fontSize: '0.8rem' }}>
-                  <thead style={{ background: '#121217', position: 'sticky', top: 0, zIndex: 1 }}>
+                  <thead style={{ background: palette.surfaceElevated, position: 'sticky', top: 0, zIndex: 1 }}>
                     <tr>
                       <th className="ps-4">Subscriber User</th>
                       <th>IP Address</th>
@@ -192,9 +194,9 @@ export default function ActiveSessionsModal({ isOpen, onClose, routerName }) {
                   </thead>
                   <tbody>
                     {filteredSessions.map((s, idx) => (
-                      <tr key={s.session_id || idx} style={{ borderBottom: '1px solid rgba(255, 255, 255, 0.04)' }}>
+                      <tr key={s.session_id || idx} style={{ borderBottom: `1px solid ${palette.cardBorder}` }}>
                         <td className="ps-4">
-                          <span className="fw-semibold text-white">{s.name}</span>
+                          <span className="fw-semibold" style={{ color: palette.textPrimary }}>{s.name}</span>
                         </td>
                         <td>
                           <span
@@ -218,9 +220,9 @@ export default function ActiveSessionsModal({ isOpen, onClose, routerName }) {
                           <span
                             className="badge font-mono"
                             style={{
-                              background: '#16161c',
-                              color: '#a1a1aa',
-                              border: '1px solid rgba(255, 255, 255, 0.08)',
+                              background: palette.badgeBg,
+                              color: palette.badgeText,
+                              border: `1px solid ${palette.badgeBorder}`,
                               fontSize: '0.68rem',
                             }}
                           >
@@ -233,7 +235,7 @@ export default function ActiveSessionsModal({ isOpen, onClose, routerName }) {
                             className="badge text-uppercase"
                             style={{
                               background: 'rgba(6, 182, 212, 0.1)',
-                              color: '#38bdf8',
+                              color: '#0891b2',
                               border: '1px solid rgba(6, 182, 212, 0.25)',
                               fontSize: '0.65rem',
                             }}
@@ -252,7 +254,7 @@ export default function ActiveSessionsModal({ isOpen, onClose, routerName }) {
           {/* Footer */}
           <div
             className="p-3 px-4 d-flex align-items-center justify-content-between border-top flex-shrink-0"
-            style={{ borderColor: 'rgba(255, 255, 255, 0.08)', background: '#141419' }}
+            style={{ borderColor: palette.cardBorder, background: palette.surfaceElevated }}
           >
             <span className="text-muted small" style={{ fontSize: '0.74rem' }}>
               Showing {filteredSessions.length} of {sessions.length} sessions

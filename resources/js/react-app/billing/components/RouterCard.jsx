@@ -38,8 +38,8 @@ export default function RouterCard({
     <div
       className="card p-3.5 h-100 hover-lift d-flex flex-column justify-content-between"
       style={{
-        background: '#111115',
-        border: `1px solid ${isOnline ? 'rgba(255, 255, 255, 0.08)' : 'rgba(244, 63, 94, 0.25)'}`,
+        background: 'var(--mono-card)',
+        border: `1px solid ${isOnline ? 'var(--mono-card-border)' : 'rgba(244, 63, 94, 0.3)'}`,
         borderRadius: 12,
       }}
     >
@@ -48,14 +48,14 @@ export default function RouterCard({
         <div className="d-flex justify-content-between align-items-start mb-3">
           <div>
             <div className="d-flex align-items-center gap-2">
-              <h6 className="fw-bold mb-0 text-white" style={{ fontSize: '0.96rem' }}>
+              <h6 className="fw-bold mb-0" style={{ fontSize: '0.96rem', color: 'var(--mono-text-primary)' }}>
                 {router.router_name}
               </h6>
               <span
                 className="badge"
                 style={{
                   background: isOnline ? 'rgba(16, 185, 129, 0.12)' : 'rgba(244, 63, 94, 0.12)',
-                  color: isOnline ? '#34d399' : '#fb7185',
+                  color: isOnline ? '#10b981' : '#f43f5e',
                   border: `1px solid ${isOnline ? 'rgba(16, 185, 129, 0.3)' : 'rgba(244, 63, 94, 0.3)'}`,
                   fontSize: '0.65rem',
                 }}
@@ -104,9 +104,9 @@ export default function RouterCard({
             <span
               className="badge font-mono"
               style={{
-                background: '#18181c',
-                color: '#a1a1aa',
-                border: '1px solid rgba(255, 255, 255, 0.08)',
+                background: 'var(--mono-surface-elevated)',
+                color: 'var(--mono-text-muted)',
+                border: '1px solid var(--mono-card-border)',
                 fontSize: '0.68rem',
               }}
             >
@@ -129,7 +129,7 @@ export default function RouterCard({
                   {cpuLoad}%
                 </span>
               </div>
-              <div className="rounded-pill overflow-hidden" style={{ height: 5, background: '#27272a' }}>
+              <div className="rounded-pill overflow-hidden" style={{ height: 5, background: 'var(--mono-surface-elevated)' }}>
                 <div
                   style={{
                     width: `${Math.max(4, cpuLoad)}%`,
@@ -147,9 +147,9 @@ export default function RouterCard({
                 <span className="text-muted d-flex align-items-center gap-1">
                   <Zap size={12} /> RAM ({formatBytes(hw.used_memory)} / {formatBytes(hw.total_memory)})
                 </span>
-                <span className="fw-bold font-mono text-white">{hw.memory_percent}%</span>
+                <span className="fw-bold font-mono" style={{ color: 'var(--mono-text-primary)' }}>{hw.memory_percent}%</span>
               </div>
-              <div className="rounded-pill overflow-hidden" style={{ height: 5, background: '#27272a' }}>
+              <div className="rounded-pill overflow-hidden" style={{ height: 5, background: 'var(--mono-surface-elevated)' }}>
                 <div
                   style={{
                     width: `${hw.memory_percent}%`,
@@ -167,9 +167,9 @@ export default function RouterCard({
                 <span className="text-muted d-flex align-items-center gap-1">
                   <HardDrive size={12} /> Storage ({formatBytes(hw.free_hdd)} free)
                 </span>
-                <span className="fw-bold font-mono text-white">{hw.hdd_percent}%</span>
+                <span className="fw-bold font-mono" style={{ color: 'var(--mono-text-primary)' }}>{hw.hdd_percent}%</span>
               </div>
-              <div className="rounded-pill overflow-hidden" style={{ height: 5, background: '#27272a' }}>
+              <div className="rounded-pill overflow-hidden" style={{ height: 5, background: 'var(--mono-surface-elevated)' }}>
                 <div
                   style={{
                     width: `${hw.hdd_percent}%`,
@@ -182,7 +182,7 @@ export default function RouterCard({
             </div>
           </div>
         ) : (
-          <div className="p-3 rounded-2 text-center text-muted small mb-3" style={{ background: '#16161c', fontSize: '0.75rem' }}>
+          <div className="p-3 rounded-2 text-center text-muted small mb-3" style={{ background: 'var(--mono-surface-elevated)', fontSize: '0.75rem' }}>
             Telemetry currently unavailable for this device. Check IP socket or API port.
           </div>
         )}
@@ -190,14 +190,14 @@ export default function RouterCard({
         {/* Sensor & Version Badges */}
         <div
           className="d-flex flex-wrap align-items-center gap-1.5 mb-3 pt-2 border-top"
-          style={{ borderColor: 'rgba(255, 255, 255, 0.06)' }}
+          style={{ borderColor: 'var(--mono-card-border)' }}
         >
           <span
             className="badge"
             style={{
-              background: '#18181c',
-              color: '#38bdf8',
-              border: '1px solid rgba(56, 189, 248, 0.2)',
+              background: 'var(--mono-surface-elevated)',
+              color: '#0891b2',
+              border: '1px solid var(--mono-card-border)',
               fontSize: '0.68rem',
             }}
           >
@@ -208,9 +208,9 @@ export default function RouterCard({
             <span
               className="badge"
               style={{
-                background: '#18181c',
-                color: '#fb923c',
-                border: '1px solid rgba(251, 146, 60, 0.25)',
+                background: 'var(--mono-surface-elevated)',
+                color: '#ea580c',
+                border: '1px solid var(--mono-card-border)',
                 fontSize: '0.68rem',
               }}
             >
@@ -222,9 +222,9 @@ export default function RouterCard({
             <span
               className="badge"
               style={{
-                background: '#18181c',
-                color: '#fbbf24',
-                border: '1px solid rgba(251, 191, 36, 0.25)',
+                background: 'var(--mono-surface-elevated)',
+                color: '#d97706',
+                border: '1px solid var(--mono-card-border)',
                 fontSize: '0.68rem',
               }}
             >
@@ -236,9 +236,9 @@ export default function RouterCard({
             <span
               className="badge font-mono"
               style={{
-                background: '#18181c',
-                color: '#a1a1aa',
-                border: '1px solid rgba(255, 255, 255, 0.08)',
+                background: 'var(--mono-surface-elevated)',
+                color: 'var(--mono-text-muted)',
+                border: '1px solid var(--mono-card-border)',
                 fontSize: '0.68rem',
               }}
             >
@@ -252,7 +252,7 @@ export default function RouterCard({
               className="badge font-mono"
               style={{
                 background: ping.success ? 'rgba(16, 185, 129, 0.15)' : 'rgba(244, 63, 94, 0.15)',
-                color: ping.success ? '#34d399' : '#fb7185',
+                color: ping.success ? '#10b981' : '#f43f5e',
                 border: `1px solid ${ping.success ? 'rgba(16, 185, 129, 0.3)' : 'rgba(244, 63, 94, 0.3)'}`,
                 fontSize: '0.68rem',
               }}
@@ -266,7 +266,7 @@ export default function RouterCard({
       {/* Operational Action Buttons Bar */}
       <div
         className="d-flex flex-wrap align-items-center justify-content-between gap-1 pt-2 border-top"
-        style={{ borderColor: 'rgba(255, 255, 255, 0.08)' }}
+        style={{ borderColor: 'var(--mono-card-border)' }}
       >
         <div className="d-flex align-items-center gap-1">
           {/* Ping button */}
@@ -275,15 +275,15 @@ export default function RouterCard({
             disabled={isPinging}
             className="btn btn-sm p-1.5 px-2 d-inline-flex align-items-center gap-1"
             style={{
-              background: '#16161b',
-              border: '1px solid rgba(255, 255, 255, 0.1)',
-              color: '#e4e4e7',
+              background: 'var(--mono-surface-elevated)',
+              border: '1px solid var(--mono-card-border)',
+              color: 'var(--mono-text-primary)',
               borderRadius: 6,
               fontSize: '0.72rem',
             }}
             title="Test socket latency"
           >
-            <Activity size={12} className={isPinging ? 'animate-spin' : ''} style={{ color: '#38bdf8' }} />
+            <Activity size={12} className={isPinging ? 'animate-spin' : ''} style={{ color: '#0891b2' }} />
             <span>{isPinging ? '...' : 'Ping'}</span>
           </button>
 
@@ -293,15 +293,15 @@ export default function RouterCard({
             disabled={isSyncing || !router.is_connected}
             className="btn btn-sm p-1.5 px-2 d-inline-flex align-items-center gap-1"
             style={{
-              background: '#16161b',
-              border: '1px solid rgba(255, 255, 255, 0.1)',
-              color: '#e4e4e7',
+              background: 'var(--mono-surface-elevated)',
+              border: '1px solid var(--mono-card-border)',
+              color: 'var(--mono-text-primary)',
               borderRadius: 6,
               fontSize: '0.72rem',
             }}
             title="Synchronize subscribers & profiles"
           >
-            <RefreshCw size={12} className={isSyncing ? 'animate-spin' : ''} style={{ color: '#34d399' }} />
+            <RefreshCw size={12} className={isSyncing ? 'animate-spin' : ''} style={{ color: '#059669' }} />
             <span>{isSyncing ? 'Syncing...' : 'Sync'}</span>
           </button>
 
@@ -310,15 +310,15 @@ export default function RouterCard({
             onClick={() => onOpenSessions(router.router_name)}
             className="btn btn-sm p-1.5 px-2 d-inline-flex align-items-center gap-1"
             style={{
-              background: '#16161b',
-              border: '1px solid rgba(255, 255, 255, 0.1)',
-              color: '#e4e4e7',
+              background: 'var(--mono-surface-elevated)',
+              border: '1px solid var(--mono-card-border)',
+              color: 'var(--mono-text-primary)',
               borderRadius: 6,
               fontSize: '0.72rem',
             }}
             title="View active subscriber sessions"
           >
-            <Radio size={12} style={{ color: '#c084fc' }} />
+            <Radio size={12} style={{ color: '#7c3aed' }} />
             <span>Sessions</span>
           </button>
         </div>
@@ -329,9 +329,9 @@ export default function RouterCard({
             onClick={() => onRebootClick(router)}
             className="btn btn-sm p-1.5"
             style={{
-              background: '#16161b',
-              border: '1px solid rgba(255, 255, 255, 0.1)',
-              color: '#fb923c',
+              background: 'var(--mono-surface-elevated)',
+              border: '1px solid var(--mono-card-border)',
+              color: '#d97706',
               borderRadius: 6,
             }}
             title="Reboot router"
@@ -344,9 +344,9 @@ export default function RouterCard({
             onClick={() => onEditClick(router)}
             className="btn btn-sm p-1.5"
             style={{
-              background: '#16161b',
-              border: '1px solid rgba(255, 255, 255, 0.1)',
-              color: '#e4e4e7',
+              background: 'var(--mono-surface-elevated)',
+              border: '1px solid var(--mono-card-border)',
+              color: 'var(--mono-text-primary)',
               borderRadius: 6,
             }}
             title="Edit credentials"
@@ -359,9 +359,9 @@ export default function RouterCard({
             onClick={() => onDeleteClick(router)}
             className="btn btn-sm p-1.5"
             style={{
-              background: '#16161b',
+              background: 'var(--mono-surface-elevated)',
               border: '1px solid rgba(244, 63, 94, 0.3)',
-              color: '#fb7185',
+              color: '#f43f5e',
               borderRadius: 6,
             }}
             title="Delete router"

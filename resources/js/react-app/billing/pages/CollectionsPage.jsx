@@ -26,23 +26,23 @@ export default function CollectionsPage({
       <div
         className="card p-3.5 p-md-4"
         style={{
-          background: '#111115',
-          border: '1px solid rgba(255, 255, 255, 0.08)',
+          background: 'var(--mono-card)',
+          border: '1px solid var(--mono-card-border)',
           borderRadius: 12,
         }}
       >
         <div className="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3 mb-3">
           <div className="d-flex align-items-center gap-2">
-            <Receipt size={17} style={{ color: '#d1d1d6' }} />
-            <h5 className="fw-bold mb-0 text-white" style={{ fontSize: '0.96rem', letterSpacing: '-0.01em' }}>
+            <Receipt size={17} style={{ color: 'var(--mono-text-secondary)' }} />
+            <h5 className="fw-bold mb-0" style={{ fontSize: '0.96rem', letterSpacing: '-0.01em', color: 'var(--mono-text-primary)' }}>
               Real-Time Payment Collections Stream
             </h5>
             <span
               className="badge font-mono"
               style={{
-                background: '#18181f',
-                color: '#a1a1aa',
-                border: '1px solid rgba(255, 255, 255, 0.1)',
+                background: 'var(--mono-surface-elevated)',
+                color: 'var(--mono-text-secondary)',
+                border: '1px solid var(--mono-card-border)',
                 fontSize: '0.68rem',
                 borderRadius: 5,
               }}
@@ -62,9 +62,9 @@ export default function CollectionsPage({
                 onChange={(e) => setCollectionsSearch(e.target.value)}
                 style={{
                   fontSize: '0.78rem',
-                  background: '#16161c',
-                  borderColor: 'rgba(255, 255, 255, 0.1)',
-                  color: '#fafafa',
+                  background: 'var(--mono-surface-elevated)',
+                  borderColor: 'var(--mono-card-border)',
+                  color: 'var(--mono-text-primary)',
                   borderRadius: 8,
                 }}
               />
@@ -73,9 +73,9 @@ export default function CollectionsPage({
               href="/billing/collection-report"
               className="btn btn-sm d-inline-flex align-items-center gap-1.5 px-3 py-1.5 text-decoration-none"
               style={{
-                background: '#16161b',
-                border: '1px solid rgba(255, 255, 255, 0.1)',
-                color: '#e4e4e7',
+                background: 'var(--mono-surface-elevated)',
+                border: '1px solid var(--mono-card-border)',
+                color: 'var(--mono-text-primary)',
                 borderRadius: 8,
                 fontSize: '0.8rem',
               }}
@@ -87,15 +87,15 @@ export default function CollectionsPage({
         </div>
 
         <div className="table-responsive">
-          <table className="table mb-0 align-middle" style={{ '--bs-table-bg': 'transparent', color: '#e4e4e7' }}>
+          <table className="table mb-0 align-middle" style={{ '--bs-table-bg': 'transparent', color: 'var(--mono-text-primary)' }}>
             <thead>
-              <tr style={{ borderBottom: '1px solid rgba(255, 255, 255, 0.08)' }}>
-                <th style={{ color: '#71717a', fontSize: '0.72rem', letterSpacing: '0.06em', fontWeight: 600, background: 'transparent' }}>CUSTOMER ID</th>
-                <th style={{ color: '#71717a', fontSize: '0.72rem', letterSpacing: '0.06em', fontWeight: 600, background: 'transparent' }}>CLIENT NAME</th>
-                <th style={{ color: '#71717a', fontSize: '0.72rem', letterSpacing: '0.06em', fontWeight: 600, background: 'transparent' }}>PACKAGE</th>
-                <th style={{ color: '#71717a', fontSize: '0.72rem', letterSpacing: '0.06em', fontWeight: 600, background: 'transparent' }}>AMOUNT COLLECTED</th>
-                <th style={{ color: '#71717a', fontSize: '0.72rem', letterSpacing: '0.06em', fontWeight: 600, background: 'transparent' }}>PAYMENT DATE</th>
-                <th style={{ color: '#71717a', fontSize: '0.72rem', letterSpacing: '0.06em', fontWeight: 600, background: 'transparent' }}>METHOD</th>
+              <tr style={{ borderBottom: '1px solid var(--mono-card-border)' }}>
+                <th style={{ color: 'var(--mono-text-muted)', fontSize: '0.72rem', letterSpacing: '0.06em', fontWeight: 600, background: 'transparent' }}>CUSTOMER ID</th>
+                <th style={{ color: 'var(--mono-text-muted)', fontSize: '0.72rem', letterSpacing: '0.06em', fontWeight: 600, background: 'transparent' }}>CLIENT NAME</th>
+                <th style={{ color: 'var(--mono-text-muted)', fontSize: '0.72rem', letterSpacing: '0.06em', fontWeight: 600, background: 'transparent' }}>PACKAGE</th>
+                <th style={{ color: 'var(--mono-text-muted)', fontSize: '0.72rem', letterSpacing: '0.06em', fontWeight: 600, background: 'transparent' }}>AMOUNT COLLECTED</th>
+                <th style={{ color: 'var(--mono-text-muted)', fontSize: '0.72rem', letterSpacing: '0.06em', fontWeight: 600, background: 'transparent' }}>PAYMENT DATE</th>
+                <th style={{ color: 'var(--mono-text-muted)', fontSize: '0.72rem', letterSpacing: '0.06em', fontWeight: 600, background: 'transparent' }}>METHOD</th>
               </tr>
             </thead>
             <tbody>
@@ -117,36 +117,36 @@ export default function CollectionsPage({
                           className="badge d-inline-flex align-items-center gap-1 font-mono"
                           onClick={() => copyToClipboard(uniqueId, uniqueId)}
                           style={{
-                            background: '#18181c',
-                            color: '#e4e4e7',
-                            border: '1px solid rgba(255, 255, 255, 0.1)',
+                            background: 'var(--mono-surface-elevated)',
+                            color: 'var(--mono-text-primary)',
+                            border: '1px solid var(--mono-card-border)',
                             cursor: 'pointer',
                           }}
                           title="Click to copy ID"
                         >
                           {uniqueId}
                           {isCopied ? (
-                            <Check size={10} style={{ color: '#10b981' }} />
+                            <Check size={10} style={{ color: '#059669' }} />
                           ) : (
-                            <Copy size={10} style={{ color: '#71717a' }} />
+                            <Copy size={10} style={{ color: 'var(--mono-text-muted)' }} />
                           )}
                         </span>
                       </td>
-                      <td className="fw-semibold text-white">{col.customer?.full_name || 'Subscriber'}</td>
+                      <td className="fw-semibold" style={{ color: 'var(--mono-text-primary)' }}>{col.customer?.full_name || 'Subscriber'}</td>
                       <td>
                         <span
                           className="badge"
                           style={{
-                            background: '#1c1c24',
-                            color: '#38bdf8',
-                            border: '1px solid rgba(56, 189, 248, 0.25)',
+                            background: 'var(--mono-surface-elevated)',
+                            color: '#0891b2',
+                            border: '1px solid rgba(8, 145, 178, 0.25)',
                           }}
                         >
                           {col.customer?.package_name || 'Internet Plan'}
                         </span>
                       </td>
                       <td>
-                        <span className="font-mono fw-bold" style={{ color: '#34d399' }}>
+                        <span className="font-mono fw-bold" style={{ color: '#059669' }}>
                           {formatCurrency(col.collection_amount)}
                         </span>
                       </td>
@@ -157,9 +157,9 @@ export default function CollectionsPage({
                         <span
                           className="badge text-uppercase"
                           style={{
-                            background: '#18181c',
-                            color: '#a1a1aa',
-                            border: '1px solid rgba(255, 255, 255, 0.08)',
+                            background: 'var(--mono-surface-elevated)',
+                            color: 'var(--mono-text-secondary)',
+                            border: '1px solid var(--mono-card-border)',
                             fontSize: '0.68rem',
                           }}
                         >

@@ -12,6 +12,7 @@ import {
   Settings,
   ChevronDown,
 } from 'lucide-react';
+import { useTheme } from '../useTheme';
 
 export default function DashboardHeader({
   activeTab,
@@ -23,6 +24,7 @@ export default function DashboardHeader({
   lastUpdated,
   routerCount = 0,
 }) {
+  const { isDark, palette } = useTheme();
   const [isIntervalOpen, setIsIntervalOpen] = useState(false);
 
   const intervals = [
@@ -42,8 +44,8 @@ export default function DashboardHeader({
       <div
         className="d-flex flex-column flex-lg-row align-items-lg-center justify-content-between gap-3 mb-4 p-3.5 rounded-3"
         style={{
-          background: '#111115',
-          border: '1px solid rgba(255, 255, 255, 0.08)',
+          background: 'var(--mono-card)',
+          border: '1px solid var(--mono-card-border)',
         }}
       >
         {/* Left: Brand / Hub Identity */}
@@ -53,23 +55,23 @@ export default function DashboardHeader({
             style={{
               width: 42,
               height: 42,
-              background: '#16161c',
-              border: '1px solid rgba(255, 255, 255, 0.1)',
+              background: 'var(--mono-surface-elevated)',
+              border: '1px solid var(--mono-card-border)',
             }}
           >
-            <Activity size={20} className="text-white" />
+            <Activity size={20} style={{ color: 'var(--mono-text-primary)' }} />
           </div>
           <div>
             <div className="d-flex align-items-center gap-2">
-              <h4 className="fw-bold mb-0 text-white" style={{ fontSize: '1.2rem', letterSpacing: '-0.02em' }}>
+              <h4 className="fw-bold mb-0" style={{ fontSize: '1.2rem', letterSpacing: '-0.02em', color: 'var(--mono-text-primary)' }}>
                 ISP Operations Command Hub
               </h4>
               <span
                 className="badge d-inline-flex align-items-center gap-1.5 py-1 px-2"
                 style={{
-                  background: 'rgba(255, 255, 255, 0.06)',
-                  color: '#e4e4e7',
-                  border: '1px solid rgba(255, 255, 255, 0.12)',
+                  background: 'var(--mono-surface-elevated)',
+                  color: 'var(--mono-text-secondary)',
+                  border: '1px solid var(--mono-card-border)',
                   fontSize: '0.68rem',
                   fontWeight: 500,
                   borderRadius: 6,
@@ -88,7 +90,7 @@ export default function DashboardHeader({
                 Live Telemetry
               </span>
             </div>
-            <p className="mb-0 small" style={{ fontSize: '0.78rem', color: '#8e8e93' }}>
+            <p className="mb-0 small" style={{ fontSize: '0.78rem', color: 'var(--mono-text-muted)' }}>
               Real-time financial telemetry, subscriber life cycle, and MikroTik NOC control
             </p>
           </div>
@@ -96,13 +98,13 @@ export default function DashboardHeader({
 
         {/* Right: Quick Actions Bar matching screenshot */}
         <div className="d-flex flex-wrap align-items-center gap-2">
-          {/* New Customer: Solid White Pill Button */}
+          {/* New Customer: Solid Pill Button */}
           <a
             href="/billing/create-customer"
             className="btn btn-sm d-inline-flex align-items-center gap-1.5 px-3 py-1.5 text-decoration-none shadow-sm"
             style={{
-              background: '#ffffff',
-              color: '#09090b',
+              background: palette.buttonPrimaryBg,
+              color: palette.buttonPrimaryText,
               fontWeight: 600,
               fontSize: '0.8rem',
               borderRadius: 8,
@@ -110,7 +112,7 @@ export default function DashboardHeader({
               transition: 'background 0.15s ease',
             }}
           >
-            <PlusCircle size={15} style={{ color: '#09090b' }} />
+            <PlusCircle size={15} style={{ color: palette.buttonPrimaryText }} />
             <span>New Customer</span>
           </a>
 
@@ -119,15 +121,15 @@ export default function DashboardHeader({
             href="/billing/payment-collection"
             className="btn btn-sm d-inline-flex align-items-center gap-1.5 px-3 py-1.5 text-decoration-none"
             style={{
-              background: '#16161b',
-              border: '1px solid rgba(255, 255, 255, 0.1)',
-              color: '#e4e4e7',
+              background: palette.buttonSecondaryBg,
+              border: `1px solid ${palette.buttonSecondaryBorder}`,
+              color: palette.buttonSecondaryText,
               fontSize: '0.8rem',
               fontWeight: 500,
               borderRadius: 8,
             }}
           >
-            <Receipt size={14} style={{ color: '#a1a1aa' }} />
+            <Receipt size={14} style={{ color: 'var(--mono-text-secondary)' }} />
             <span>Collect Bill</span>
           </a>
 
@@ -136,15 +138,15 @@ export default function DashboardHeader({
             onClick={() => setActiveTab('mikrotik')}
             className="btn btn-sm d-inline-flex align-items-center gap-1.5 px-3 py-1.5"
             style={{
-              background: activeTab === 'mikrotik' ? '#1f1f26' : '#16161b',
-              border: '1px solid rgba(255, 255, 255, 0.1)',
-              color: '#e4e4e7',
+              background: activeTab === 'mikrotik' ? (isDark ? '#27272a' : '#e2e8f0') : palette.buttonSecondaryBg,
+              border: `1px solid ${palette.buttonSecondaryBorder}`,
+              color: palette.buttonSecondaryText,
               fontSize: '0.8rem',
               fontWeight: 500,
               borderRadius: 8,
             }}
           >
-            <Server size={14} style={{ color: '#a1a1aa' }} />
+            <Server size={14} style={{ color: 'var(--mono-text-secondary)' }} />
             <span>MikroTik NOC</span>
           </button>
 
@@ -153,15 +155,15 @@ export default function DashboardHeader({
             href="/billing/payment-invoice"
             className="btn btn-sm d-inline-flex align-items-center gap-1.5 px-3 py-1.5 text-decoration-none"
             style={{
-              background: '#16161b',
-              border: '1px solid rgba(255, 255, 255, 0.1)',
-              color: '#e4e4e7',
+              background: palette.buttonSecondaryBg,
+              border: `1px solid ${palette.buttonSecondaryBorder}`,
+              color: palette.buttonSecondaryText,
               fontSize: '0.8rem',
               fontWeight: 500,
               borderRadius: 8,
             }}
           >
-            <FileText size={14} style={{ color: '#a1a1aa' }} />
+            <FileText size={14} style={{ color: 'var(--mono-text-secondary)' }} />
             <span>Invoices</span>
           </a>
 
@@ -171,18 +173,18 @@ export default function DashboardHeader({
               onClick={() => setIsIntervalOpen(!isIntervalOpen)}
               className="btn btn-sm d-inline-flex align-items-center gap-1.5 px-3 py-1.5"
               style={{
-                background: '#16161b',
-                border: '1px solid rgba(255, 255, 255, 0.1)',
-                color: '#e4e4e7',
+                background: palette.buttonSecondaryBg,
+                border: `1px solid ${palette.buttonSecondaryBorder}`,
+                color: palette.buttonSecondaryText,
                 fontSize: '0.8rem',
                 fontWeight: 500,
                 borderRadius: 8,
               }}
               title="Auto-refresh setting"
             >
-              <Settings size={14} style={{ color: '#a1a1aa' }} />
+              <Settings size={14} style={{ color: 'var(--mono-text-secondary)' }} />
               <span>{currentIntervalLabel}</span>
-              <ChevronDown size={12} style={{ color: '#71717a' }} />
+              <ChevronDown size={12} style={{ color: 'var(--mono-text-muted)' }} />
             </button>
 
             <AnimatePresence>
@@ -193,8 +195,8 @@ export default function DashboardHeader({
                   exit={{ opacity: 0, y: 5 }}
                   className="position-absolute end-0 mt-1 py-1 rounded-2 shadow-2xl z-50"
                   style={{
-                    background: '#16161c',
-                    border: '1px solid rgba(255, 255, 255, 0.12)',
+                    background: palette.cardBg,
+                    border: `1px solid ${palette.cardBorderHover}`,
                     minWidth: 130,
                     zIndex: 100,
                   }}
@@ -208,14 +210,14 @@ export default function DashboardHeader({
                       }}
                       className="dropdown-item px-3 py-1.5 small text-start d-flex align-items-center justify-content-between w-100 border-0"
                       style={{
-                        background: refreshInterval === item.value ? 'rgba(255,255,255,0.08)' : 'transparent',
-                        color: refreshInterval === item.value ? '#ffffff' : '#a1a1aa',
+                        background: refreshInterval === item.value ? (isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.06)') : 'transparent',
+                        color: refreshInterval === item.value ? 'var(--mono-text-primary)' : 'var(--mono-text-secondary)',
                         fontSize: '0.75rem',
                       }}
                     >
                       <span>{item.label}</span>
                       {refreshInterval === item.value && (
-                        <span style={{ width: 4, height: 4, borderRadius: '50%', background: '#ffffff' }}></span>
+                        <span style={{ width: 4, height: 4, borderRadius: '50%', background: 'var(--mono-text-primary)' }}></span>
                       )}
                     </button>
                   ))}
@@ -230,9 +232,9 @@ export default function DashboardHeader({
             disabled={isRefreshing}
             className="btn btn-sm d-inline-flex align-items-center justify-content-center p-2"
             style={{
-              background: '#16161b',
-              border: '1px solid rgba(255, 255, 255, 0.1)',
-              color: '#e4e4e7',
+              background: palette.buttonSecondaryBg,
+              border: `1px solid ${palette.buttonSecondaryBorder}`,
+              color: palette.buttonSecondaryText,
               borderRadius: 8,
             }}
             title={`Refresh data (Last updated ${lastUpdated.toLocaleTimeString()})`}
@@ -248,8 +250,8 @@ export default function DashboardHeader({
       <div
         className="d-flex align-items-center gap-1.5 p-1 rounded-3 mb-4"
         style={{
-          background: '#111115',
-          border: '1px solid rgba(255, 255, 255, 0.08)',
+          background: 'var(--mono-card)',
+          border: '1px solid var(--mono-card-border)',
           width: 'fit-content',
         }}
       >
@@ -272,9 +274,9 @@ export default function DashboardHeader({
               onClick={() => setActiveTab(tab.id)}
               className="position-relative d-inline-flex align-items-center gap-2 px-3 py-1.5"
               style={{
-                color: isActive ? '#ffffff' : '#8e8e93',
-                background: isActive ? '#1c1c24' : 'transparent',
-                border: isActive ? '1px solid rgba(255, 255, 255, 0.14)' : '1px solid transparent',
+                color: isActive ? 'var(--mono-text-primary)' : 'var(--mono-text-secondary)',
+                background: isActive ? (isDark ? '#27272a' : '#f1f5f9') : 'transparent',
+                border: isActive ? '1px solid var(--mono-card-border)' : '1px solid transparent',
                 borderRadius: 7,
                 fontSize: '0.8rem',
                 fontWeight: isActive ? 600 : 500,
@@ -282,15 +284,15 @@ export default function DashboardHeader({
                 transition: 'all 0.15s ease',
               }}
             >
-              <Icon size={14} style={{ color: isActive ? '#ffffff' : '#71717a' }} />
+              <Icon size={14} style={{ color: isActive ? 'var(--mono-text-primary)' : 'var(--mono-text-muted)' }} />
               <span>{tab.label}</span>
               {tab.badge && (
                 <span
                   className="badge font-mono"
                   style={{
-                    background: isActive ? 'rgba(255, 255, 255, 0.12)' : 'rgba(255, 255, 255, 0.06)',
-                    color: isActive ? '#ffffff' : '#a1a1aa',
-                    border: '1px solid rgba(255, 255, 255, 0.1)',
+                    background: isActive ? 'var(--mono-surface-elevated)' : 'transparent',
+                    color: isActive ? 'var(--mono-text-primary)' : 'var(--mono-text-secondary)',
+                    border: '1px solid var(--mono-card-border)',
                     fontSize: '0.65rem',
                     fontWeight: 600,
                     padding: '2px 6px',

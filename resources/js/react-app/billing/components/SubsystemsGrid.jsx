@@ -28,19 +28,19 @@ export default function SubsystemsGrid() {
     <div
       className="card p-3.5 p-md-4 mb-4"
       style={{
-        background: '#111115',
-        border: '1px solid rgba(255, 255, 255, 0.08)',
+        background: 'var(--mono-card)',
+        border: '1px solid var(--mono-card-border)',
         borderRadius: 12,
       }}
     >
       <div className="d-flex align-items-center justify-content-between mb-3">
         <div className="d-flex align-items-center gap-2">
-          <Layers size={17} style={{ color: '#d1d1d6' }} />
-          <h5 className="fw-bold mb-0 text-white" style={{ fontSize: '0.96rem', letterSpacing: '-0.01em' }}>
+          <Layers size={17} style={{ color: 'var(--mono-text-secondary)' }} />
+          <h5 className="fw-bold mb-0" style={{ fontSize: '0.96rem', letterSpacing: '-0.01em', color: 'var(--mono-text-primary)' }}>
             RouterOS Subsystem Control Shortcuts
           </h5>
         </div>
-        <span className="small font-mono" style={{ fontSize: '0.72rem', color: '#71717a' }}>
+        <span className="small font-mono" style={{ fontSize: '0.72rem', color: 'var(--mono-text-muted)' }}>
           Deep-Link Navigation
         </span>
       </div>
@@ -54,20 +54,20 @@ export default function SubsystemsGrid() {
                 href={item.href}
                 className="p-3 rounded-3 d-flex align-items-center justify-content-between text-decoration-none hover-lift w-100"
                 style={{
-                  background: '#16161c',
-                  border: '1px solid rgba(255, 255, 255, 0.06)',
+                  background: 'var(--mono-surface-elevated)',
+                  border: '1px solid var(--mono-card-border)',
                   display: 'block',
                 }}
               >
                 <div className="d-flex align-items-center gap-2.5">
                   <div
                     className="d-flex align-items-center justify-content-center rounded-2"
-                    style={{ width: 34, height: 34, background: '#1c1c24', border: '1px solid rgba(255, 255, 255, 0.08)' }}
+                    style={{ width: 34, height: 34, background: 'var(--mono-card)', border: '1px solid var(--mono-card-border)' }}
                   >
                     <Icon size={16} style={{ color: item.color }} />
                   </div>
                   <div>
-                    <div className="fw-semibold text-white" style={{ fontSize: '0.82rem' }}>
+                    <div className="fw-semibold" style={{ fontSize: '0.82rem', color: 'var(--mono-text-primary)' }}>
                       {item.title}
                     </div>
                     <div className="text-muted small" style={{ fontSize: '0.7rem' }}>

@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { BarChart3 } from 'lucide-react';
+import { useTheme } from '../useTheme';
 
 export default function FinancialChart({ chartData = [], maxChartValue = 1150, formatCurrency, formatNumber }) {
+  const { isDark, palette } = useTheme();
   const [chartView, setChartView] = useState('comparison'); // 'comparison', 'difference', 'cumulative'
   const [hoveredMonth, setHoveredMonth] = useState(null);
 
@@ -12,8 +14,8 @@ export default function FinancialChart({ chartData = [], maxChartValue = 1150, f
     <div
       className="card p-3.5 p-md-4 h-100 d-flex flex-column justify-content-between"
       style={{
-        background: '#111115',
-        border: '1px solid rgba(255, 255, 255, 0.08)',
+        background: 'var(--mono-card)',
+        border: '1px solid var(--mono-card-border)',
         borderRadius: 12,
       }}
     >
@@ -22,12 +24,12 @@ export default function FinancialChart({ chartData = [], maxChartValue = 1150, f
         <div className="d-flex flex-column flex-sm-row align-items-sm-center justify-content-between gap-2 mb-4">
           <div>
             <div className="d-flex align-items-center gap-2 mb-0.5">
-              <BarChart3 size={16} style={{ color: '#d1d1d6' }} />
-              <h5 className="fw-bold mb-0 text-white" style={{ fontSize: '0.96rem', letterSpacing: '-0.01em' }}>
+              <BarChart3 size={16} style={{ color: 'var(--mono-text-secondary)' }} />
+              <h5 className="fw-bold mb-0" style={{ fontSize: '0.96rem', letterSpacing: '-0.01em', color: 'var(--mono-text-primary)' }}>
                 Financial Performance & Cashflow
               </h5>
             </div>
-            <p className="small mb-0" style={{ fontSize: '0.76rem', color: '#71717a' }}>
+            <p className="small mb-0" style={{ fontSize: '0.76rem', color: 'var(--mono-text-muted)' }}>
               Comparing Previous Years Current Year Revenue Trends (BDT ৳)
             </p>
           </div>
@@ -36,8 +38,8 @@ export default function FinancialChart({ chartData = [], maxChartValue = 1150, f
           <div
             className="d-inline-flex align-items-center p-0.5 rounded-2"
             style={{
-              background: '#16161c',
-              border: '1px solid rgba(255, 255, 255, 0.08)',
+              background: 'var(--mono-surface-elevated)',
+              border: '1px solid var(--mono-card-border)',
             }}
           >
             {[
@@ -53,8 +55,8 @@ export default function FinancialChart({ chartData = [], maxChartValue = 1150, f
                   onClick={() => setChartView(btn.id)}
                   className="btn btn-sm border-0 py-1 px-2.5"
                   style={{
-                    background: isActive ? '#ffffff' : 'transparent',
-                    color: isActive ? '#09090b' : '#8e8e93',
+                    background: isActive ? (isDark ? '#ffffff' : '#09090b') : 'transparent',
+                    color: isActive ? (isDark ? '#09090b' : '#ffffff') : 'var(--mono-text-secondary)',
                     fontSize: '0.72rem',
                     fontWeight: isActive ? 600 : 500,
                     borderRadius: 6,
@@ -81,14 +83,14 @@ export default function FinancialChart({ chartData = [], maxChartValue = 1150, f
                     y1={y}
                     x2="610"
                     y2={y}
-                    stroke="rgba(255, 255, 255, 0.05)"
+                    stroke={palette.chartGrid}
                     strokeDasharray="3 3"
                   />
                   <text
                     x="38"
                     y={y + 3}
                     textAnchor="end"
-                    fill="#52525b"
+                    fill={palette.chartText}
                     fontSize="9"
                     fontFamily="monospace"
                   >
@@ -121,7 +123,7 @@ export default function FinancialChart({ chartData = [], maxChartValue = 1150, f
                         y="30"
                         width={36}
                         height={175}
-                        fill="rgba(255, 255, 255, 0.04)"
+                        fill={isDark ? "rgba(255, 255, 255, 0.04)" : "rgba(0, 0, 0, 0.04)"}
                         rx="4"
                       />
                     )}
@@ -133,7 +135,7 @@ export default function FinancialChart({ chartData = [], maxChartValue = 1150, f
                       width={13}
                       height={prevH}
                       rx={3}
-                      fill={isHovered ? '#636366' : '#3a3a3c'}
+                      fill={isHovered ? palette.chartPrevBarHover : palette.chartPrevBar}
                     />
 
                     {/* Current Year Pill */}
@@ -143,7 +145,7 @@ export default function FinancialChart({ chartData = [], maxChartValue = 1150, f
                       width={13}
                       height={currH}
                       rx={3}
-                      fill={isHovered ? '#ffffff' : '#e4e4e7'}
+                      fill={isHovered ? palette.chartCurrBarHover : palette.chartCurrBar}
                     />
 
                     {/* Month Label */}
@@ -151,7 +153,7 @@ export default function FinancialChart({ chartData = [], maxChartValue = 1150, f
                       x={x + 14}
                       y="225"
                       textAnchor="middle"
-                      fill={isHovered ? '#ffffff' : '#71717a'}
+                      fill={isHovered ? 'var(--mono-text-primary)' : 'var(--mono-text-muted)'}
                       fontSize="9.5"
                       fontWeight={isHovered ? '600' : '400'}
                     >
@@ -179,7 +181,7 @@ export default function FinancialChart({ chartData = [], maxChartValue = 1150, f
                         y="30"
                         width={32}
                         height={175}
-                        fill="rgba(255, 255, 255, 0.04)"
+                        fill={isDark ? "rgba(255, 255, 255, 0.04)" : "rgba(0, 0, 0, 0.04)"}
                         rx="4"
                       />
                     )}
@@ -196,8 +198,9 @@ export default function FinancialChart({ chartData = [], maxChartValue = 1150, f
                       x={x + 13}
                       y="225"
                       textAnchor="middle"
-                      fill={isHovered ? '#ffffff' : '#71717a'}
+                      fill={isHovered ? 'var(--mono-text-primary)' : 'var(--mono-text-muted)'}
                       fontSize="9.5"
+                      fontWeight={isHovered ? '600' : '400'}
                     >
                       {d.month}
                     </text>
@@ -222,17 +225,17 @@ export default function FinancialChart({ chartData = [], maxChartValue = 1150, f
                       y="30"
                       width={36}
                       height={175}
-                      fill="rgba(255, 255, 255, 0.04)"
+                      fill={isDark ? "rgba(255, 255, 255, 0.04)" : "rgba(0, 0, 0, 0.04)"}
                       rx="4"
                     />
                   )}
-                  <rect x={x} y={200 - prevH} width={13} height={prevH} rx={3} fill="#3a3a3c" />
-                  <rect x={x + 15} y={200 - currH} width={13} height={currH} rx={3} fill="#ffffff" />
+                  <rect x={x} y={200 - prevH} width={13} height={prevH} rx={3} fill={palette.chartPrevBar} />
+                  <rect x={x + 15} y={200 - currH} width={13} height={currH} rx={3} fill={palette.chartCurrBar} />
                   <text
                     x={x + 14}
                     y="225"
                     textAnchor="middle"
-                    fill={isHovered ? '#ffffff' : '#71717a'}
+                    fill={isHovered ? 'var(--mono-text-primary)' : 'var(--mono-text-muted)'}
                     fontSize="9.5"
                   >
                     {d.month}
@@ -253,25 +256,25 @@ export default function FinancialChart({ chartData = [], maxChartValue = 1150, f
                   style={{
                     top: 10,
                     right: 20,
-                    background: '#16161c',
-                    border: '1px solid rgba(255, 255, 255, 0.15)',
+                    background: palette.cardBg,
+                    border: `1px solid ${palette.cardBorderHover}`,
                     fontSize: '0.74rem',
                     zIndex: 10,
                     minWidth: 160,
                   }}
                 >
-                  <div className="fw-bold text-white mb-1.5">{mData.month} Overview</div>
-                  <div className="d-flex justify-content-between text-muted mb-1">
+                  <div className="fw-bold mb-1.5" style={{ color: 'var(--mono-text-primary)' }}>{mData.month} Overview</div>
+                  <div className="d-flex justify-content-between mb-1" style={{ color: 'var(--mono-text-muted)' }}>
                     <span>Prev Year:</span>
-                    <span className="text-white font-mono">{formatCurrency(mData.prev)}</span>
+                    <span className="font-mono" style={{ color: 'var(--mono-text-primary)' }}>{formatCurrency(mData.prev)}</span>
                   </div>
-                  <div className="d-flex justify-content-between text-muted mb-1.5">
+                  <div className="d-flex justify-content-between mb-1.5" style={{ color: 'var(--mono-text-muted)' }}>
                     <span>Curr Year:</span>
-                    <span className="text-white font-mono">{formatCurrency(mData.curr)}</span>
+                    <span className="font-mono" style={{ color: 'var(--mono-text-primary)' }}>{formatCurrency(mData.curr)}</span>
                   </div>
-                  <div className="d-flex justify-content-between pt-1 border-top border-secondary border-opacity-25">
+                  <div className="d-flex justify-content-between pt-1 border-top" style={{ borderColor: 'var(--mono-card-border)' }}>
                     <span>Delta:</span>
-                    <span className="font-mono" style={{ color: mData.diff >= 0 ? '#34d399' : '#fb7185' }}>
+                    <span className="font-mono" style={{ color: mData.diff >= 0 ? '#10b981' : '#f43f5e' }}>
                       {mData.diff >= 0 ? '+' : ''}
                       {formatCurrency(mData.diff)}
                     </span>
@@ -286,19 +289,19 @@ export default function FinancialChart({ chartData = [], maxChartValue = 1150, f
       {/* Legend Matching Screenshot */}
       <div
         className="d-flex align-items-center justify-content-center gap-4 pt-3 border-top"
-        style={{ borderColor: 'rgba(255, 255, 255, 0.06)', fontSize: '0.74rem' }}
+        style={{ borderColor: 'var(--mono-card-border)', fontSize: '0.74rem' }}
       >
         <div className="d-flex align-items-center gap-1.5">
-          <span style={{ width: 8, height: 8, borderRadius: '50%', background: '#3a3a3c' }}></span>
-          <span style={{ color: '#8e8e93' }}>Previous Year</span>
+          <span style={{ width: 8, height: 8, borderRadius: '50%', background: palette.chartPrevBar }}></span>
+          <span style={{ color: 'var(--mono-text-secondary)' }}>Previous Year</span>
         </div>
         <div className="d-flex align-items-center gap-1.5">
-          <span style={{ width: 8, height: 8, borderRadius: '50%', background: '#ffffff' }}></span>
-          <span style={{ color: '#8e8e93' }}>Current Year</span>
+          <span style={{ width: 8, height: 8, borderRadius: '50%', background: palette.chartCurrBar }}></span>
+          <span style={{ color: 'var(--mono-text-secondary)' }}>Current Year</span>
         </div>
         <div className="d-flex align-items-center gap-1.5">
-          <span style={{ width: 8, height: 8, borderRadius: '50%', background: '#636366' }}></span>
-          <span style={{ color: '#8e8e93' }}>Growth Spread</span>
+          <span style={{ width: 8, height: 8, borderRadius: '50%', background: isDark ? '#636366' : '#94a3b8' }}></span>
+          <span style={{ color: 'var(--mono-text-secondary)' }}>Growth Spread</span>
         </div>
       </div>
     </div>
