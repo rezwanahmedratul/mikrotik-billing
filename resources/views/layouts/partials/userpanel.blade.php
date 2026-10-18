@@ -47,10 +47,10 @@
         </div>
 
         <!-- Desktop Clock Display -->
-        <div class="text-center d-none d-lg-block">
-            <div class="text-sm text-gray-500" x-text="dateString"></div>
-            <div class="text-2xl font-medium" x-text="timeString"></div>
-            <div class="text-xs text-muted">
+        <div class="text-center d-none d-lg-block px-2">
+            <div class="text-xs" style="color: var(--mono-text-muted) !important; font-size: 0.72rem; letter-spacing: 0.02em;" x-text="dateString"></div>
+            <div class="text-xl font-mono fw-bold" style="color: var(--mono-text-primary) !important; letter-spacing: -0.02em; line-height: 1.2;" x-text="timeString"></div>
+            <div class="text-xs" style="color: var(--mono-text-muted) !important; font-size: 0.68rem;">
                 {{ __('TimeZone') }}: {{ config('app.timezone') }} (UTC {{ date('O') }})
             </div>
         </div>
@@ -58,35 +58,38 @@
 
 
     <li class="nav-item ps-2 pe-0">
-        <div x-data="themeToggle()" x-init="init()"  class="dropdown theme-control-dropdown">
+        <div x-data="themeToggle()" class="dropdown theme-control-dropdown">
             <a class="nav-link d-flex align-items-center dropdown-toggle fs-9 pe-1 py-0"
                 href="#" role="button" id="themeSwitchDropdown"
-                data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                @click.prevent="toggleTheme()"
+                data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                :title="'Theme: ' + theme + ' (Click to toggle Light/Dark)'"
+                style="cursor: pointer;">
                 <template x-if="theme === 'light'">
-                    <i class="bi bi-sun fs-8" title="Light"></i>
+                    <i class="bi bi-sun fs-8 text-warning" title="Light Mode"></i>
                 </template>
                 <template x-if="theme === 'dark'">
-                    <i class="bi bi-moon-stars-fill fs-8" title="Dark"></i>
+                    <i class="bi bi-moon-stars-fill fs-8" style="color: #818cf8;" title="Dark Mode"></i>
                 </template>
                 <template x-if="theme === 'auto'">
-                    <i class="bi bi-circle-half fs-8" title="Auto"></i>
+                    <i class="bi bi-circle-half fs-8" title="Auto Mode"></i>
                 </template>
             </a>
 
-            <div class="dropdown-menu dropdown-menu-end dropdown-caret border py-0 mt-3" aria-labelledby="themeSwitchDropdown">
-                <div class="bg-white dark__bg-1000 rounded-2 py-2">
+            <div class="dropdown-menu dropdown-menu-end dropdown-caret border py-0 mt-3" aria-labelledby="themeSwitchDropdown" style="background: var(--mono-card) !important; border-color: var(--mono-card-border) !important;">
+                <div class="rounded-2 py-2" style="background: var(--mono-card) !important;">
                     <button @click="setTheme('light')" class="dropdown-item d-flex align-items-center gap-2" type="button"
-                        value="light" data-theme-control="theme">
-                        <i class="bi bi-sun fs-8"></i>
+                        value="light" data-theme-control="theme" style="color: var(--mono-text-primary) !important;">
+                        <i class="bi bi-sun fs-8 text-warning"></i>
                         {{ __('Light') }}
                     </button>
                     <button @click="setTheme('dark')" class="dropdown-item d-flex align-items-center gap-2" type="button"
-                        value="dark" data-theme-control="theme">
-                        <i class="bi bi-moon-stars-fill fs-8"></i>
+                        value="dark" data-theme-control="theme" style="color: var(--mono-text-primary) !important;">
+                        <i class="bi bi-moon-stars-fill fs-8" style="color: #818cf8;"></i>
                         {{ __('Dark') }}
                     </button>
                     <button @click="setTheme('auto')" class="dropdown-item d-flex align-items-center gap-2" type="button"
-                        value="auto" data-theme-control="theme">
+                        value="auto" data-theme-control="theme" style="color: var(--mono-text-primary) !important;">
                         <i class="bi bi-circle-half fs-8"></i>
                         {{ __('Auto') }}
                     </button>

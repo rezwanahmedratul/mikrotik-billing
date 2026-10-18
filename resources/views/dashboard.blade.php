@@ -1,7 +1,4 @@
 <x-app-layout>
-    <x-slot name="header">
-        {{ __('Dashboard') }}
-    </x-slot>
 
     {{-- React Dashboard Mounting Point --}}
     <div id="billing-dashboard-react-root">

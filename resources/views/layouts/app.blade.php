@@ -77,9 +77,9 @@
         };
 
         // Theme toggle object definition for Alpine.js
-        window.themeToggle = function() {
+        function createThemeToggleComponent() {
             return {
-                theme: localStorage.getItem('theme') || 'auto',
+                theme: localStorage.getItem('theme') || 'dark',
 
                 init() {
                     this.applyTheme(this.theme);
@@ -109,15 +109,24 @@
                     this.applyTheme(newTheme);
                 },
 
+                toggleTheme() {
+                    const current = (this.theme === 'auto')
+                        ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
+                        : this.theme;
+                    const next = (current === 'dark') ? 'light' : 'dark';
+                    this.setTheme(next);
+                },
+
                 applyTheme(t) {
                     window.applyGlobalTheme(t);
                 }
             };
-        };
+        }
+        window.themeToggle = createThemeToggleComponent;
 
         document.addEventListener('alpine:init', () => {
             if (window.Alpine && typeof window.Alpine.data === 'function') {
-                window.Alpine.data('themeToggle', window.themeToggle);
+                window.Alpine.data('themeToggle', createThemeToggleComponent);
             }
         });
 
@@ -152,14 +161,11 @@
 
                 @include('layouts.partials.topnav')
                 @if (isset($header))
-                    <div class="card mb-3">
-                        <div class="bg-holder d-none d-lg-block bg-card"
-                            style="background-image:url({{ asset('images/corner-4.png') }});">
-                        </div><!--/.bg-holder-->
-                        <div class="card-body position-relative">
+                    <div class="card mb-3" style="background: var(--mono-card) !important; border: 1px solid var(--mono-card-border) !important;">
+                        <div class="card-body position-relative py-3">
                             <div class="row">
                                 <div class="col-md-12">
-                                    <h3 class="text-center">{{ $header }}</h3>
+                                    <h4 class="text-center mb-0" style="color: var(--mono-text-primary); font-family: var(--font-sans); font-weight: 700; letter-spacing: -0.02em;">{{ $header }}</h4>
                                 </div>
                             </div>
                         </div>
@@ -282,11 +288,6 @@
                 document.documentElement.classList.remove("navbar-vertical-collapsed");
             }
         });
-
-        // Forward themeToggle to window.themeToggle
-        function themeToggle() {
-            return window.themeToggle();
-        }
 
         function layoutController() {
             return {

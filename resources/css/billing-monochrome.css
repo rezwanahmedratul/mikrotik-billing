@@ -123,11 +123,28 @@ html, body {
 /* =============================================================================
    SIDENAV / VERTICAL NAVBAR — OBSIDIAN DARK & CRISP LIGHT
    ============================================================================= */
-.navbar-vertical {
+.navbar-vertical,
+.navbar-vertical .navbar-collapse,
+.navbar-vertical .navbar-vertical-content,
+.navbar-vertical-collapsed .navbar-vertical,
+.navbar-vertical-collapsed .navbar-vertical .navbar-collapse,
+.navbar-vertical-collapsed .navbar-vertical .navbar-vertical-content,
+.navbar-vertical-collapsed-hover .navbar-vertical,
+.navbar-vertical-collapsed-hover .navbar-vertical .navbar-collapse,
+.navbar-vertical-collapsed-hover .navbar-vertical .navbar-vertical-content {
   background-color: var(--mono-bg) !important;
+  background-image: none !important;
+}
+
+.navbar-vertical {
   border-right: 1px solid var(--mono-card-border) !important;
   box-shadow: none !important;
   width: 255px !important;
+}
+
+/* Hide daemon widget when navbar-vertical is collapsed */
+.navbar-vertical-collapsed:not(.navbar-vertical-collapsed-hover) .sidebar-status-widget {
+  display: none !important;
 }
 
 /* Sidenav Branding */
@@ -940,9 +957,21 @@ html[data-bs-theme="light"] .content {
 }
 
 /* Vertical Sidebar in Light Mode */
-html[data-bs-theme="light"] .navbar-vertical {
+html[data-bs-theme="light"] .navbar-vertical,
+html[data-bs-theme="light"] .navbar-vertical .navbar-collapse,
+html[data-bs-theme="light"] .navbar-vertical .navbar-vertical-content,
+html[data-bs-theme="light"] .navbar-vertical-collapsed .navbar-vertical,
+html[data-bs-theme="light"] .navbar-vertical-collapsed .navbar-vertical .navbar-collapse,
+html[data-bs-theme="light"] .navbar-vertical-collapsed .navbar-vertical .navbar-vertical-content,
+html[data-bs-theme="light"] .navbar-vertical-collapsed-hover .navbar-vertical,
+html[data-bs-theme="light"] .navbar-vertical-collapsed-hover .navbar-vertical .navbar-collapse,
+html[data-bs-theme="light"] .navbar-vertical-collapsed-hover .navbar-vertical .navbar-vertical-content {
   background-color: #ffffff !important;
-  border-right: 1px solid rgba(0, 0, 0, 0.08) !important;
+  background-image: none !important;
+  border-right-color: rgba(0, 0, 0, 0.08) !important;
+}
+
+html[data-bs-theme="light"] .navbar-vertical {
   box-shadow: 2px 0 12px rgba(0, 0, 0, 0.02) !important;
 }
 
