@@ -261,18 +261,18 @@ html.navbar-vertical-collapsed-hover .content {
 
 /* Category / Section Headers */
 .navbar-vertical-label-wrapper {
-  margin-top: 1.15rem !important;
-  margin-bottom: 0.35rem !important;
-  padding: 0 0.85rem !important;
+  margin: 1.15rem 0.65rem 0.35rem 0.65rem !important;
+  padding: 0 !important;
 }
 
 .navbar-vertical-label {
-  color: #52525b !important;
+  color: #71717a !important;
   font-size: 0.65rem !important;
   text-transform: uppercase !important;
-  letter-spacing: 0.12em !important;
+  letter-spacing: 0.11em !important;
   font-weight: 700 !important;
   padding: 0 !important;
+  opacity: 0.85;
 }
 
 /* Hide clumsy Falcon divider lines */
@@ -284,36 +284,36 @@ html.navbar-vertical-collapsed-hover .content {
 .navbar-vertical .nav-link {
   color: #9ca3af !important;
   font-weight: 500 !important;
-  font-size: 0.81rem !important;
-  padding: 0.48rem 0.75rem !important;
+  font-size: 0.82rem !important;
+  padding: 0.46rem 0.75rem !important;
   border-radius: 8px !important;
-  margin: 1.5px 0.55rem !important;
+  margin: 2px 0.65rem !important;
   transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1) !important;
   display: flex !important;
   align-items: center !important;
   justify-content: space-between !important;
   border: 1px solid transparent !important;
   background-color: transparent !important;
-  transform: none !important;
+  min-height: 36px !important;
 }
 
 .navbar-vertical .nav-link:hover {
   color: #ffffff !important;
   background-color: rgba(255, 255, 255, 0.05) !important;
   border-color: rgba(255, 255, 255, 0.05) !important;
-  transform: none !important;
 }
 
+/* Active Destination Page Link (Solid White in Dark Mode) */
 .navbar-vertical .nav-link.active,
-.navbar-vertical .nav-link[aria-expanded="true"]:not(.collapsed),
 .navbar-vertical .nav-link:active {
   color: #09090b !important;
   background-color: #ffffff !important;
   border-color: #ffffff !important;
   font-weight: 700 !important;
-  box-shadow: 0 4px 14px rgba(255, 255, 255, 0.16) !important;
+  box-shadow: 0 3px 12px rgba(255, 255, 255, 0.18) !important;
 }
 
+/* Navigation Link Icons */
 .navbar-vertical .nav-link .nav-link-icon {
   color: #71717a !important;
   width: 20px !important;
@@ -324,17 +324,16 @@ html.navbar-vertical-collapsed-hover .content {
   margin-right: 0.65rem !important;
   font-size: 0.95rem !important;
   border-radius: 5px !important;
-  background: rgba(255, 255, 255, 0.02) !important;
+  background: transparent !important;
   transition: all 0.15s ease !important;
+  flex-shrink: 0 !important;
 }
 
 .navbar-vertical .nav-link:hover .nav-link-icon {
   color: #ffffff !important;
-  background: rgba(255, 255, 255, 0.08) !important;
 }
 
 .navbar-vertical .nav-link.active .nav-link-icon,
-.navbar-vertical .nav-link[aria-expanded="true"]:not(.collapsed) .nav-link-icon,
 .navbar-vertical .nav-link:active .nav-link-icon {
   color: #09090b !important;
   background: transparent !important;
@@ -342,8 +341,6 @@ html.navbar-vertical-collapsed-hover .content {
 
 .navbar-vertical .nav-link.active .nav-link-icon i,
 .navbar-vertical .nav-link.active .nav-link-icon svg,
-.navbar-vertical .nav-link[aria-expanded="true"]:not(.collapsed) .nav-link-icon i,
-.navbar-vertical .nav-link[aria-expanded="true"]:not(.collapsed) .nav-link-icon svg,
 .navbar-vertical .nav-link:active .nav-link-icon i,
 .navbar-vertical .nav-link:active .nav-link-icon svg {
   color: #09090b !important;
@@ -351,64 +348,93 @@ html.navbar-vertical-collapsed-hover .content {
 }
 
 .navbar-vertical .nav-link.active .nav-link-text,
-.navbar-vertical .nav-link[aria-expanded="true"]:not(.collapsed) .nav-link-text,
 .navbar-vertical .nav-link:active .nav-link-text {
   color: #09090b !important;
 }
 
-/* Dropdown Chevrons */
+/* Collapsible Parent Accordion Link (Subtle Glass Header, Not Solid Block) */
+.navbar-vertical .dropdown-indicator {
+  position: relative !important;
+}
+
+.navbar-vertical .dropdown-indicator[aria-expanded="true"],
+.navbar-vertical .dropdown-indicator:not(.collapsed) {
+  color: #ffffff !important;
+  background-color: rgba(255, 255, 255, 0.05) !important;
+  font-weight: 600 !important;
+}
+
+.navbar-vertical .dropdown-indicator[aria-expanded="true"] .nav-link-icon,
+.navbar-vertical .dropdown-indicator:not(.collapsed) .nav-link-icon {
+  color: #ffffff !important;
+}
+
+/* Elegant Chevron Indicator */
 .navbar-vertical .dropdown-indicator:after {
   content: "" !important;
-  display: inline-block !important;
-  width: 6px !important;
-  height: 6px !important;
-  border-right: 1.5px solid #71717a !important;
-  border-bottom: 1.5px solid #71717a !important;
+  display: block !important;
+  position: absolute !important;
+  right: 14px !important;
+  top: 50% !important;
+  width: 5px !important;
+  height: 5px !important;
+  border-right: 1.5px solid currentColor !important;
+  border-bottom: 1.5px solid currentColor !important;
   border-left: none !important;
   border-top: none !important;
-  transform: rotate(45deg) !important;
-  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.15s ease !important;
-  margin-left: auto !important;
-  margin-right: 2px !important;
+  transform: translateY(-70%) rotate(45deg) !important;
+  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.15s ease !important;
   background: transparent !important;
+  opacity: 0.65;
 }
 
-.navbar-vertical .nav-link:hover.dropdown-indicator:after {
-  border-color: #ffffff !important;
+.navbar-vertical .dropdown-indicator:hover:after {
+  opacity: 1 !important;
 }
 
-.navbar-vertical .nav-link[aria-expanded="true"]:not(.collapsed).dropdown-indicator:after {
-  transform: rotate(-135deg) !important;
+/* Flipped Chevron when Expanded */
+.navbar-vertical .dropdown-indicator[aria-expanded="true"]:after,
+.navbar-vertical .dropdown-indicator:not(.collapsed):after {
+  transform: translateY(-30%) rotate(-135deg) !important;
+  opacity: 1 !important;
+}
+
+.navbar-vertical .nav-link.active.dropdown-indicator:after {
   border-color: #09090b !important;
 }
 
-.navbar-vertical .nav-link.active .dropdown-indicator:after {
-  border-color: #09090b !important;
-}
-
-/* Submenu Hierarchy */
+/* Submenu Tree Hierarchy */
 .navbar-vertical .nav.collapse {
-  border-left: 1px solid rgba(255, 255, 255, 0.08) !important;
-  margin-left: 1.35rem !important;
-  padding-left: 0.35rem !important;
-  margin-top: 0.25rem !important;
-  margin-bottom: 0.35rem !important;
+  margin-left: 1.45rem !important;
+  padding-left: 0.65rem !important;
+  margin-top: 3px !important;
+  margin-bottom: 6px !important;
+  border-left: 1.5px solid rgba(255, 255, 255, 0.1) !important;
+  list-style: none !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 2px !important;
 }
 
 .navbar-vertical .nav.collapse .nav-link {
-  font-size: 0.77rem !important;
-  padding: 0.38rem 0.65rem !important;
-  color: #8e8e93 !important;
+  font-size: 0.79rem !important;
+  padding: 0.4rem 0.65rem !important;
+  color: #9ca3af !important;
   border-radius: 6px !important;
-  margin: 1px 0 !important;
+  margin: 0 !important;
+  min-height: 31px !important;
   font-weight: 450 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
 }
 
 .navbar-vertical .nav.collapse .nav-link:hover {
   color: #ffffff !important;
-  background-color: rgba(255, 255, 255, 0.04) !important;
+  background-color: rgba(255, 255, 255, 0.05) !important;
 }
 
+/* Active Submenu Link */
 .navbar-vertical .nav.collapse .nav-link.active,
 .navbar-vertical .nav.collapse .nav-link:active {
   color: #09090b !important;
@@ -423,6 +449,14 @@ html.navbar-vertical-collapsed-hover .content {
 .navbar-vertical .nav.collapse .nav-link:active .nav-link-text,
 .navbar-vertical .nav.collapse .nav-link:active i {
   color: #09090b !important;
+}
+
+/* Submenu Badges */
+.navbar-vertical .nav.collapse .nav-link .badge {
+  margin-left: auto !important;
+  font-size: 0.62rem !important;
+  padding: 1px 5px !important;
+  border-radius: 4px !important;
 }
 
 /* Sidenav Badges */
@@ -454,6 +488,16 @@ html.navbar-vertical-collapsed-hover .content {
   -webkit-backdrop-filter: blur(16px) !important;
   border-bottom: 1px solid var(--mono-card-border) !important;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4) !important;
+  min-height: 60px !important;
+  padding: 0.5rem 1.5rem !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  margin-bottom: 1.25rem !important;
+}
+
+.navbar-top .navbar-brand {
+  display: none !important;
 }
 
 .navbar-top .search-box .search-input {
@@ -1094,12 +1138,35 @@ html[data-bs-theme="light"] .daemon-footer {
   color: #64748b !important;
 }
 
+html[data-bs-theme="light"] .navbar-vertical-label-wrapper {
+  margin: 1.15rem 0.65rem 0.35rem 0.65rem !important;
+  padding: 0 !important;
+}
+
 html[data-bs-theme="light"] .navbar-vertical-label {
   color: #94a3b8 !important;
+  font-size: 0.65rem !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.11em !important;
+  font-weight: 700 !important;
+  padding: 0 !important;
+  opacity: 0.9;
 }
 
 html[data-bs-theme="light"] .navbar-vertical .nav-link {
   color: #475569 !important;
+  font-weight: 500 !important;
+  font-size: 0.82rem !important;
+  padding: 0.46rem 0.75rem !important;
+  border-radius: 8px !important;
+  margin: 2px 0.65rem !important;
+  transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  border: 1px solid transparent !important;
+  background-color: transparent !important;
+  min-height: 36px !important;
 }
 
 html[data-bs-theme="light"] .navbar-vertical .nav-link:hover {
@@ -1108,28 +1175,36 @@ html[data-bs-theme="light"] .navbar-vertical .nav-link:hover {
   border-color: rgba(0, 0, 0, 0.04) !important;
 }
 
+/* Active Destination Page Link (Solid Dark in Light Mode) */
 html[data-bs-theme="light"] .navbar-vertical .nav-link.active,
-html[data-bs-theme="light"] .navbar-vertical .nav-link[aria-expanded="true"]:not(.collapsed),
 html[data-bs-theme="light"] .navbar-vertical .nav-link:active {
   color: #ffffff !important;
   background-color: #09090b !important;
   border-color: #09090b !important;
   font-weight: 700 !important;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25) !important;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.22) !important;
 }
 
 html[data-bs-theme="light"] .navbar-vertical .nav-link .nav-link-icon {
-  color: #64748b !important;
-  background: rgba(0, 0, 0, 0.03) !important;
+  color: #94a3b8 !important;
+  width: 20px !important;
+  height: 20px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  margin-right: 0.65rem !important;
+  font-size: 0.95rem !important;
+  border-radius: 5px !important;
+  background: transparent !important;
+  transition: all 0.15s ease !important;
+  flex-shrink: 0 !important;
 }
 
 html[data-bs-theme="light"] .navbar-vertical .nav-link:hover .nav-link-icon {
   color: #09090b !important;
-  background: rgba(0, 0, 0, 0.07) !important;
 }
 
 html[data-bs-theme="light"] .navbar-vertical .nav-link.active .nav-link-icon,
-html[data-bs-theme="light"] .navbar-vertical .nav-link[aria-expanded="true"]:not(.collapsed) .nav-link-icon,
 html[data-bs-theme="light"] .navbar-vertical .nav-link:active .nav-link-icon {
   color: #ffffff !important;
   background: transparent !important;
@@ -1137,8 +1212,6 @@ html[data-bs-theme="light"] .navbar-vertical .nav-link:active .nav-link-icon {
 
 html[data-bs-theme="light"] .navbar-vertical .nav-link.active .nav-link-icon i,
 html[data-bs-theme="light"] .navbar-vertical .nav-link.active .nav-link-icon svg,
-html[data-bs-theme="light"] .navbar-vertical .nav-link[aria-expanded="true"]:not(.collapsed) .nav-link-icon i,
-html[data-bs-theme="light"] .navbar-vertical .nav-link[aria-expanded="true"]:not(.collapsed) .nav-link-icon svg,
 html[data-bs-theme="light"] .navbar-vertical .nav-link:active .nav-link-icon i,
 html[data-bs-theme="light"] .navbar-vertical .nav-link:active .nav-link-icon svg {
   color: #ffffff !important;
@@ -1146,34 +1219,80 @@ html[data-bs-theme="light"] .navbar-vertical .nav-link:active .nav-link-icon svg
 }
 
 html[data-bs-theme="light"] .navbar-vertical .nav-link.active .nav-link-text,
-html[data-bs-theme="light"] .navbar-vertical .nav-link[aria-expanded="true"]:not(.collapsed) .nav-link-text,
 html[data-bs-theme="light"] .navbar-vertical .nav-link:active .nav-link-text {
   color: #ffffff !important;
 }
 
+/* Collapsible Parent Accordion Link in Light Mode */
+html[data-bs-theme="light"] .navbar-vertical .dropdown-indicator[aria-expanded="true"],
+html[data-bs-theme="light"] .navbar-vertical .dropdown-indicator:not(.collapsed) {
+  color: #09090b !important;
+  background-color: rgba(0, 0, 0, 0.035) !important;
+  font-weight: 600 !important;
+}
+
+html[data-bs-theme="light"] .navbar-vertical .dropdown-indicator[aria-expanded="true"] .nav-link-icon,
+html[data-bs-theme="light"] .navbar-vertical .dropdown-indicator:not(.collapsed) .nav-link-icon {
+  color: #09090b !important;
+}
+
+/* Elegant Chevron Indicator in Light Mode */
 html[data-bs-theme="light"] .navbar-vertical .dropdown-indicator:after {
-  border-right: 1.5px solid #94a3b8 !important;
-  border-bottom: 1.5px solid #94a3b8 !important;
+  content: "" !important;
+  display: block !important;
+  position: absolute !important;
+  right: 14px !important;
+  top: 50% !important;
+  width: 5px !important;
+  height: 5px !important;
+  border-right: 1.5px solid currentColor !important;
+  border-bottom: 1.5px solid currentColor !important;
+  border-left: none !important;
+  border-top: none !important;
+  transform: translateY(-70%) rotate(45deg) !important;
+  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.15s ease !important;
+  background: transparent !important;
+  opacity: 0.65;
 }
 
-html[data-bs-theme="light"] .navbar-vertical .nav-link:hover.dropdown-indicator:after {
-  border-right-color: #09090b !important;
-  border-bottom-color: #09090b !important;
+html[data-bs-theme="light"] .navbar-vertical .dropdown-indicator:hover:after {
+  opacity: 1 !important;
 }
 
-html[data-bs-theme="light"] .navbar-vertical .nav-link[aria-expanded="true"]:not(.collapsed).dropdown-indicator:after,
-html[data-bs-theme="light"] .navbar-vertical .nav-link.active .dropdown-indicator:after,
-html[data-bs-theme="light"] .navbar-vertical .nav-link:active .dropdown-indicator:after {
-  border-right-color: #ffffff !important;
-  border-bottom-color: #ffffff !important;
+html[data-bs-theme="light"] .navbar-vertical .dropdown-indicator[aria-expanded="true"]:after,
+html[data-bs-theme="light"] .navbar-vertical .dropdown-indicator:not(.collapsed):after {
+  transform: translateY(-30%) rotate(-135deg) !important;
+  opacity: 1 !important;
 }
 
+html[data-bs-theme="light"] .navbar-vertical .nav-link.active.dropdown-indicator:after {
+  border-color: #ffffff !important;
+}
+
+/* Submenu Tree Hierarchy in Light Mode */
 html[data-bs-theme="light"] .navbar-vertical .nav.collapse {
-  border-left-color: rgba(0, 0, 0, 0.08) !important;
+  margin-left: 1.45rem !important;
+  padding-left: 0.65rem !important;
+  margin-top: 3px !important;
+  margin-bottom: 6px !important;
+  border-left: 1.5px solid rgba(0, 0, 0, 0.08) !important;
+  list-style: none !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 2px !important;
 }
 
 html[data-bs-theme="light"] .navbar-vertical .nav.collapse .nav-link {
+  font-size: 0.79rem !important;
+  padding: 0.4rem 0.65rem !important;
   color: #64748b !important;
+  border-radius: 6px !important;
+  margin: 0 !important;
+  min-height: 31px !important;
+  font-weight: 450 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
 }
 
 html[data-bs-theme="light"] .navbar-vertical .nav.collapse .nav-link:hover {
@@ -1181,13 +1300,14 @@ html[data-bs-theme="light"] .navbar-vertical .nav.collapse .nav-link:hover {
   background-color: rgba(0, 0, 0, 0.04) !important;
 }
 
+/* Active Submenu Link in Light Mode */
 html[data-bs-theme="light"] .navbar-vertical .nav.collapse .nav-link.active,
 html[data-bs-theme="light"] .navbar-vertical .nav.collapse .nav-link:active {
   color: #ffffff !important;
   background-color: #09090b !important;
   border-color: #09090b !important;
   font-weight: 700 !important;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2) !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18) !important;
 }
 
 html[data-bs-theme="light"] .navbar-vertical .nav.collapse .nav-link.active .nav-link-text,
@@ -1195,6 +1315,14 @@ html[data-bs-theme="light"] .navbar-vertical .nav.collapse .nav-link.active i,
 html[data-bs-theme="light"] .navbar-vertical .nav.collapse .nav-link:active .nav-link-text,
 html[data-bs-theme="light"] .navbar-vertical .nav.collapse .nav-link:active i {
   color: #ffffff !important;
+}
+
+/* Submenu Badges in Light Mode */
+html[data-bs-theme="light"] .navbar-vertical .nav.collapse .nav-link .badge {
+  margin-left: auto !important;
+  font-size: 0.62rem !important;
+  padding: 1px 5px !important;
+  border-radius: 4px !important;
 }
 
 html[data-bs-theme="light"] .navbar-vertical .badge {
@@ -1518,7 +1646,6 @@ html[data-bs-theme="dark"] {
 
 /* Sidebar navigation links */
 .navbar-vertical .nav-link.active,
-.navbar-vertical .nav-link[aria-expanded="true"]:not(.collapsed),
 .navbar-vertical .nav-link:active,
 .navbar-vertical .nav.collapse .nav-link.active,
 .navbar-vertical .nav.collapse .nav-link:active,
@@ -1559,7 +1686,6 @@ html[data-bs-theme="dark"] {
 
 /* Ensure all icons, svg, text, carets, and children inherit dark foreground */
 .navbar-vertical .nav-link.active *,
-.navbar-vertical .nav-link[aria-expanded="true"]:not(.collapsed) *,
 .navbar-vertical .nav-link:active *,
 .navbar-vertical .nav.collapse .nav-link.active *,
 .navbar-vertical .nav.collapse .nav-link:active *,
@@ -1594,7 +1720,6 @@ html[data-bs-theme="dark"] {
 
 /* Dropdown chevrons in sidebar in dark mode */
 .navbar-vertical .nav-link.active.dropdown-indicator:after,
-.navbar-vertical .nav-link[aria-expanded="true"]:not(.collapsed).dropdown-indicator:after,
 .navbar-vertical .nav-link:active.dropdown-indicator:after {
   border-right-color: #09090b !important;
   border-bottom-color: #09090b !important;
@@ -1621,7 +1746,6 @@ html[data-bs-theme="light"],
 
 /* Sidebar navigation links in light mode */
 html[data-bs-theme="light"] .navbar-vertical .nav-link.active,
-html[data-bs-theme="light"] .navbar-vertical .nav-link[aria-expanded="true"]:not(.collapsed),
 html[data-bs-theme="light"] .navbar-vertical .nav-link:active,
 html[data-bs-theme="light"] .navbar-vertical .nav.collapse .nav-link.active,
 html[data-bs-theme="light"] .navbar-vertical .nav.collapse .nav-link:active,
@@ -1662,7 +1786,6 @@ html[data-bs-theme="light"] .navigation.fixed-bottom .nav-link:active {
 
 /* Ensure all icons, svg, text, carets, and children inherit white foreground */
 html[data-bs-theme="light"] .navbar-vertical .nav-link.active *,
-html[data-bs-theme="light"] .navbar-vertical .nav-link[aria-expanded="true"]:not(.collapsed) *,
 html[data-bs-theme="light"] .navbar-vertical .nav-link:active *,
 html[data-bs-theme="light"] .navbar-vertical .nav.collapse .nav-link.active *,
 html[data-bs-theme="light"] .navbar-vertical .nav.collapse .nav-link:active *,
@@ -1697,7 +1820,6 @@ html[data-bs-theme="light"] .navigation.fixed-bottom .nav-link:active * {
 
 /* Dropdown chevrons in light mode */
 html[data-bs-theme="light"] .navbar-vertical .nav-link.active.dropdown-indicator:after,
-html[data-bs-theme="light"] .navbar-vertical .nav-link[aria-expanded="true"]:not(.collapsed).dropdown-indicator:after,
 html[data-bs-theme="light"] .navbar-vertical .nav-link:active.dropdown-indicator:after {
   border-right-color: #ffffff !important;
   border-bottom-color: #ffffff !important;
@@ -1712,3 +1834,42 @@ html[data-bs-theme="light"] .nav-pills .nav-link:active .badge {
   color: #ffffff !important;
   border: 1px solid rgba(255, 255, 255, 0.3) !important;
 }
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   React & TypeScript Navigation Component Styles
+───────────────────────────────────────────────────────────────────────────── */
+.react-sidebar-navigation .nav-link {
+  margin: 2px 0.25rem !important;
+  transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+/* Dark Mode: Solid White on Active / Tapped */
+.react-sidebar-navigation .nav-link.active,
+.react-sidebar-navigation .nav-link:active {
+  background-color: #ffffff !important;
+  color: #09090b !important;
+  font-weight: 700 !important;
+  box-shadow: 0 3px 12px rgba(255, 255, 255, 0.18) !important;
+}
+
+.react-sidebar-navigation .nav-link.active *,
+.react-sidebar-navigation .nav-link:active * {
+  color: #09090b !important;
+  stroke: #09090b !important;
+}
+
+/* Light Mode: Solid Dark on Active / Tapped */
+html[data-bs-theme="light"] .react-sidebar-navigation .nav-link.active,
+html[data-bs-theme="light"] .react-sidebar-navigation .nav-link:active {
+  background-color: #09090b !important;
+  color: #ffffff !important;
+  font-weight: 700 !important;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.22) !important;
+}
+
+html[data-bs-theme="light"] .react-sidebar-navigation .nav-link.active *,
+html[data-bs-theme="light"] .react-sidebar-navigation .nav-link:active * {
+  color: #ffffff !important;
+  stroke: #ffffff !important;
+}
+

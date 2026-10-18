@@ -14,7 +14,23 @@ import {
 } from 'lucide-react';
 import { useTheme } from '../useTheme';
 
-export default function DashboardHeader({
+export interface DashboardHeaderProps {
+  activeTab: string;
+  setActiveTab: (tab: string) => void;
+  isRefreshing: boolean;
+  onRefresh: () => void;
+  refreshInterval: number;
+  setRefreshInterval: (interval: number) => void;
+  lastUpdated: Date;
+  routerCount?: number;
+}
+
+interface RefreshIntervalOption {
+  value: number;
+  label: string;
+}
+
+export const DashboardHeader: React.FC<DashboardHeaderProps> = ({
   activeTab,
   setActiveTab,
   isRefreshing,
@@ -23,11 +39,11 @@ export default function DashboardHeader({
   setRefreshInterval,
   lastUpdated,
   routerCount = 0,
-}) {
+}) => {
   const { isDark, palette } = useTheme();
-  const [isIntervalOpen, setIsIntervalOpen] = useState(false);
+  const [isIntervalOpen, setIsIntervalOpen] = useState<boolean>(false);
 
-  const intervals = [
+  const intervals: RefreshIntervalOption[] = [
     { value: 0, label: 'Manual' },
     { value: 15, label: 'Every 15s' },
     { value: 30, label: 'Every 30s' },
@@ -86,7 +102,7 @@ export default function DashboardHeader({
                     background: '#10b981',
                     boxShadow: '0 0 6px #10b981',
                   }}
-                ></span>
+                />
                 Live Telemetry
               </span>
             </div>
@@ -96,7 +112,7 @@ export default function DashboardHeader({
           </div>
         </div>
 
-        {/* Right: Quick Actions Bar matching screenshot */}
+        {/* Right: Quick Actions Bar */}
         <div className="d-flex flex-wrap align-items-center gap-2">
           {/* New Customer: Solid Pill Button */}
           <a
@@ -219,7 +235,7 @@ export default function DashboardHeader({
                     >
                       <span>{item.label}</span>
                       {refreshInterval === item.value && (
-                        <span style={{ width: 4, height: 4, borderRadius: '50%', background: 'var(--mono-text-primary)' }}></span>
+                        <span style={{ width: 4, height: 4, borderRadius: '50%', background: 'var(--mono-text-primary)' }} />
                       )}
                     </button>
                   ))}
@@ -247,7 +263,7 @@ export default function DashboardHeader({
       </div>
 
       {/* ─────────────────────────────────────────────────────────────
-          TAB SWITCHER SEGMENTED BAR (MATCHING SCREENSHOT)
+          TAB SWITCHER SEGMENTED BAR
       ───────────────────────────────────────────────────────────── */}
       <div
         className="d-flex align-items-center gap-1.5 p-1 rounded-3 mb-4"
@@ -311,4 +327,6 @@ export default function DashboardHeader({
       </div>
     </>
   );
-}
+};
+
+export default DashboardHeader;

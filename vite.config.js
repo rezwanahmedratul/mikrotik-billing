@@ -15,6 +15,7 @@ export default defineConfig({
                 'resources/js/react-app/main.jsx',
                 'resources/css/billing-monochrome.css',
                 'resources/js/react-app/billing-main.jsx',
+                'resources/js/react-app/billing-main.tsx',
             ],
             refresh: true,
         }),

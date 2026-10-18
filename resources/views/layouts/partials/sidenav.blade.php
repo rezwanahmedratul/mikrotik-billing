@@ -94,9 +94,54 @@
             @endif
         </a>
     </div>
+    <script>
+        window.__SIDEBAR_CONFIG__ = {
+            currentPath: "{{ request()->path() }}",
+            currentUrl: "{{ url()->current() }}",
+            isReseller: {{ auth()->check() && auth()->user()->hasRole('Reseller') ? 'true' : 'false' }},
+            routes: {
+                dashboard: "{{ route('dashboard') }}",
+                mikrotikSync: "{{ route('mikrotik-sync') }}",
+                mikrotikIpSetup: "{{ route('mikrotik-ip-setup') }}",
+                mikrotikPppoeSetup: "{{ route('mikrotik-pppoe-setup') }}",
+                mikrotikRadiusSetup: "{{ route('mikrotik-radius-setup') }}",
+                mikrotikFirewallSetup: "{{ route('mikrotik-firewall-setup') }}",
+                mikrotikWalledGarden: "{{ route('mikrotik-walled-garden') }}",
+                mikrotikQueueSetup: "{{ route('mikrotik-queue-setup') }}",
+                mikrotikVpnSetup: "{{ route('mikrotik-vpn-setup') }}",
+                mikrotikInterfaceSetup: "{{ route('mikrotik-interface-setup') }}",
+                mikrotikTrafficMonitor: "{{ route('mikrotik-traffic-monitor') }}",
+                mikrotikBackupSetup: "{{ route('mikrotik-backup-setup') }}",
+                mikrotikHotspotManager: "{{ route('mikrotik-hotspot-manager') }}",
+                newCustomer: "{{ route('new-customer') }}",
+                customersIndex: "{{ route('customers.index') }}",
+                adminTickets: "{{ route('admin-tickets') }}",
+                paymentCollection: "{{ route('payment-collection') }}",
+                collectionEdit: "{{ route('collection-edit') }}",
+                paymentInvoice: "{{ route('payment-invoice') }}",
+                collectionReportIndex: "{{ route('collection-report.index') }}",
+                customerSummary: "{{ route('customer-summary') }}",
+                disReport: "{{ route('dis-report') }}",
+                adminExpenses: "{{ route('admin.expenses') }}",
+                adminProfitSummary: "{{ route('admin.profit-summary') }}",
+                addressSetup: "{{ route('address-setup') }}",
+                packageListSetup: "{{ route('package-list-setup') }}",
+                adminPurchaseRequests: "{{ route('admin.purchase-requests') }}",
+                adminResellersIndex: "{{ route('admin.resellers.index') }}",
+                adminActivityLogs: "{{ route('admin.activity-logs') }}",
+                adminLoginLogs: "{{ route('admin.login-logs') }}",
+                adminSystemLogs: "{{ route('admin.system-logs') }}",
+                mikrotikLogViewer: "{{ route('mikrotik-log-viewer') }}",
+                adminVouchers: "{{ route('admin.vouchers') }}",
+                adminReviews: "{{ route('admin.reviews') }}",
+                smsSetup: "{{ route('sms-setup') }}",
+                smsBridgeIndex: "{{ route('sms-bridge.index') }}",
+            }
+        };
+    </script>
     <div class="collapse navbar-collapse" id="navbarVerticalCollapse">
         <div class="navbar-vertical-content scrollbar d-flex flex-column justify-content-between h-100">
-            <div>
+            <div id="react-sidebar-root">
                 @include('layouts.partials.sidebarpanel')
             </div>
 

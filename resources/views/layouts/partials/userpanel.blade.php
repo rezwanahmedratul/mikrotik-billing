@@ -47,12 +47,12 @@
         </div>
 
         <!-- Desktop Clock Display -->
-        <div class="text-center d-none d-lg-block px-2">
-            <div class="text-xs" style="color: var(--mono-text-muted) !important; font-size: 0.72rem; letter-spacing: 0.02em;" x-text="dateString"></div>
-            <div class="text-xl font-mono fw-bold" style="color: var(--mono-text-primary) !important; letter-spacing: -0.02em; line-height: 1.2;" x-text="timeString"></div>
-            <div class="text-xs" style="color: var(--mono-text-muted) !important; font-size: 0.68rem;">
-                {{ __('TimeZone') }}: {{ config('app.timezone') }} (UTC {{ date('O') }})
+        <div class="text-end d-none d-lg-flex flex-column justify-content-center px-2 py-0" style="line-height: 1.2;">
+            <div class="d-flex align-items-center gap-1.5 justify-content-end">
+                <span class="font-mono fw-bold" style="color: var(--mono-text-primary) !important; font-size: 0.85rem; letter-spacing: -0.01em;" x-text="timeString"></span>
+                <span class="badge font-mono" style="font-size: 0.6rem; padding: 1px 4px; background: var(--mono-surface-elevated); color: var(--mono-text-secondary); border: 1px solid var(--mono-card-border);">UTC {{ date('O') }}</span>
             </div>
+            <div style="color: var(--mono-text-muted) !important; font-size: 0.68rem;" x-text="dateString"></div>
         </div>
     </li>
 

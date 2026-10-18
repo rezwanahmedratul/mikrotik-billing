@@ -6,14 +6,18 @@ import MikrotikPage from './pages/MikrotikPage';
 import SubscribersPage from './pages/SubscribersPage';
 import CollectionsPage from './pages/CollectionsPage';
 
-export default function BillingDashboard({ initialData }) {
-  const [data, setData] = useState(initialData || window.__BILLING_DASHBOARD_DATA__ || {});
-  const [activeTab, setActiveTab] = useState('overview'); // 'overview', 'mikrotik', 'subscribers', 'collections'
-  const [isRefreshing, setIsRefreshing] = useState(false);
-  const [refreshInterval, setRefreshInterval] = useState(0); // 0 = off, 15, 30, 60
-  const [lastUpdated, setLastUpdated] = useState(new Date());
-  const [collectionsSearch, setCollectionsSearch] = useState('');
-  const [copiedId, setCopiedId] = useState(null);
+export interface BillingDashboardProps {
+  initialData?: any;
+}
+
+export const BillingDashboard: React.FC<BillingDashboardProps> = ({ initialData }) => {
+  const [data, setData] = useState<any>(initialData || (typeof window !== 'undefined' ? window.__BILLING_DASHBOARD_DATA__ : {}) || {});
+  const [activeTab, setActiveTab] = useState<string>('overview'); // 'overview', 'mikrotik', 'subscribers', 'collections'
+  const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
+  const [refreshInterval, setRefreshInterval] = useState<number>(0); // 0 = off, 15, 30, 60
+  const [lastUpdated, setLastUpdated] = useState<Date>(new Date());
+  const [collectionsSearch, setCollectionsSearch] = useState<string>('');
+  const [copiedId, setCopiedId] = useState<string | number | null>(null);
 
   // Auto-refresh timer
   useEffect(() => {
@@ -45,19 +49,19 @@ export default function BillingDashboard({ initialData }) {
     }
   };
 
-  const copyToClipboard = (text, id) => {
+  const copyToClipboard = (text: string, id: string | number) => {
     navigator.clipboard.writeText(text);
     setCopiedId(id);
     setTimeout(() => setCopiedId(null), 2000);
   };
 
-  const formatNumber = (val) => {
+  const formatNumber = (val: number | string) => {
     return Number(val || 0).toLocaleString('en-US', {
       maximumFractionDigits: 0,
     });
   };
 
-  const formatCurrency = (val) => {
+  const formatCurrency = (val: number | string) => {
     return '৳' + Number(val || 0).toLocaleString('en-US', {
       maximumFractionDigits: 0,
     });
@@ -130,7 +134,7 @@ export default function BillingDashboard({ initialData }) {
     ];
     return items.map((item) => ({
       ...item,
-      percentage: total > 0 ? ((item.count / total) * 100).toFixed(1) : 0,
+      percentage: total > 0 ? ((item.count / total) * 100).toFixed(1) : '0',
     }));
   }, [customersData]);
 
@@ -138,7 +142,7 @@ export default function BillingDashboard({ initialData }) {
   const filteredCollections = useMemo(() => {
     if (!collectionsSearch.trim()) return recentCollections;
     const q = collectionsSearch.toLowerCase();
-    return recentCollections.filter((c) => {
+    return recentCollections.filter((c: any) => {
       const name = c.customer?.full_name?.toLowerCase() || '';
       const uid = c.customer_bill_unique_id?.toLowerCase() || '';
       const pkg = c.customer?.package_name?.toLowerCase() || '';
@@ -155,7 +159,6 @@ export default function BillingDashboard({ initialData }) {
 
   return (
     <div className="billing-react-dashboard" style={{ animation: 'fadeIn 0.25s ease-out' }}>
-      
       {/* ─────────────────────────────────────────────────────────────
           MODULAR DASHBOARD HEADER DECK & TAB CONTROLLER
       ───────────────────────────────────────────────────────────── */}
@@ -217,4 +220,6 @@ export default function BillingDashboard({ initialData }) {
       </AnimatePresence>
     </div>
   );
-}
+};
+
+export default BillingDashboard;
