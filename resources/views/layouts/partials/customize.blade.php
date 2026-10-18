@@ -76,27 +76,7 @@
                 <input @change="toggleLayout()" :checked="isFluid" class="form-check-input ms-0" id="mode-fluid" type="checkbox" data-theme-control="isFluid" />
             </div>
         </div>
-        <hr />
-        <div class="d-flex align-items-start">
-            <i class="bi bi-filter-left me-2 fs-5 fw-bold text-primary"></i>
-            <div class="flex-1">
-                <h5 class="fs-9 d-flex align-items-center">{{ __('Navigation Position') }}</h5>
-                <p class="fs-10 mb-2">{{ __('Select a suitable navigation system for your web application') }} </p>
-                <div x-data="navbarPosition()" x-init="initNavPosition()">
-                    <select
-                        x-model="isNavbarPosition"
-                        @change="setNavbarPosition($event.target.value)"
-                        class="form-select form-select-sm"
-                        aria-label="Navbar position"
-                    >
-                        <option value="vertical">{{ __('Vertical') }}</option>
-                        <option value="top">{{ __('Top') }}</option>
-                        <option class="d-none d-md-none d-lg-block" value="combo">{{ __('Combo') }}</option>
-                        <option value="double-top">{{ __('Double Top') }}</option>
-                    </select>
-                </div>
-            </div>
-        </div>
+
         <hr />
         <h5 class="fs-9 d-flex align-items-center">{{ __('Vertical Navbar Style') }}</h5>
         <p class="fs-10 mb-0">{{ __('Switch between styles for your vertical navbar') }} </p>

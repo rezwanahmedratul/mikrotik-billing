@@ -138,15 +138,17 @@ export default function DashboardHeader({
             onClick={() => setActiveTab('mikrotik')}
             className="btn btn-sm d-inline-flex align-items-center gap-1.5 px-3 py-1.5"
             style={{
-              background: activeTab === 'mikrotik' ? (isDark ? '#27272a' : '#e2e8f0') : palette.buttonSecondaryBg,
-              border: `1px solid ${palette.buttonSecondaryBorder}`,
-              color: palette.buttonSecondaryText,
+              background: activeTab === 'mikrotik' ? (isDark ? '#ffffff' : '#09090b') : palette.buttonSecondaryBg,
+              border: `1px solid ${activeTab === 'mikrotik' ? (isDark ? '#ffffff' : '#09090b') : palette.buttonSecondaryBorder}`,
+              color: activeTab === 'mikrotik' ? (isDark ? '#09090b' : '#ffffff') : palette.buttonSecondaryText,
               fontSize: '0.8rem',
-              fontWeight: 500,
+              fontWeight: activeTab === 'mikrotik' ? 700 : 500,
               borderRadius: 8,
+              boxShadow: activeTab === 'mikrotik' ? (isDark ? '0 2px 8px rgba(255, 255, 255, 0.2)' : '0 2px 8px rgba(0, 0, 0, 0.25)') : 'none',
+              transition: 'all 0.15s ease',
             }}
           >
-            <Server size={14} style={{ color: 'var(--mono-text-secondary)' }} />
+            <Server size={14} style={{ color: activeTab === 'mikrotik' ? (isDark ? '#09090b' : '#ffffff') : 'var(--mono-text-secondary)' }} />
             <span>MikroTik NOC</span>
           </button>
 
@@ -274,25 +276,26 @@ export default function DashboardHeader({
               onClick={() => setActiveTab(tab.id)}
               className="position-relative d-inline-flex align-items-center gap-2 px-3 py-1.5"
               style={{
-                color: isActive ? 'var(--mono-text-primary)' : 'var(--mono-text-secondary)',
-                background: isActive ? (isDark ? '#27272a' : '#f1f5f9') : 'transparent',
-                border: isActive ? '1px solid var(--mono-card-border)' : '1px solid transparent',
+                color: isActive ? (isDark ? '#09090b' : '#ffffff') : 'var(--mono-text-secondary)',
+                background: isActive ? (isDark ? '#ffffff' : '#09090b') : 'transparent',
+                border: isActive ? (isDark ? '1px solid #ffffff' : '1px solid #09090b') : '1px solid transparent',
                 borderRadius: 7,
                 fontSize: '0.8rem',
-                fontWeight: isActive ? 600 : 500,
+                fontWeight: isActive ? 700 : 500,
                 cursor: 'pointer',
                 transition: 'all 0.15s ease',
+                boxShadow: isActive ? (isDark ? '0 2px 8px rgba(255, 255, 255, 0.2)' : '0 2px 8px rgba(0, 0, 0, 0.25)') : 'none',
               }}
             >
-              <Icon size={14} style={{ color: isActive ? 'var(--mono-text-primary)' : 'var(--mono-text-muted)' }} />
+              <Icon size={14} style={{ color: isActive ? (isDark ? '#09090b' : '#ffffff') : 'var(--mono-text-muted)' }} />
               <span>{tab.label}</span>
               {tab.badge && (
                 <span
                   className="badge font-mono"
                   style={{
-                    background: isActive ? 'var(--mono-surface-elevated)' : 'transparent',
-                    color: isActive ? 'var(--mono-text-primary)' : 'var(--mono-text-secondary)',
-                    border: '1px solid var(--mono-card-border)',
+                    background: isActive ? (isDark ? 'rgba(9, 9, 11, 0.12)' : 'rgba(255, 255, 255, 0.2)') : (isDark ? 'rgba(255, 255, 255, 0.08)' : 'rgba(0, 0, 0, 0.06)'),
+                    color: isActive ? (isDark ? '#09090b' : '#ffffff') : 'var(--mono-text-secondary)',
+                    border: '1px solid transparent',
                     fontSize: '0.65rem',
                     fontWeight: 600,
                     padding: '2px 6px',

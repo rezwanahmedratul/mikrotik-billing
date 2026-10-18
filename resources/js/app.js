@@ -123,33 +123,21 @@ const CP = {
             document.documentElement.classList.remove('dark');
         }
 
-        // Restore collapsed state
-        if (JSON.parse(localStorage.getItem('isNavbarVerticalCollapsed'))) {
-            document.documentElement.classList.add('navbar-vertical-collapsed');
-        }
+        // Side navbar is permanently visible
+        localStorage.removeItem('isNavbarVerticalCollapsed');
+        document.documentElement.classList.remove('navbar-vertical-collapsed');
+        document.documentElement.classList.remove('navbar-vertical-collapsed-hover');
     },
 
-    /** Handle navbar toggle click */
-    handleNavbarClick() {
-        const html = document.querySelector('html');
-        html.classList.toggle('navbar-vertical-collapsed');
-        const isCollapsed = html.classList.contains('navbar-vertical-collapsed');
-        localStorage.setItem('isNavbarVerticalCollapsed', isCollapsed);
-        document.dispatchEvent(new CustomEvent('navbarVerticalToggled', { detail: { isCollapsed } }));
-    },
+    /** Handle navbar toggle click - disabled */
+    handleNavbarClick() {},
 
-    /** Set up vertical navbar collapse/expand */
+    /** Ensure vertical navbar is always expanded and visible */
     navbarComboInit() {
-        const html                 = document.querySelector('html');
-        const navbarVerticalToggle = document.querySelector('.navbar-vertical-toggle');
-
-        if (navbarVerticalToggle) {
-            navbarVerticalToggle.removeEventListener('click', this.handleNavbarClick);
-            navbarVerticalToggle.addEventListener('click', this.handleNavbarClick);
-        }
-
-        const isCollapsed = JSON.parse(localStorage.getItem('isNavbarVerticalCollapsed'));
-        html.classList.toggle('navbar-vertical-collapsed', isCollapsed);
+        const html = document.querySelector('html');
+        localStorage.removeItem('isNavbarVerticalCollapsed');
+        html.classList.remove('navbar-vertical-collapsed');
+        html.classList.remove('navbar-vertical-collapsed-hover');
     },
 
     /** Master init — call once on DOMContentLoaded */

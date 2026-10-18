@@ -51,12 +51,10 @@
             document.querySelector('html').setAttribute('dir', 'ltr');
         }
 
-        // for sidebar collapse and expand
-        if (JSON.parse(localStorage.getItem("isNavbarVerticalCollapsed"))) {
-            document.documentElement.classList.add("navbar-vertical-collapsed");
-        } else {
-            document.documentElement.classList.remove("navbar-vertical-collapsed");
-        }
+        // Side navbar is permanently visible
+        localStorage.removeItem("isNavbarVerticalCollapsed");
+        document.documentElement.classList.remove("navbar-vertical-collapsed");
+        document.documentElement.classList.remove("navbar-vertical-collapsed-hover");
 
         // Global theme application helper
         window.applyGlobalTheme = function(theme) {
@@ -172,42 +170,19 @@
                     </div>
                 @endif
                 <script>
-                    var storedNavbarPosition = localStorage.getItem('navbarPosition');
+                    localStorage.setItem('navbarPosition', 'vertical');
+                    localStorage.removeItem('isNavbarVerticalCollapsed');
                     var navVerticalEl = document.querySelector('.navbar-vertical');
                     var navTopVerticalEl = document.querySelector('.content .navbar-top');
                     var navTopEl = document.querySelector('[data-layout] .navbar-top:not([data-double-top-nav])');
                     var navDoubleTopEl = document.querySelector('[data-double-top-nav]');
                     var navTopComboEl = document.querySelector('.content [data-navbar-top="combo"]');
 
-                    if (localStorage.getItem('navbarPosition') === 'double-top') {
-                        document.documentElement.classList.toggle('double-top-nav-layout');
-                    }
-
-                    if (storedNavbarPosition === 'top') {
-                        if (navTopEl) navTopEl.removeAttribute('style');
-                        if (navTopVerticalEl) navTopVerticalEl.remove();
-                        if (navVerticalEl) navVerticalEl.remove();
-                        if (navTopComboEl) navTopComboEl.remove();
-                        if (navDoubleTopEl) navDoubleTopEl.remove();
-                    } else if (storedNavbarPosition === 'combo') {
-                        if (navVerticalEl) navVerticalEl.removeAttribute('style');
-                        if (navTopComboEl) navTopComboEl.removeAttribute('style');
-                        if (navTopEl) navTopEl.remove();
-                        if (navTopVerticalEl) navTopVerticalEl.remove();
-                        if (navDoubleTopEl) navDoubleTopEl.remove();
-                    } else if (storedNavbarPosition === 'double-top') {
-                        if (navDoubleTopEl) navDoubleTopEl.removeAttribute('style');
-                        if (navTopVerticalEl) navTopVerticalEl.remove();
-                        if (navVerticalEl) navVerticalEl.remove();
-                        if (navTopEl) navTopEl.remove();
-                        if (navTopComboEl) navTopComboEl.remove();
-                    } else {
-                        if (navVerticalEl) navVerticalEl.removeAttribute('style');
-                        if (navTopVerticalEl) navTopVerticalEl.removeAttribute('style');
-                        if (navTopEl) navTopEl.remove();
-                        if (navDoubleTopEl) navDoubleTopEl.remove();
-                        if (navTopComboEl) navTopComboEl.remove();
-                    }
+                    if (navVerticalEl) navVerticalEl.removeAttribute('style');
+                    if (navTopVerticalEl) navTopVerticalEl.removeAttribute('style');
+                    if (navTopEl) navTopEl.remove();
+                    if (navDoubleTopEl) navDoubleTopEl.remove();
+                    if (navTopComboEl) navTopComboEl.remove();
                 </script>
                 {{ $slot }}
                 <footer class="footer">
@@ -236,28 +211,6 @@
     @livewireScripts
     @filamentScripts
     <script data-navigate-once>
-        function handleNavbarHover() {
-            const navbarCollapse = document.getElementById('navbarVerticalCollapse');
-            const localStorageCollapsed = localStorage.getItem('isNavbarVerticalCollapsed');
-
-            if (navbarCollapse && localStorageCollapsed === 'true') {
-                // Remove previous listeners to avoid duplication
-                navbarCollapse.removeEventListener('mouseenter', addHoverClass);
-                navbarCollapse.removeEventListener('mouseleave', removeHoverClass);
-
-                navbarCollapse.addEventListener('mouseenter', addHoverClass);
-                navbarCollapse.addEventListener('mouseleave', removeHoverClass);
-            }
-
-            function addHoverClass() {
-                document.documentElement.classList.add('navbar-vertical-collapsed-hover');
-            }
-
-            function removeHoverClass() {
-                document.documentElement.classList.remove('navbar-vertical-collapsed-hover');
-            }
-        }
-
         document.addEventListener('DOMContentLoaded', function() {
             if (typeof $ !== 'undefined') {
                 $.ajaxSetup({
@@ -271,22 +224,13 @@
                     $(this).nextAll('.invalid-feedback').remove(); // remove invalid feedback
                 });
             }
-
-            handleNavbarHover();
+            document.documentElement.classList.remove("navbar-vertical-collapsed");
+            document.documentElement.classList.remove("navbar-vertical-collapsed-hover");
         });
 
-
-        // Run on Livewire navigate
-        document.addEventListener('livewire:navigated', handleNavbarHover);
-
-        // For Livewire SPA support to maintain sidebar state
         document.addEventListener('livewire:navigated', () => {
-            const isCollapsedStorage = localStorage.getItem("isNavbarVerticalCollapsed");
-            if (isCollapsedStorage === 'true' || isCollapsedStorage === true) {
-                document.documentElement.classList.add("navbar-vertical-collapsed");
-            } else {
-                document.documentElement.classList.remove("navbar-vertical-collapsed");
-            }
+            document.documentElement.classList.remove("navbar-vertical-collapsed");
+            document.documentElement.classList.remove("navbar-vertical-collapsed-hover");
         });
 
         function layoutController() {

@@ -140,10 +140,39 @@ html, body {
   border-right: 1px solid var(--mono-card-border) !important;
   box-shadow: none !important;
   width: 255px !important;
+  min-width: 255px !important;
+  max-width: 255px !important;
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  transform: none !important;
+  left: 0 !important;
 }
 
-/* Hide daemon widget when navbar-vertical is collapsed */
-.navbar-vertical-collapsed:not(.navbar-vertical-collapsed-hover) .sidebar-status-widget {
+.content {
+  margin-left: 255px !important;
+}
+
+/* Ensure no collapse classes ever shrink the navbar */
+html.navbar-vertical-collapsed .navbar-vertical,
+html.navbar-vertical-collapsed-hover .navbar-vertical {
+  width: 255px !important;
+  min-width: 255px !important;
+  max-width: 255px !important;
+}
+
+html.navbar-vertical-collapsed .content,
+html.navbar-vertical-collapsed-hover .content {
+  margin-left: 255px !important;
+}
+
+/* Remove all navbar collapse toggle buttons permanently */
+.toggle-icon-wrapper,
+.navbar-vertical-toggle,
+.navbar-toggler-humburger-icon,
+[data-bs-target="#navbarVerticalCollapse"],
+[data-bs-target="#navbarDoubleTop"],
+[data-bs-target="#navbarStandard"] {
   display: none !important;
 }
 
@@ -276,12 +305,13 @@ html, body {
 }
 
 .navbar-vertical .nav-link.active,
-.navbar-vertical .nav-link[aria-expanded="true"]:not(.collapsed) {
-  color: #ffffff !important;
-  background-color: #16161b !important;
-  border-color: rgba(255, 255, 255, 0.1) !important;
-  font-weight: 600 !important;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35) !important;
+.navbar-vertical .nav-link[aria-expanded="true"]:not(.collapsed),
+.navbar-vertical .nav-link:active {
+  color: #09090b !important;
+  background-color: #ffffff !important;
+  border-color: #ffffff !important;
+  font-weight: 700 !important;
+  box-shadow: 0 4px 14px rgba(255, 255, 255, 0.16) !important;
 }
 
 .navbar-vertical .nav-link .nav-link-icon {
@@ -298,11 +328,32 @@ html, body {
   transition: all 0.15s ease !important;
 }
 
-.navbar-vertical .nav-link:hover .nav-link-icon,
-.navbar-vertical .nav-link.active .nav-link-icon,
-.navbar-vertical .nav-link[aria-expanded="true"]:not(.collapsed) .nav-link-icon {
+.navbar-vertical .nav-link:hover .nav-link-icon {
   color: #ffffff !important;
   background: rgba(255, 255, 255, 0.08) !important;
+}
+
+.navbar-vertical .nav-link.active .nav-link-icon,
+.navbar-vertical .nav-link[aria-expanded="true"]:not(.collapsed) .nav-link-icon,
+.navbar-vertical .nav-link:active .nav-link-icon {
+  color: #09090b !important;
+  background: transparent !important;
+}
+
+.navbar-vertical .nav-link.active .nav-link-icon i,
+.navbar-vertical .nav-link.active .nav-link-icon svg,
+.navbar-vertical .nav-link[aria-expanded="true"]:not(.collapsed) .nav-link-icon i,
+.navbar-vertical .nav-link[aria-expanded="true"]:not(.collapsed) .nav-link-icon svg,
+.navbar-vertical .nav-link:active .nav-link-icon i,
+.navbar-vertical .nav-link:active .nav-link-icon svg {
+  color: #09090b !important;
+  stroke: #09090b !important;
+}
+
+.navbar-vertical .nav-link.active .nav-link-text,
+.navbar-vertical .nav-link[aria-expanded="true"]:not(.collapsed) .nav-link-text,
+.navbar-vertical .nav-link:active .nav-link-text {
+  color: #09090b !important;
 }
 
 /* Dropdown Chevrons */
@@ -328,7 +379,11 @@ html, body {
 
 .navbar-vertical .nav-link[aria-expanded="true"]:not(.collapsed).dropdown-indicator:after {
   transform: rotate(-135deg) !important;
-  border-color: #ffffff !important;
+  border-color: #09090b !important;
+}
+
+.navbar-vertical .nav-link.active .dropdown-indicator:after {
+  border-color: #09090b !important;
 }
 
 /* Submenu Hierarchy */
@@ -354,12 +409,20 @@ html, body {
   background-color: rgba(255, 255, 255, 0.04) !important;
 }
 
-.navbar-vertical .nav.collapse .nav-link.active {
-  color: #ffffff !important;
-  background-color: rgba(255, 255, 255, 0.08) !important;
-  font-weight: 500 !important;
-  border-color: transparent !important;
-  box-shadow: none !important;
+.navbar-vertical .nav.collapse .nav-link.active,
+.navbar-vertical .nav.collapse .nav-link:active {
+  color: #09090b !important;
+  background-color: #ffffff !important;
+  font-weight: 700 !important;
+  border-color: #ffffff !important;
+  box-shadow: 0 2px 8px rgba(255, 255, 255, 0.14) !important;
+}
+
+.navbar-vertical .nav.collapse .nav-link.active .nav-link-text,
+.navbar-vertical .nav.collapse .nav-link.active i,
+.navbar-vertical .nav.collapse .nav-link:active .nav-link-text,
+.navbar-vertical .nav.collapse .nav-link:active i {
+  color: #09090b !important;
 }
 
 /* Sidenav Badges */
@@ -372,6 +435,13 @@ html, body {
   border-radius: 4px !important;
   font-family: var(--font-mono) !important;
   font-weight: 500 !important;
+}
+
+.navbar-vertical .nav-link.active .badge,
+.navbar-vertical .nav-link:active .badge {
+  background: rgba(9, 9, 11, 0.15) !important;
+  color: #09090b !important;
+  border-color: rgba(9, 9, 11, 0.25) !important;
 }
 
 /* =============================================================================
@@ -1039,12 +1109,13 @@ html[data-bs-theme="light"] .navbar-vertical .nav-link:hover {
 }
 
 html[data-bs-theme="light"] .navbar-vertical .nav-link.active,
-html[data-bs-theme="light"] .navbar-vertical .nav-link[aria-expanded="true"]:not(.collapsed) {
-  color: #09090b !important;
-  background-color: #f1f5f9 !important;
-  border-color: rgba(0, 0, 0, 0.08) !important;
-  font-weight: 600 !important;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05) !important;
+html[data-bs-theme="light"] .navbar-vertical .nav-link[aria-expanded="true"]:not(.collapsed),
+html[data-bs-theme="light"] .navbar-vertical .nav-link:active {
+  color: #ffffff !important;
+  background-color: #09090b !important;
+  border-color: #09090b !important;
+  font-weight: 700 !important;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25) !important;
 }
 
 html[data-bs-theme="light"] .navbar-vertical .nav-link .nav-link-icon {
@@ -1052,11 +1123,32 @@ html[data-bs-theme="light"] .navbar-vertical .nav-link .nav-link-icon {
   background: rgba(0, 0, 0, 0.03) !important;
 }
 
-html[data-bs-theme="light"] .navbar-vertical .nav-link:hover .nav-link-icon,
-html[data-bs-theme="light"] .navbar-vertical .nav-link.active .nav-link-icon,
-html[data-bs-theme="light"] .navbar-vertical .nav-link[aria-expanded="true"]:not(.collapsed) .nav-link-icon {
+html[data-bs-theme="light"] .navbar-vertical .nav-link:hover .nav-link-icon {
   color: #09090b !important;
   background: rgba(0, 0, 0, 0.07) !important;
+}
+
+html[data-bs-theme="light"] .navbar-vertical .nav-link.active .nav-link-icon,
+html[data-bs-theme="light"] .navbar-vertical .nav-link[aria-expanded="true"]:not(.collapsed) .nav-link-icon,
+html[data-bs-theme="light"] .navbar-vertical .nav-link:active .nav-link-icon {
+  color: #ffffff !important;
+  background: transparent !important;
+}
+
+html[data-bs-theme="light"] .navbar-vertical .nav-link.active .nav-link-icon i,
+html[data-bs-theme="light"] .navbar-vertical .nav-link.active .nav-link-icon svg,
+html[data-bs-theme="light"] .navbar-vertical .nav-link[aria-expanded="true"]:not(.collapsed) .nav-link-icon i,
+html[data-bs-theme="light"] .navbar-vertical .nav-link[aria-expanded="true"]:not(.collapsed) .nav-link-icon svg,
+html[data-bs-theme="light"] .navbar-vertical .nav-link:active .nav-link-icon i,
+html[data-bs-theme="light"] .navbar-vertical .nav-link:active .nav-link-icon svg {
+  color: #ffffff !important;
+  stroke: #ffffff !important;
+}
+
+html[data-bs-theme="light"] .navbar-vertical .nav-link.active .nav-link-text,
+html[data-bs-theme="light"] .navbar-vertical .nav-link[aria-expanded="true"]:not(.collapsed) .nav-link-text,
+html[data-bs-theme="light"] .navbar-vertical .nav-link:active .nav-link-text {
+  color: #ffffff !important;
 }
 
 html[data-bs-theme="light"] .navbar-vertical .dropdown-indicator:after {
@@ -1064,10 +1156,16 @@ html[data-bs-theme="light"] .navbar-vertical .dropdown-indicator:after {
   border-bottom: 1.5px solid #94a3b8 !important;
 }
 
-html[data-bs-theme="light"] .navbar-vertical .nav-link:hover.dropdown-indicator:after,
-html[data-bs-theme="light"] .navbar-vertical .nav-link[aria-expanded="true"]:not(.collapsed).dropdown-indicator:after {
+html[data-bs-theme="light"] .navbar-vertical .nav-link:hover.dropdown-indicator:after {
   border-right-color: #09090b !important;
   border-bottom-color: #09090b !important;
+}
+
+html[data-bs-theme="light"] .navbar-vertical .nav-link[aria-expanded="true"]:not(.collapsed).dropdown-indicator:after,
+html[data-bs-theme="light"] .navbar-vertical .nav-link.active .dropdown-indicator:after,
+html[data-bs-theme="light"] .navbar-vertical .nav-link:active .dropdown-indicator:after {
+  border-right-color: #ffffff !important;
+  border-bottom-color: #ffffff !important;
 }
 
 html[data-bs-theme="light"] .navbar-vertical .nav.collapse {
@@ -1083,15 +1181,33 @@ html[data-bs-theme="light"] .navbar-vertical .nav.collapse .nav-link:hover {
   background-color: rgba(0, 0, 0, 0.04) !important;
 }
 
-html[data-bs-theme="light"] .navbar-vertical .nav.collapse .nav-link.active {
-  color: #09090b !important;
-  background-color: rgba(0, 0, 0, 0.06) !important;
+html[data-bs-theme="light"] .navbar-vertical .nav.collapse .nav-link.active,
+html[data-bs-theme="light"] .navbar-vertical .nav.collapse .nav-link:active {
+  color: #ffffff !important;
+  background-color: #09090b !important;
+  border-color: #09090b !important;
+  font-weight: 700 !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2) !important;
+}
+
+html[data-bs-theme="light"] .navbar-vertical .nav.collapse .nav-link.active .nav-link-text,
+html[data-bs-theme="light"] .navbar-vertical .nav.collapse .nav-link.active i,
+html[data-bs-theme="light"] .navbar-vertical .nav.collapse .nav-link:active .nav-link-text,
+html[data-bs-theme="light"] .navbar-vertical .nav.collapse .nav-link:active i {
+  color: #ffffff !important;
 }
 
 html[data-bs-theme="light"] .navbar-vertical .badge {
   background: #f1f5f9 !important;
   color: #334155 !important;
   border: 1px solid rgba(0, 0, 0, 0.08) !important;
+}
+
+html[data-bs-theme="light"] .navbar-vertical .nav-link.active .badge,
+html[data-bs-theme="light"] .navbar-vertical .nav-link:active .badge {
+  background: rgba(255, 255, 255, 0.2) !important;
+  color: #ffffff !important;
+  border-color: rgba(255, 255, 255, 0.3) !important;
 }
 
 /* Top Navbar in Light Mode */
@@ -1384,4 +1500,215 @@ html[data-bs-theme="light"] .hover-lift:hover {
 
 .text-mono-muted {
   color: var(--mono-text-muted) !important;
+}
+
+/* =============================================================================
+   UNIVERSAL SOLID INVERTED ACTIVE & TAP SYSTEM
+   Light Mode -> Solid Dark (#09090b background, #ffffff text/icons)
+   Dark Mode  -> Solid White (#ffffff background, #09090b text/icons)
+   ============================================================================= */
+
+/* ── 1. DARK MODE: ACTIVE / TAPPED / SELECTED ELEMENTS ── */
+:root,
+html[data-bs-theme="dark"] {
+  --active-solid-bg: #ffffff;
+  --active-solid-text: #09090b;
+  --active-solid-border: #ffffff;
+}
+
+/* Sidebar navigation links */
+.navbar-vertical .nav-link.active,
+.navbar-vertical .nav-link[aria-expanded="true"]:not(.collapsed),
+.navbar-vertical .nav-link:active,
+.navbar-vertical .nav.collapse .nav-link.active,
+.navbar-vertical .nav.collapse .nav-link:active,
+/* Bootstrap Tabs & Nav Pills */
+.nav-pills .nav-link.active,
+.nav-pills .nav-link:active,
+.nav-tabs .nav-link.active,
+.nav-tabs .nav-link:active,
+.nav-segment .nav-link.active,
+.nav-segment .nav-link:active,
+.mono-tab-pill.active,
+.mono-tab-pill:active,
+/* Buttons in active/checked state */
+.btn-group > .btn.active,
+.btn-group > .btn:active,
+.btn-check:checked + .btn,
+.btn-check:checked + .btn-outline-primary,
+.btn-check:checked + .btn-outline-secondary,
+.btn-check:checked + .btn-outline-dark,
+.btn-primary.active,
+.btn-primary:active,
+/* Dropdowns, List items, and Pagination */
+.dropdown-menu .dropdown-item.active,
+.dropdown-menu .dropdown-item:active,
+.list-group-item.active,
+.list-group-item:active,
+.pagination .page-item.active .page-link,
+.pagination .page-link:active,
+/* Mobile bottom nav */
+.navigation.fixed-bottom .nav-link.active,
+.navigation.fixed-bottom .nav-link:active {
+  background-color: #ffffff !important;
+  color: #09090b !important;
+  border-color: #ffffff !important;
+  font-weight: 700 !important;
+  box-shadow: 0 2px 10px rgba(255, 255, 255, 0.2) !important;
+}
+
+/* Ensure all icons, svg, text, carets, and children inherit dark foreground */
+.navbar-vertical .nav-link.active *,
+.navbar-vertical .nav-link[aria-expanded="true"]:not(.collapsed) *,
+.navbar-vertical .nav-link:active *,
+.navbar-vertical .nav.collapse .nav-link.active *,
+.navbar-vertical .nav.collapse .nav-link:active *,
+.nav-pills .nav-link.active *,
+.nav-pills .nav-link:active *,
+.nav-tabs .nav-link.active *,
+.nav-tabs .nav-link:active *,
+.nav-segment .nav-link.active *,
+.nav-segment .nav-link:active *,
+.mono-tab-pill.active *,
+.mono-tab-pill:active *,
+.btn-group > .btn.active *,
+.btn-group > .btn:active *,
+.btn-check:checked + .btn *,
+.btn-check:checked + .btn-outline-primary *,
+.btn-check:checked + .btn-outline-secondary *,
+.btn-check:checked + .btn-outline-dark *,
+.btn-primary.active *,
+.btn-primary:active *,
+.dropdown-menu .dropdown-item.active *,
+.dropdown-menu .dropdown-item:active *,
+.list-group-item.active *,
+.list-group-item:active *,
+.pagination .page-item.active .page-link *,
+.pagination .page-link:active *,
+.navigation.fixed-bottom .nav-link.active *,
+.navigation.fixed-bottom .nav-link:active * {
+  color: #09090b !important;
+  fill: #09090b !important;
+  stroke: #09090b !important;
+}
+
+/* Dropdown chevrons in sidebar in dark mode */
+.navbar-vertical .nav-link.active.dropdown-indicator:after,
+.navbar-vertical .nav-link[aria-expanded="true"]:not(.collapsed).dropdown-indicator:after,
+.navbar-vertical .nav-link:active.dropdown-indicator:after {
+  border-right-color: #09090b !important;
+  border-bottom-color: #09090b !important;
+}
+
+/* Badges inside active items in dark mode */
+.navbar-vertical .nav-link.active .badge,
+.navbar-vertical .nav-link:active .badge,
+.nav-pills .nav-link.active .badge,
+.nav-pills .nav-link:active .badge {
+  background: rgba(9, 9, 11, 0.15) !important;
+  color: #09090b !important;
+  border: 1px solid rgba(9, 9, 11, 0.25) !important;
+}
+
+
+/* ── 2. LIGHT MODE: ACTIVE / TAPPED / SELECTED ELEMENTS ── */
+html[data-bs-theme="light"],
+:root[data-bs-theme="light"] {
+  --active-solid-bg: #09090b;
+  --active-solid-text: #ffffff;
+  --active-solid-border: #09090b;
+}
+
+/* Sidebar navigation links in light mode */
+html[data-bs-theme="light"] .navbar-vertical .nav-link.active,
+html[data-bs-theme="light"] .navbar-vertical .nav-link[aria-expanded="true"]:not(.collapsed),
+html[data-bs-theme="light"] .navbar-vertical .nav-link:active,
+html[data-bs-theme="light"] .navbar-vertical .nav.collapse .nav-link.active,
+html[data-bs-theme="light"] .navbar-vertical .nav.collapse .nav-link:active,
+/* Bootstrap Tabs & Nav Pills in light mode */
+html[data-bs-theme="light"] .nav-pills .nav-link.active,
+html[data-bs-theme="light"] .nav-pills .nav-link:active,
+html[data-bs-theme="light"] .nav-tabs .nav-link.active,
+html[data-bs-theme="light"] .nav-tabs .nav-link:active,
+html[data-bs-theme="light"] .nav-segment .nav-link.active,
+html[data-bs-theme="light"] .nav-segment .nav-link:active,
+html[data-bs-theme="light"] .mono-tab-pill.active,
+html[data-bs-theme="light"] .mono-tab-pill:active,
+/* Buttons in active/checked state in light mode */
+html[data-bs-theme="light"] .btn-group > .btn.active,
+html[data-bs-theme="light"] .btn-group > .btn:active,
+html[data-bs-theme="light"] .btn-check:checked + .btn,
+html[data-bs-theme="light"] .btn-check:checked + .btn-outline-primary,
+html[data-bs-theme="light"] .btn-check:checked + .btn-outline-secondary,
+html[data-bs-theme="light"] .btn-check:checked + .btn-outline-dark,
+html[data-bs-theme="light"] .btn-primary.active,
+html[data-bs-theme="light"] .btn-primary:active,
+/* Dropdowns, List items, and Pagination in light mode */
+html[data-bs-theme="light"] .dropdown-menu .dropdown-item.active,
+html[data-bs-theme="light"] .dropdown-menu .dropdown-item:active,
+html[data-bs-theme="light"] .list-group-item.active,
+html[data-bs-theme="light"] .list-group-item:active,
+html[data-bs-theme="light"] .pagination .page-item.active .page-link,
+html[data-bs-theme="light"] .pagination .page-link:active,
+/* Mobile bottom nav in light mode */
+html[data-bs-theme="light"] .navigation.fixed-bottom .nav-link.active,
+html[data-bs-theme="light"] .navigation.fixed-bottom .nav-link:active {
+  background-color: #09090b !important;
+  color: #ffffff !important;
+  border-color: #09090b !important;
+  font-weight: 700 !important;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25) !important;
+}
+
+/* Ensure all icons, svg, text, carets, and children inherit white foreground */
+html[data-bs-theme="light"] .navbar-vertical .nav-link.active *,
+html[data-bs-theme="light"] .navbar-vertical .nav-link[aria-expanded="true"]:not(.collapsed) *,
+html[data-bs-theme="light"] .navbar-vertical .nav-link:active *,
+html[data-bs-theme="light"] .navbar-vertical .nav.collapse .nav-link.active *,
+html[data-bs-theme="light"] .navbar-vertical .nav.collapse .nav-link:active *,
+html[data-bs-theme="light"] .nav-pills .nav-link.active *,
+html[data-bs-theme="light"] .nav-pills .nav-link:active *,
+html[data-bs-theme="light"] .nav-tabs .nav-link.active *,
+html[data-bs-theme="light"] .nav-tabs .nav-link:active *,
+html[data-bs-theme="light"] .nav-segment .nav-link.active *,
+html[data-bs-theme="light"] .nav-segment .nav-link:active *,
+html[data-bs-theme="light"] .mono-tab-pill.active *,
+html[data-bs-theme="light"] .mono-tab-pill:active *,
+html[data-bs-theme="light"] .btn-group > .btn.active *,
+html[data-bs-theme="light"] .btn-group > .btn:active *,
+html[data-bs-theme="light"] .btn-check:checked + .btn *,
+html[data-bs-theme="light"] .btn-check:checked + .btn-outline-primary *,
+html[data-bs-theme="light"] .btn-check:checked + .btn-outline-secondary *,
+html[data-bs-theme="light"] .btn-check:checked + .btn-outline-dark *,
+html[data-bs-theme="light"] .btn-primary.active *,
+html[data-bs-theme="light"] .btn-primary:active *,
+html[data-bs-theme="light"] .dropdown-menu .dropdown-item.active *,
+html[data-bs-theme="light"] .dropdown-menu .dropdown-item:active *,
+html[data-bs-theme="light"] .list-group-item.active *,
+html[data-bs-theme="light"] .list-group-item:active *,
+html[data-bs-theme="light"] .pagination .page-item.active .page-link *,
+html[data-bs-theme="light"] .pagination .page-link:active *,
+html[data-bs-theme="light"] .navigation.fixed-bottom .nav-link.active *,
+html[data-bs-theme="light"] .navigation.fixed-bottom .nav-link:active * {
+  color: #ffffff !important;
+  fill: #ffffff !important;
+  stroke: #ffffff !important;
+}
+
+/* Dropdown chevrons in light mode */
+html[data-bs-theme="light"] .navbar-vertical .nav-link.active.dropdown-indicator:after,
+html[data-bs-theme="light"] .navbar-vertical .nav-link[aria-expanded="true"]:not(.collapsed).dropdown-indicator:after,
+html[data-bs-theme="light"] .navbar-vertical .nav-link:active.dropdown-indicator:after {
+  border-right-color: #ffffff !important;
+  border-bottom-color: #ffffff !important;
+}
+
+/* Badges inside active items in light mode */
+html[data-bs-theme="light"] .navbar-vertical .nav-link.active .badge,
+html[data-bs-theme="light"] .navbar-vertical .nav-link:active .badge,
+html[data-bs-theme="light"] .nav-pills .nav-link.active .badge,
+html[data-bs-theme="light"] .nav-pills .nav-link:active .badge {
+  background: rgba(255, 255, 255, 0.2) !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
 }

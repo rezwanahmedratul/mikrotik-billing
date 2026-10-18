@@ -60,7 +60,7 @@
     @include('layouts.partials.userpanel')
 </nav>
 
-<nav class="navbar navbar-light navbar-vertical navbar-expand-xl" style="display: none;">
+<nav class="navbar navbar-light navbar-vertical navbar-expand-xl">
     <script>
         var navbarStyle = localStorage.getItem("navbarStyle");
         if (navbarStyle && navbarStyle !== 'transparent') {
@@ -93,14 +93,6 @@
                 </div>
             @endif
         </a>
-        <div class="toggle-icon-wrapper">
-            <button class="btn navbar-toggler-humburger-icon navbar-vertical-toggle p-1.5 rounded-2 d-flex align-items-center justify-content-center"
-                    data-bs-placement="left" title="Toggle Navigation">
-                <span class="navbar-toggle-icon">
-                    <span class="toggle-line"></span>
-                </span>
-            </button>
-        </div>
     </div>
     <div class="collapse navbar-collapse" id="navbarVerticalCollapse">
         <div class="navbar-vertical-content scrollbar d-flex flex-column justify-content-between h-100">

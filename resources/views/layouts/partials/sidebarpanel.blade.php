@@ -243,8 +243,9 @@
                                     class="badge rounded-pill ms-2 badge-subtle-primary">{{ __('Admin') }}</span></div>
                         </a></li>
                 </ul>
+            </li>
 
-                <!-- Hotspot (Unified) -->
+            <!-- Hotspot (Unified) -->
             <li class="nav-item">
                 <a wire:navigate.hover wire:current="active" class="nav-link"
                     href="{{ route('mikrotik-hotspot-manager') }}">
@@ -292,7 +293,7 @@
                 </a>
                 <!-- parent pages-->
                 <a class="nav-link dropdown-indicator collapsed" href="#collections" role="button"
-                    data-bs-toggle="collapse" aria-expanded="true" aria-controls="collections">
+                    data-bs-toggle="collapse" aria-expanded="false" aria-controls="collections">
                     <div class="d-flex align-items-center">
                         <span class="nav-link-icon">
                             <i class="bi bi-cash-coin"></i>
@@ -327,7 +328,7 @@
                 </div>
                 <!-- parent pages-->
                 <a class="nav-link dropdown-indicator collapsed" href="#reports" role="button"
-                    data-bs-toggle="collapse" aria-expanded="true" aria-controls="reports">
+                    data-bs-toggle="collapse" aria-expanded="false" aria-controls="reports">
                     <div class="d-flex align-items-center">
                         <span class="nav-link-icon">
                             <i class="bi bi-journal-text"></i>
@@ -352,7 +353,6 @@
                         </a>
                     </li>
                 </ul>
-            </li>
             </li>
 
             {{-- ── Finance ── --}}

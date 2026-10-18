@@ -185,9 +185,11 @@ export default function CommandPalette() {
                   onMouseEnter={() => setSelectedIndex(idx)}
                   className="d-flex align-items-center justify-content-between p-2.5 rounded-2"
                   style={{
-                    background: isSelected ? (isDark ? 'rgba(255, 255, 255, 0.06)' : 'rgba(0, 0, 0, 0.05)') : 'transparent',
+                    background: isSelected ? (isDark ? '#ffffff' : '#09090b') : 'transparent',
+                    color: isSelected ? (isDark ? '#09090b' : '#ffffff') : palette.textPrimary,
                     cursor: 'pointer',
-                    transition: 'background 0.1s ease',
+                    transition: 'all 0.12s ease',
+                    boxShadow: isSelected ? (isDark ? '0 4px 14px rgba(255, 255, 255, 0.18)' : '0 4px 14px rgba(0, 0, 0, 0.25)') : 'none',
                   }}
                 >
                   <div className="d-flex align-items-center gap-3">
@@ -196,30 +198,38 @@ export default function CommandPalette() {
                       style={{
                         width: 34,
                         height: 34,
-                        background: isSelected ? palette.buttonPrimaryBg : palette.surfaceElevated,
-                        color: isSelected ? palette.buttonPrimaryText : palette.textSecondary,
-                        border: `1px solid ${palette.cardBorder}`,
+                        background: isSelected ? (isDark ? '#09090b' : '#ffffff') : palette.surfaceElevated,
+                        color: isSelected ? (isDark ? '#ffffff' : '#09090b') : palette.textSecondary,
+                        border: `1px solid ${isSelected ? 'transparent' : palette.cardBorder}`,
                         transition: 'all 0.15s ease',
                       }}
                     >
                       <Icon size={16} />
                     </div>
                     <div>
-                      <div className="fw-medium" style={{ fontSize: '0.86rem', color: palette.textPrimary }}>
+                      <div className="fw-semibold" style={{ fontSize: '0.86rem', color: isSelected ? (isDark ? '#09090b' : '#ffffff') : palette.textPrimary }}>
                         {item.title}
                       </div>
-                      <div className="small" style={{ fontSize: '0.74rem', color: palette.textMuted }}>
+                      <div className="small" style={{ fontSize: '0.74rem', color: isSelected ? (isDark ? '#52525b' : '#a1a1aa') : palette.textMuted }}>
                         {item.subtitle}
                       </div>
                     </div>
                   </div>
 
                   <div className="d-flex align-items-center gap-2">
-                    <span className="badge" style={{ background: palette.badgeBg, color: palette.badgeText, border: `1px solid ${palette.badgeBorder}`, fontSize: '0.68rem' }}>
+                    <span
+                      className="badge font-mono"
+                      style={{
+                        background: isSelected ? (isDark ? 'rgba(9, 9, 11, 0.12)' : 'rgba(255, 255, 255, 0.2)') : palette.badgeBg,
+                        color: isSelected ? (isDark ? '#09090b' : '#ffffff') : palette.badgeText,
+                        border: `1px solid ${isSelected ? 'transparent' : palette.badgeBorder}`,
+                        fontSize: '0.68rem',
+                      }}
+                    >
                       {item.category}
                     </span>
                     {isSelected && (
-                      <CornerDownLeft size={13} style={{ color: palette.textSecondary }} />
+                      <CornerDownLeft size={13} style={{ color: isDark ? '#09090b' : '#ffffff' }} />
                     )}
                   </div>
                 </div>

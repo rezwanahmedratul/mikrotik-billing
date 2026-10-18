@@ -22,90 +22,132 @@ import { chromium } from 'playwright-core';
   if (!page.url().includes('billing/dashboard')) await page.goto('http://127.0.0.1:8000/billing/dashboard');
   await page.waitForTimeout(2500);
 
-  // Clear localStorage theme to test clean default
+  // Set theme to dark first
   await page.evaluate(() => {
-    localStorage.removeItem('theme');
+    window.applyGlobalTheme('dark');
+    localStorage.setItem('theme', 'dark');
   });
-  await page.reload({ waitUntil: 'networkidle' });
-  await page.waitForTimeout(2000);
-
-  const defaultState = await page.evaluate(() => {
-    const navVertical = document.querySelector('.navbar-vertical');
-    const collapse = document.querySelector('.navbar-collapse');
-    const clock = document.querySelector('.text-xl.font-mono');
-    return {
-      themeAttr: document.documentElement.getAttribute('data-bs-theme'),
-      localTheme: localStorage.getItem('theme'),
-      bodyBg: window.getComputedStyle(document.body).backgroundColor,
-      contentBg: window.getComputedStyle(document.querySelector('.content')).backgroundColor,
-      navVerticalBg: navVertical ? window.getComputedStyle(navVertical).backgroundColor : null,
-      navCollapseBg: collapse ? window.getComputedStyle(collapse).backgroundColor : null,
-      clockColor: clock ? window.getComputedStyle(clock).color : null
-    };
-  });
-  console.log('--- 2. Default Fresh State (Should be Dark) ---');
-  console.log(JSON.stringify(defaultState, null, 2));
-  await page.screenshot({ path: '/home/ratul/Github/mikrotik-billing/screenshot_verified_dark.png' });
-
-  // 3. Test single-click toggle -> should switch to light
-  console.log('--- 3. Single-click toggle to Light ---');
-  await page.click('#themeSwitchDropdown');
   await page.waitForTimeout(1000);
 
-  const lightState = await page.evaluate(() => {
+  console.log('--- 2. Checking Dark Mode Navbar & Solid White Active States ---');
+  const darkChecks = await page.evaluate(() => {
     const navVertical = document.querySelector('.navbar-vertical');
-    const clock = document.querySelector('.text-xl.font-mono');
+    const toggleBtn = document.querySelector('.navbar-vertical-toggle');
+    const toggleIconWrapper = document.querySelector('.toggle-icon-wrapper');
+    const content = document.querySelector('.content');
+
+    // Sidebar active link
+    const activeSidebarLink = document.querySelector('.navbar-vertical .nav-link.active') || document.querySelector('.navbar-vertical .nav-link');
+    const activeSidebarStyle = activeSidebarLink ? window.getComputedStyle(activeSidebarLink) : null;
+    const activeSidebarText = activeSidebarLink?.querySelector('.nav-link-text');
+    const activeSidebarTextStyle = activeSidebarText ? window.getComputedStyle(activeSidebarText) : null;
+
+    // React segmented tab (Overview & Financials)
+    const reactTabs = Array.from(document.querySelectorAll('button')).filter(b => b.textContent.includes('Overview & Financials'));
+    const activeTab = reactTabs[0];
+    const activeTabStyle = activeTab ? window.getComputedStyle(activeTab) : null;
+
     return {
-      themeAttr: document.documentElement.getAttribute('data-bs-theme'),
-      localTheme: localStorage.getItem('theme'),
-      bodyBg: window.getComputedStyle(document.body).backgroundColor,
-      contentBg: window.getComputedStyle(document.querySelector('.content')).backgroundColor,
-      navVerticalBg: navVertical ? window.getComputedStyle(navVertical).backgroundColor : null,
-      clockColor: clock ? window.getComputedStyle(clock).color : null
+      theme: document.documentElement.getAttribute('data-bs-theme'),
+      toggleBtnExists: !!toggleBtn && window.getComputedStyle(toggleBtn).display !== 'none',
+      toggleIconWrapperExists: !!toggleIconWrapper && window.getComputedStyle(toggleIconWrapper).display !== 'none',
+      navbarWidth: navVertical ? window.getComputedStyle(navVertical).width : null,
+      navbarDisplay: navVertical ? window.getComputedStyle(navVertical).display : null,
+      contentMarginLeft: content ? window.getComputedStyle(content).marginLeft : null,
+      sidebarActiveBg: activeSidebarStyle ? activeSidebarStyle.backgroundColor : null,
+      sidebarActiveColor: activeSidebarStyle ? activeSidebarStyle.color : null,
+      sidebarActiveTextColor: activeSidebarTextStyle ? activeSidebarTextStyle.color : null,
+      reactTabBg: activeTabStyle ? activeTabStyle.backgroundColor : null,
+      reactTabColor: activeTabStyle ? activeTabStyle.color : null,
     };
   });
-  console.log(JSON.stringify(lightState, null, 2));
-  await page.screenshot({ path: '/home/ratul/Github/mikrotik-billing/screenshot_verified_light.png' });
+  console.log('Dark Mode Results:', JSON.stringify(darkChecks, null, 2));
+  await page.screenshot({ path: '/home/ratul/Github/mikrotik-billing/screenshot_sidebar_dark.png' });
 
-  // 4. Test single-click toggle again -> should switch back to dark
-  console.log('--- 4. Single-click toggle back to Dark ---');
-  await page.click('#themeSwitchDropdown');
+  console.log('--- 3. Switching to Light Mode ---');
+  await page.evaluate(() => {
+    window.applyGlobalTheme('light');
+    localStorage.setItem('theme', 'light');
+  });
   await page.waitForTimeout(1000);
 
-  const darkAgainState = await page.evaluate(() => {
+  console.log('--- 4. Checking Light Mode Navbar & Solid Dark Active States ---');
+  const lightChecks = await page.evaluate(() => {
     const navVertical = document.querySelector('.navbar-vertical');
-    const clock = document.querySelector('.text-xl.font-mono');
+    const toggleBtn = document.querySelector('.navbar-vertical-toggle');
+    const toggleIconWrapper = document.querySelector('.toggle-icon-wrapper');
+    const content = document.querySelector('.content');
+
+    // Sidebar active link
+    const activeSidebarLink = document.querySelector('.navbar-vertical .nav-link.active') || document.querySelector('.navbar-vertical .nav-link');
+    const activeSidebarStyle = activeSidebarLink ? window.getComputedStyle(activeSidebarLink) : null;
+    const activeSidebarText = activeSidebarLink?.querySelector('.nav-link-text');
+    const activeSidebarTextStyle = activeSidebarText ? window.getComputedStyle(activeSidebarText) : null;
+
+    // React segmented tab
+    const reactTabs = Array.from(document.querySelectorAll('button')).filter(b => b.textContent.includes('Overview & Financials'));
+    const activeTab = reactTabs[0];
+    const activeTabStyle = activeTab ? window.getComputedStyle(activeTab) : null;
+
     return {
-      themeAttr: document.documentElement.getAttribute('data-bs-theme'),
-      localTheme: localStorage.getItem('theme'),
-      bodyBg: window.getComputedStyle(document.body).backgroundColor,
-      contentBg: window.getComputedStyle(document.querySelector('.content')).backgroundColor,
-      navVerticalBg: navVertical ? window.getComputedStyle(navVertical).backgroundColor : null,
-      clockColor: clock ? window.getComputedStyle(clock).color : null
+      theme: document.documentElement.getAttribute('data-bs-theme'),
+      toggleBtnExists: !!toggleBtn && window.getComputedStyle(toggleBtn).display !== 'none',
+      toggleIconWrapperExists: !!toggleIconWrapper && window.getComputedStyle(toggleIconWrapper).display !== 'none',
+      navbarWidth: navVertical ? window.getComputedStyle(navVertical).width : null,
+      navbarDisplay: navVertical ? window.getComputedStyle(navVertical).display : null,
+      contentMarginLeft: content ? window.getComputedStyle(content).marginLeft : null,
+      sidebarActiveBg: activeSidebarStyle ? activeSidebarStyle.backgroundColor : null,
+      sidebarActiveColor: activeSidebarStyle ? activeSidebarStyle.color : null,
+      sidebarActiveTextColor: activeSidebarTextStyle ? activeSidebarTextStyle.color : null,
+      reactTabBg: activeTabStyle ? activeTabStyle.backgroundColor : null,
+      reactTabColor: activeTabStyle ? activeTabStyle.color : null,
     };
   });
-  console.log(JSON.stringify(darkAgainState, null, 2));
-  await page.screenshot({ path: '/home/ratul/Github/mikrotik-billing/screenshot_verified_toggle_back_dark.png' });
+  console.log('Light Mode Results:', JSON.stringify(lightChecks, null, 2));
+  await page.screenshot({ path: '/home/ratul/Github/mikrotik-billing/screenshot_sidebar_light.png' });
 
-  // 5. Test page reload persistence in Dark mode
-  console.log('--- 5. Testing Page Reload Persistence ---');
-  await page.reload({ waitUntil: 'networkidle' });
-  await page.waitForTimeout(2000);
+  // 5. Test tapping / clicking an inactive tab in Light Mode
+  console.log('--- 5. Clicking MikroTik NOC tab in Light Mode ---');
+  const mikrotikTab = page.locator('button:has-text("MikroTik Control NOC")');
+  await mikrotikTab.click();
+  await page.waitForTimeout(1000);
 
-  const reloadedState = await page.evaluate(() => {
-    const navVertical = document.querySelector('.navbar-vertical');
+  const lightTabClickCheck = await page.evaluate(() => {
+    const reactTabs = Array.from(document.querySelectorAll('button')).filter(b => b.textContent.includes('MikroTik Control NOC'));
+    const activeTab = reactTabs[0];
+    const activeTabStyle = activeTab ? window.getComputedStyle(activeTab) : null;
     return {
-      themeAttr: document.documentElement.getAttribute('data-bs-theme'),
-      localTheme: localStorage.getItem('theme'),
-      bodyBg: window.getComputedStyle(document.body).backgroundColor,
-      contentBg: window.getComputedStyle(document.querySelector('.content')).backgroundColor,
-      navVerticalBg: navVertical ? window.getComputedStyle(navVertical).backgroundColor : null
+      tabBg: activeTabStyle ? activeTabStyle.backgroundColor : null,
+      tabColor: activeTabStyle ? activeTabStyle.color : null,
     };
   });
-  console.log(JSON.stringify(reloadedState, null, 2));
-  await page.screenshot({ path: '/home/ratul/Github/mikrotik-billing/screenshot_verified_reload_dark.png' });
+  console.log('Light Mode MikroTik Tab Click Results:', JSON.stringify(lightTabClickCheck, null, 2));
+  await page.screenshot({ path: '/home/ratul/Github/mikrotik-billing/screenshot_sidebar_light_clicked.png' });
 
-  console.log('Console / Page Errors:', errors);
+  // 6. Switch back to Dark Mode and test clicking
+  console.log('--- 6. Switching to Dark Mode and clicking Subscribers tab ---');
+  await page.evaluate(() => {
+    window.applyGlobalTheme('dark');
+    localStorage.setItem('theme', 'dark');
+  });
+  await page.waitForTimeout(1000);
+
+  const subscribersTab = page.locator('button:has-text("Subscribers & Resellers")');
+  await subscribersTab.click();
+  await page.waitForTimeout(1000);
+
+  const darkTabClickCheck = await page.evaluate(() => {
+    const reactTabs = Array.from(document.querySelectorAll('button')).filter(b => b.textContent.includes('Subscribers & Resellers'));
+    const activeTab = reactTabs[0];
+    const activeTabStyle = activeTab ? window.getComputedStyle(activeTab) : null;
+    return {
+      tabBg: activeTabStyle ? activeTabStyle.backgroundColor : null,
+      tabColor: activeTabStyle ? activeTabStyle.color : null,
+    };
+  });
+  console.log('Dark Mode Subscribers Tab Click Results:', JSON.stringify(darkTabClickCheck, null, 2));
+  await page.screenshot({ path: '/home/ratul/Github/mikrotik-billing/screenshot_sidebar_dark_clicked.png' });
+
+  console.log('All tests completed successfully. Errors encountered:', errors.length);
   await browser.close();
-  console.log('ALL PLAYWRIGHT TESTS COMPLETE!');
 })();
