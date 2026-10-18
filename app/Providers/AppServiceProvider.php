@@ -30,6 +30,9 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
+        if (request()->header('x-forwarded-proto') === 'https' || (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https') || request()->isSecure()) {
+            \Illuminate\Support\Facades\URL::forceScheme('https');
+        }
         // ╔══════════════════════════════════════════════════════════════════╗
         // ║  Attribution Guard — required by the CodePagol Open Source      ║
         // ║  License (see /LICENSE). The "Powered by CodePagol" notice must ║

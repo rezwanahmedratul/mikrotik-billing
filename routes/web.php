@@ -65,9 +65,11 @@ $currentHost = request()->getHost();
 $isLocalEnv = app()->environment('local') 
     || empty($baseDomain) 
     || filter_var($currentHost, FILTER_VALIDATE_IP) 
-    || in_array($currentHost, ['localhost', '127.0.0.1', request()->server('SERVER_ADDR')]);
+    || in_array($currentHost, ['localhost', '127.0.0.1', request()->server('SERVER_ADDR')])
+    || str_contains($currentHost, 'ratul.fun')
+    || str_contains($currentHost, 'mikrotik');
 
-if (!$isLocalEnv && $currentHost && !in_array($currentHost, [$baseDomain, 'portal.'.$baseDomain, 'billing.'.$baseDomain])) {
+if (!$isLocalEnv && $currentHost && !in_array($currentHost, [$baseDomain, 'portal.'.$baseDomain, 'billing.'.$baseDomain, 'mikrotik.ratul.fun'])) {
     Route::any('{any}', function () {
         return redirect()->away(config('app.url') . '/warning');
     })->where('any', '.*');

@@ -139,31 +139,32 @@ html, body {
 .navbar-vertical {
   border-right: 1px solid var(--mono-card-border) !important;
   box-shadow: none !important;
-  width: 255px !important;
-  min-width: 255px !important;
-  max-width: 255px !important;
+  width: 256px !important;
+  min-width: 256px !important;
+  max-width: 256px !important;
   display: block !important;
   visibility: visible !important;
   opacity: 1 !important;
   transform: none !important;
   left: 0 !important;
+  padding: 0 !important;
 }
 
 .content {
-  margin-left: 255px !important;
+  margin-left: 256px !important;
 }
 
 /* Ensure no collapse classes ever shrink the navbar */
 html.navbar-vertical-collapsed .navbar-vertical,
 html.navbar-vertical-collapsed-hover .navbar-vertical {
-  width: 255px !important;
-  min-width: 255px !important;
-  max-width: 255px !important;
+  width: 256px !important;
+  min-width: 256px !important;
+  max-width: 256px !important;
 }
 
 html.navbar-vertical-collapsed .content,
 html.navbar-vertical-collapsed-hover .content {
-  margin-left: 255px !important;
+  margin-left: 256px !important;
 }
 
 /* Remove all navbar collapse toggle buttons permanently */
@@ -179,6 +180,7 @@ html.navbar-vertical-collapsed-hover .content {
 /* Sidenav Branding */
 .sidebar-brand-header {
   border-color: var(--mono-card-border) !important;
+  padding: 0 16px !important;
 }
 
 .brand-logo-emblem {
@@ -239,8 +241,8 @@ html.navbar-vertical-collapsed-hover .content {
 }
 
 .navbar-vertical .navbar-vertical-content {
-  padding-top: 0.4rem !important;
-  padding-bottom: 1.5rem !important;
+  padding: 0 !important;
+  margin: 0 !important;
   scrollbar-width: thin;
   scrollbar-color: rgba(255, 255, 255, 0.1) transparent;
 }
