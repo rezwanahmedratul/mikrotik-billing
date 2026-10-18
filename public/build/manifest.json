@@ -18,8 +18,8 @@
       "assets/bootstrap-icons-BeopsB42.woff"
     ]
   },
-  "_zap-BYZvh5VA.js": {
-    "file": "assets/zap-BYZvh5VA.js",
+  "_zap-clLnHN_i.js": {
+    "file": "assets/zap-clLnHN_i.js",
     "name": "zap",
     "imports": [
       "__commonjsHelpers-D6-XlEtG.js"
@@ -92,38 +92,27 @@
       "assets/main-site-6ZEjj251.css"
     ]
   },
-  "resources/js/react-app/billing-main.jsx": {
-    "file": "assets/billing-main-kA-dCooO.js",
-    "name": "billing-main",
-    "src": "resources/js/react-app/billing-main.jsx",
-    "isEntry": true,
-    "imports": [
-      "resources/js/react-app/billing-main.tsx",
-      "_zap-BYZvh5VA.js",
-      "__commonjsHelpers-D6-XlEtG.js"
-    ]
-  },
   "resources/js/react-app/billing-main.tsx": {
-    "file": "assets/billing-main-ghIAlZ8H.js",
+    "file": "assets/billing-main-7cURCqtx.js",
     "name": "billing-main",
     "src": "resources/js/react-app/billing-main.tsx",
     "isEntry": true,
     "imports": [
-      "_zap-BYZvh5VA.js",
+      "_zap-clLnHN_i.js",
       "__commonjsHelpers-D6-XlEtG.js"
     ]
   },
-  "resources/js/react-app/main.jsx": {
-    "file": "assets/main-DDiMa9RZ.js",
+  "resources/js/react-app/main.tsx": {
+    "file": "assets/main-B2BTyC9h.js",
     "name": "main",
-    "src": "resources/js/react-app/main.jsx",
+    "src": "resources/js/react-app/main.tsx",
     "isEntry": true,
     "imports": [
-      "_zap-BYZvh5VA.js",
+      "_zap-clLnHN_i.js",
       "__commonjsHelpers-D6-XlEtG.js"
     ],
     "css": [
-      "assets/main-ryx-Mr7j.css"
+      "assets/main-DgYSq5jq.css"
     ]
   },
   "resources/sass/app.scss": {

@@ -58,10 +58,11 @@ export const DashboardHeader: React.FC<DashboardHeaderProps> = ({
           TOP HEADER COMMAND DECK
       ───────────────────────────────────────────────────────────── */}
       <div
-        className="d-flex flex-column flex-lg-row align-items-lg-center justify-content-between gap-3 mb-4 p-3.5 rounded-3"
+        className="d-flex flex-column flex-lg-row align-items-lg-center justify-content-between gap-3 mb-4 p-3.5"
         style={{
           background: 'var(--mono-card)',
           border: '1px solid var(--mono-card-border)',
+          borderRadius: 14,
         }}
       >
         {/* Left: Brand / Hub Identity */}

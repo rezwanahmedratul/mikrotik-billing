@@ -24,7 +24,7 @@
     <link rel="shortcut icon" type="image/x-icon" href="{{asset('/images/favicons/favicon.ico')}}">
     <meta name="msapplication-TileImage" content="{{asset('/images/favicons/mstile-150x150.png')}}"> --}}
 
-    @vite(['resources/sass/app.scss', 'resources/css/app.css', 'resources/css/billing-monochrome.css', 'resources/js/app.js', 'resources/js/react-app/billing-main.jsx'])
+    @vite(['resources/sass/app.scss', 'resources/css/app.css', 'resources/css/billing-monochrome.css', 'resources/js/app.js', 'resources/js/react-app/billing-main.tsx'])
     @stack('styles')
     @filamentStyles
     <link rel="stylesheet" href="{{ asset('css/filament/filament/app.css') }}">

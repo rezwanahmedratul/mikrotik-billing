@@ -15,7 +15,7 @@
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
     @viteReactRefresh
-    @vite(['resources/js/react-app/main.jsx'])
+    @vite(['resources/js/react-app/main.tsx'])
 
     <script>
         window.__INITIAL_DATA__ = {
