@@ -3,8 +3,9 @@
     <li class="nav-item">
         <div class="search-box" data-list='{"valueNames":["title"]}'>
             <form class="position-relative" data-bs-toggle="search" data-bs-display="static">
-                <input class="form-control search-input fuzzy-search" type="search" placeholder="{{ __('Search...') }}" aria-label="Search" />
+                <input class="form-control search-input fuzzy-search" type="search" placeholder="{{ __('Search or press ⌘K...') }}" aria-label="Search" />
                 <i class="fas fa-search search-box-icon"></i>
+                <span class="search-cmd-badge">⌘K</span>
             </form>
             <div class="btn-close-container position-absolute end-0 top-50 translate-middle shadow-none" data-bs-dismiss="search">
                 <button class="btn btn-link btn-close p-0" aria-label="Close"></button>

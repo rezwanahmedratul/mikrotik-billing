@@ -21,6 +21,28 @@ class DashboardController extends Controller
             return redirect()->route('reseller.dashboard');
         }
 
+        $data = $this->prepareDashboardData();
+
+        return view('dashboard', array_merge($data, [
+            'dashboardJson' => json_encode($data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT),
+        ]));
+    }
+
+    /**
+     * Get real-time dashboard statistics in JSON format for the React frontend.
+     */
+    public function getDashboardStats()
+    {
+        $data = $this->prepareDashboardData();
+
+        return response()->json($data);
+    }
+
+    /**
+     * Prepare consolidated dashboard dataset.
+     */
+    private function prepareDashboardData(): array
+    {
         $results = [];
 
         $currentYear = Carbon::now()->year;
@@ -88,9 +110,9 @@ class DashboardController extends Controller
             'previous_due' => -1 * (float) ($billingStats->previous_due_active ?? 0),
             'advance' => (float) ($billingStats->advance ?? 0),
             'paid_amount' => (float) ($billingStats->paid_amount ?? 0),
-            'today_paid_amount' => CollectionSummary::whereDate('collection_date', Carbon::today())->sum('collection_amount'),
-            'hotspot_total' => HotspotSale::sum('amount'),
-            'hotspot_today' => HotspotSale::whereDate('sale_date', Carbon::today())->sum('amount'),
+            'today_paid_amount' => (float) CollectionSummary::whereDate('collection_date', Carbon::today())->sum('collection_amount'),
+            'hotspot_total' => (float) HotspotSale::sum('amount'),
+            'hotspot_today' => (float) HotspotSale::whereDate('sale_date', Carbon::today())->sum('amount'),
             'due_amount' => -1 * (float) ($billingStats->due_amount_active ?? 0),
             'by_status' => $billingByStatus,
         ];
@@ -105,11 +127,11 @@ class DashboardController extends Controller
             'total_resellers' => array_sum($resellerStatusCounts),
             'active_resellers' => $resellerStatusCounts['active'] ?? 0,
             'suspended_resellers' => $resellerStatusCounts['suspended'] ?? 0,
-            'total_balance' => Reseller::sum('balance'),
+            'total_balance' => (float) Reseller::sum('balance'),
             'total_customers' => CustomersInfo::whereNotNull('reseller_id')->count(),
             'active_customers' => CustomersInfo::whereNotNull('reseller_id')->where('status', 'active')->count(),
             'pending_customers' => CustomersInfo::whereNotNull('reseller_id')->where('status', 'pending')->count(),
-            'total_commission' => ResellerCommission::sum('amount'),
+            'total_commission' => (float) ResellerCommission::sum('amount'),
         ];
 
         $isSqlite = config('database.default') === 'sqlite';
@@ -160,7 +182,17 @@ class DashboardController extends Controller
             $systemOverview = [];
         }
 
-        // Calculate total cashflow, income, and revenue difference for the year
-        return view('dashboard', compact('results', 'customersData', 'billInformationData', 'systemOverview', 'resellerData'));
+        try {
+            $recentCollections = CollectionSummary::with(['customer' => function ($q) {
+                $q->select('customer_unique_id', 'full_name', 'package_name');
+            }])
+                ->latest('id')
+                ->limit(10)
+                ->get();
+        } catch (\Exception $e) {
+            $recentCollections = [];
+        }
+
+        return compact('results', 'customersData', 'billInformationData', 'systemOverview', 'resellerData', 'recentCollections');
     }
 }

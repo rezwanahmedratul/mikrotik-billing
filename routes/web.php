@@ -148,6 +148,7 @@ Route::middleware([
         Route::redirect('/', '/dashboard');
 
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+        Route::get('/api/dashboard-stats', [DashboardController::class, 'getDashboardStats'])->name('billing.api.dashboard-stats');
         Route::resources([
             'collection-report' => CollectionReportController::class,
         ]);

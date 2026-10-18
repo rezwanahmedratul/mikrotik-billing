@@ -24,7 +24,7 @@
     <link rel="shortcut icon" type="image/x-icon" href="{{asset('/images/favicons/favicon.ico')}}">
     <meta name="msapplication-TileImage" content="{{asset('/images/favicons/mstile-150x150.png')}}"> --}}
 
-    @vite(['resources/sass/app.scss', 'resources/css/app.css', 'resources/js/app.js'])
+    @vite(['resources/sass/app.scss', 'resources/css/app.css', 'resources/css/billing-monochrome.css', 'resources/js/app.js', 'resources/js/react-app/billing-main.jsx'])
     @stack('styles')
     @filamentStyles
     <link rel="stylesheet" href="{{ asset('css/filament/filament/app.css') }}">
@@ -58,13 +58,10 @@
             document.documentElement.classList.remove("navbar-vertical-collapsed");
         }
 
-        // for theme dark and light
+        // Enforce Monochrome Dark theme by default
         (() => {
-            const isTheme = localStorage.getItem('theme') || 'auto';
-            let appliedTheme = isTheme;
-            if (isTheme === 'auto') {
-                appliedTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-            }
+            const isTheme = localStorage.getItem('theme') || 'dark';
+            const appliedTheme = isTheme === 'light' ? 'light' : 'dark';
             document.documentElement.setAttribute('data-bs-theme', appliedTheme);
             if (appliedTheme === 'dark') {
                 document.documentElement.classList.add('dark');
@@ -168,7 +165,8 @@
     <!-- ===============================================-->
     <!--    End of Main Content-->
     <!-- ===============================================-->
-    @include('layouts.partials.customize')
+    {{-- Global React Command Palette Mount Root --}}
+    <div id="billing-command-palette-root"></div>
 
     @stack('modals')
 
